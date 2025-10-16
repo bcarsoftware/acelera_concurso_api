@@ -6,7 +6,9 @@ from sqlalchemy.orm import Mapped, relationship
 
 from sqlalchemy.ext.declarative import declarative_base
 
+from src.enum.enum_category import EnumCategory
 from src.enum.enum_gender import EnumGender
+from src.enum.enum_status import EnumStatus
 
 Base = declarative_base()
 
@@ -28,7 +30,6 @@ class User(Base):
     points: Mapped[int] = Column(Integer, nullable=False, default=0)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
-    # TODO: Relationships
     public_tenders: Mapped[List["PublicTender"]] = relationship(back_populates="user")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
@@ -49,6 +50,24 @@ class PublicTender(Base):
     tender_date: Mapped[date] = Column(Date, nullable=True)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
+    subjects: Mapped[List["Subject"]] = relationship(back_populates="public_tender")
+
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
     update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
 
+
+class Subject(Base):
+    __tablename__ = "subjects"
+
+    subject_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    public_tender_id: Mapped[int] = Column(Integer, ForeignKey(PublicTender.public_tender_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    public_tender: Mapped["PublicTender"] = relationship(back_populates="subjects")
+
+    name: Mapped[str] = Column(String(255), nullable=False)
+    category: Mapped[EnumCategory] = Column(Enum("GENERAL", "SPECIFIC"), nullable=False)
+    status: Mapped[EnumStatus] = Column(Enum("COMPLETE", "INCOMPLETE"), nullable=False, default="INCOMPLETE")
+    deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)

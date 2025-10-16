@@ -31,7 +31,7 @@ def main() -> None:
 
         print("7. See Git Status")
 
-        print("8. Log Out! [TODO]")
+        print("8. Log Out!")
 
         line()
 

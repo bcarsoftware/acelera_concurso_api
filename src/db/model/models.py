@@ -1,7 +1,8 @@
 from datetime import date, datetime
+from decimal import Decimal
 from typing import List
 
-from sqlalchemy import String, Date, Column, Integer, DateTime, Enum, ForeignKey, Boolean
+from sqlalchemy import String, Date, Column, Integer, DateTime, Enum, ForeignKey, Boolean, DECIMAL
 from sqlalchemy.orm import Mapped, relationship
 
 from sqlalchemy.ext.declarative import declarative_base
@@ -65,8 +66,27 @@ class Subject(Base):
     public_tender: Mapped["PublicTender"] = relationship(back_populates="subjects")
 
     name: Mapped[str] = Column(String(255), nullable=False)
-    category: Mapped[EnumCategory] = Column(Enum("GENERAL", "SPECIFIC"), nullable=False)
-    status: Mapped[EnumStatus] = Column(Enum("COMPLETE", "INCOMPLETE"), nullable=False, default="INCOMPLETE")
+    category: Mapped[EnumCategory] = Column(Enum("GENERAL", "SPECIFIC", name="EnumCategory"), nullable=False)
+    status: Mapped[EnumStatus] = Column(Enum("COMPLETE", "INCOMPLETE", name="EnumStatus"), nullable=False, default="INCOMPLETE")
+    deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
+
+    topics: Mapped[List["Topic"]] = relationship(back_populates="subject")
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+
+
+class Topic(Base):
+    __tablename__ = "topics"
+
+    topic_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    subject_id: Mapped[int] = Column(Integer, ForeignKey(Subject.subject_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    subject: Mapped["Subject"] = relationship(back_populates="topics")
+
+    name: Mapped[str] = Column(String(255), nullable=False)
+    fulfillment: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
+    status: Mapped[EnumStatus] = Column(Enum("COMPLETE", "INCOMPLETE", name="EnumStatusTopic"), nullable=False, default="INCOMPLETE")
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)

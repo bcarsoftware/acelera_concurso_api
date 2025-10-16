@@ -104,7 +104,7 @@ class NoteSubject(Base):
     subject_id: Mapped[int] = Column(Integer, ForeignKey(Subject.subject_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     subject: Mapped["Subject"] = relationship(back_populates="note_subjects")
 
-    descricao: Mapped[str] = Column(String(1024), nullable=False)
+    description: Mapped[str] = Column(String(1024), nullable=False)
     finish: Mapped[bool] = Column(Boolean, nullable=False, default=False)
     rate_success: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
@@ -121,7 +121,7 @@ class NoteTopic(Base):
     topic_id: Mapped[int] = Column(Integer, ForeignKey(Topic.topic_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     topic: Mapped["Topic"] = relationship(back_populates="note_topics")
 
-    descricao: Mapped[str] = Column(String(1024), nullable=False)
+    description: Mapped[str] = Column(String(1024), nullable=False)
     finish: Mapped[bool] = Column(Boolean, nullable=False, default=False)
     rate_success: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)

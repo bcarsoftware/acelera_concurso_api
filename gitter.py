@@ -23,11 +23,15 @@ def main() -> None:
 
         print("3. Make a Commit")
 
-        print("4. Make a Push [TODO]")
+        print("4. Make a Push")
 
         print("5. Make a Pull Request [TODO]")
 
-        print("6. Log Out! [TODO]")
+        print("6. Add All Files")
+
+        print("7. See Git Status")
+
+        print("8. Log Out! [TODO]")
 
         line()
 
@@ -40,16 +44,19 @@ def main() -> None:
 
         choice = int(option)
 
-        if choice > 6 or choice < 1:
+        if choice > 8 or choice < 1:
             continue
 
-        if choice == 6:
+        if choice == 8:
             print("Thank you for using Gitter! See you later!")
             line()
             break
 
         function = {
-            3: make_a_commit
+            3: make_a_commit,
+            4: make_a_push,
+            6: add_all_files,
+            7: see_status,
         }.get(choice, None)
 
         if function is None:
@@ -96,6 +103,32 @@ def make_a_commit() -> None:
     command = f'git commit -m "{cm_type}{message}"'
 
     line()
+
+    system(command)
+
+
+def make_a_push() -> None:
+    line()
+
+    command = "git push"
+
+    system(command)
+
+
+def add_all_files() -> None:
+    line()
+
+    command = "git add ."
+
+    system(command)
+
+    print("All Files added!")
+
+
+def see_status() -> None:
+    line()
+
+    command = "git status"
 
     system(command)
 

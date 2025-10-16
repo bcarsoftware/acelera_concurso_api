@@ -17,7 +17,7 @@ def main() -> None:
 
         line()
 
-        print("1. Create a new repository [TODO]")
+        print("1. Create a new repository")
 
         print("2. Create a new repository and send to GitHub [TODO]")
 

@@ -40,7 +40,7 @@ class PublicTender(Base):
 
     public_tender_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
 
-    user_id: Mapped[int] = ForeignKey(User.user_id, ondelete="CASCADE", onupdate="CASCADE", nullable=False)
+    user_id: Mapped[int] = Column(Integer, ForeignKey(User.user_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
     user: Mapped["User"] = relationship(back_populates="public_tenders")
 
     tender_name: Mapped[str] = Column(String(255), nullable=False)

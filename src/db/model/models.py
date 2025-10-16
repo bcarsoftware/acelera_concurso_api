@@ -71,6 +71,7 @@ class Subject(Base):
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     topics: Mapped[List["Topic"]] = relationship(back_populates="subject")
+    note_subjects: Mapped[List["NoteSubject"]] = relationship(back_populates="subject")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
     update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
@@ -87,6 +88,42 @@ class Topic(Base):
     name: Mapped[str] = Column(String(255), nullable=False)
     fulfillment: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     status: Mapped[EnumStatus] = Column(Enum("COMPLETE", "INCOMPLETE", name="EnumStatusTopic"), nullable=False, default="INCOMPLETE")
+    deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
+
+    note_topics: Mapped[List["NoteTopic"]] = relationship(back_populates="topic")
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+
+
+class NoteSubject(Base):
+    __tablename__ = "note_subjects"
+
+    note_subject_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    subject_id: Mapped[int] = Column(Integer, ForeignKey(Subject.subject_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    subject: Mapped["Subject"] = relationship(back_populates="note_subjects")
+
+    descricao: Mapped[str] = Column(String(1024), nullable=False)
+    finish: Mapped[bool] = Column(Boolean, nullable=False, default=False)
+    rate_success: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
+    deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+
+
+class NoteTopic(Base):
+    __tablename__ = "note_topics"
+
+    note_topic_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    topic_id: Mapped[int] = Column(Integer, ForeignKey(Topic.topic_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    topic: Mapped["Topic"] = relationship(back_populates="note_topics")
+
+    descricao: Mapped[str] = Column(String(1024), nullable=False)
+    finish: Mapped[bool] = Column(Boolean, nullable=False, default=False)
+    rate_success: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)

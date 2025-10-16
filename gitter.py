@@ -25,7 +25,7 @@ def main() -> None:
 
         print("4. Make a Push")
 
-        print("5. Make a Pull Request [TODO]")
+        print("5. Make a Pull Request")
 
         print("6. Add All Files")
 
@@ -53,8 +53,10 @@ def main() -> None:
             break
 
         function = {
+            1: init_new_repo,
             3: make_a_commit,
             4: make_a_push,
+            5: make_pull_request,
             6: add_all_files,
             7: see_status,
         }.get(choice, None)
@@ -63,6 +65,16 @@ def main() -> None:
             return
 
         function()
+
+
+def init_new_repo() -> None:
+    line()
+
+    command = "git init"
+
+    system(command)
+
+    print("New Git Repository Created!")
 
 
 def make_a_commit() -> None:
@@ -77,6 +89,7 @@ def make_a_commit() -> None:
     print("3. Chore")
     print("4. Infrastructure")
     print("5. Refactoring")
+    print("6. Documentation")
 
     line()
     option = input("What would you like to do? ")
@@ -85,7 +98,7 @@ def make_a_commit() -> None:
 
     option = int(option)
 
-    if option > 5 or option < 1:
+    if option > 6 or option < 1:
         return
 
     line()
@@ -96,6 +109,7 @@ def make_a_commit() -> None:
         3: "chore: ",
         4: "infra: ",
         5: "refact: ",
+        6: "doc: ",
     }.get(option)
 
     message = input("Commit Message: ").strip().lower()
@@ -129,6 +143,14 @@ def see_status() -> None:
     line()
 
     command = "git status"
+
+    system(command)
+
+
+def make_pull_request() -> None:
+    line()
+
+    command = "gh pr create"
 
     system(command)
 

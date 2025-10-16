@@ -11,6 +11,8 @@ Esse projeto foi construído a parti de uma máquina virtual Python: *.venv*. Ut
 * Se você tem dúvidas, instale essa versão do Python a parti do [PyEnv](https://github.com/pyenv/pyenv).
   * Se bem sucedido, o projeto funcionará sem problemas.
 
+Esse projeto tem um algoritmo que visa auxiliar em funções do GIT. O arquivo Python é o: [gitter.py](gitter.py)
+
 ## Passos a Seguir
 Seguindo essa ordem, você conseguirá testar essa API sem maiores problemas. Ao concluir cada passo, volte para cá até finalizar.
 

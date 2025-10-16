@@ -1,17 +1,13 @@
 from os import environ
+from typing import Generator
 
 from dotenv import load_dotenv
-from sqlalchemy.ext.asyncio import create_async_engine
-from sqlalchemy.orm import DeclarativeBase
-
+from sqlalchemy import create_engine, Engine
 
 load_dotenv()
 
 
-class DBBase(DeclarativeBase):
-    pass
-
-
-def engine():
+def engine() -> Generator[Engine, None, None]:
     url = environ.get("DB_URL")
-    return create_async_engine(url, echo=False)
+    yield create_engine(url, echo=False)
+

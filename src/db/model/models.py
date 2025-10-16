@@ -3,13 +3,16 @@ from datetime import date, datetime
 from sqlalchemy import String, Date, Column, Integer, DateTime
 from sqlalchemy.orm import Mapped
 
-from src.db.core.db_base import DBBase
+from sqlalchemy.ext.declarative import declarative_base
 
 
-class User(DBBase):
+Base = declarative_base()
+
+
+class User(Base):
     __tablename__ = "users"
 
-    user_id: Mapped[int] = Column(Integer, autoincrement=True)
+    user_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
 
     first_name: Mapped[str] = Column(String(64), nullable=False)
     last_name: Mapped[str] = Column(String(255), nullable=False)

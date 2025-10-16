@@ -7,9 +7,9 @@ from sqlalchemy.orm import Mapped, relationship
 
 from sqlalchemy.ext.declarative import declarative_base
 
-from src.enum.enum_category import EnumCategory
-from src.enum.enum_gender import EnumGender
-from src.enum.enum_status import EnumStatus
+from src.enums.enum_category import EnumCategory
+from src.enums.enum_gender import EnumGender
+from src.enums.enum_status import EnumStatus
 
 Base = declarative_base()
 

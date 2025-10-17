@@ -36,8 +36,8 @@ class PublicTenderManager:
     @classmethod
     async def _check_public_tender_strings_length_(cls, public_tender_dto: PublicTenderDTO) -> None:
         if not match(Regex.STRING_255.value, public_tender_dto.tender_name):
-            raise PublicTenderException("public tender name length doesn't match length between 1 until 255 characters")
+            raise PublicTenderException("public tender name length doesn't match between 1 until 255 characters")
         if not match(Regex.STRING_255.value, public_tender_dto.tender_board):
-            raise PublicTenderException("public tender board length doesn't match length between 1 until 255 characters")
+            raise PublicTenderException("public tender board length doesn't match between 1 until 255 characters")
         if public_tender_dto.notice_link and not match(Regex.STRING_1024.value, public_tender_dto.notice_link):
-            raise PublicTenderException("public tender notice link length doesn't match length between 1 until 1024 characters")
+            raise PublicTenderException("public tender notice link length doesn't match between 1 until 1024 characters")

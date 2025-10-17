@@ -1,3 +1,4 @@
+from datetime import date
 from re import match
 from typing import Any, Dict
 
@@ -19,6 +20,7 @@ class UserManager:
     @classmethod
     async def make_validation(cls, user_dto: UserDTO) -> None:
         await cls._check_user_deleted_(user_dto)
+        await cls._checker_user_date_born_(user_dto)
         await cls._checker_user_strings_length_(user_dto)
         await cls._check_user_access_(user_dto)
 
@@ -26,6 +28,11 @@ class UserManager:
     async def _check_user_deleted_(cls, user_dto: UserDTO) -> None:
         if user_dto.deleted:
             raise UserException("you can't create an user that is deleted")
+
+    @classmethod
+    async def _checker_user_date_born_(cls, user_dto: UserDTO) -> None:
+        if user_dto.born < date.today():
+            raise UserException("you can't create an user that is born")
 
     @classmethod
     async def _check_user_access_(cls, user_dto: UserDTO) -> None:

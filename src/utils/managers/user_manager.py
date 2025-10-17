@@ -11,7 +11,7 @@ from src.utils.regex import Regex
 class UserManager:
     @classmethod
     async def convert_payload_to_user_dto(cls, data_body: Dict[str, Any]) -> UserDTO:
-        user_exception = UserException("invalid payload for user")
+        user_exception = UserException("invalid payload for user", 422)
 
         user_dto = await payload_dto(data_body, UserDTO, user_exception)
 

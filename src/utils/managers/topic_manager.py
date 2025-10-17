@@ -10,7 +10,7 @@ from src.utils.regex import Regex
 class TopicManager:
     @classmethod
     async def convert_payload_to_topic_dto(cls, data_body: Dict[str, Any]) -> TopicDTO:
-        topic_exception = TopicException("invalid payload for topic")
+        topic_exception = TopicException("invalid payload for topic", 422)
 
         topic_dto = await payload_dto(data_body, TopicDTO, topic_exception)
 

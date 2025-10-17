@@ -10,7 +10,7 @@ from src.utils.regex import Regex
 class NoteTopicManager:
     @classmethod
     async def convert_payload_to_note_subject_dto(cls, data_body: Dict[str, Any]) -> NoteTopicDTO:
-        note_subject_exception = NoteException("invalid payload for note topic")
+        note_subject_exception = NoteException("invalid payload for note topic", 422)
 
         note_subject = await payload_dto(data_body, NoteTopicDTO, note_subject_exception)
 

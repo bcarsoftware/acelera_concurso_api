@@ -11,7 +11,7 @@ from src.utils.regex import Regex
 class PublicTenderManager:
     @classmethod
     async def convert_payload_to_public_tender_dto(cls, data_body: Dict[str, Any]) -> PublicTenderDTO:
-        public_tender_exception = PublicTenderException("invalid payload for public tender")
+        public_tender_exception = PublicTenderException("invalid payload for public tender", 422)
 
         public_tender_dto = await payload_dto(data_body, PublicTenderDTO, public_tender_exception)
 

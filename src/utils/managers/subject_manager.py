@@ -10,7 +10,7 @@ from src.utils.regex import Regex
 class SubjectManager:
     @classmethod
     async def convert_payload_to_subject_dto(cls, data_body: Dict[str, Any]) -> SubjectDTO:
-        public_tender_exception = SubjectException("invalid payload for subject")
+        public_tender_exception = SubjectException("invalid payload for subject", 422)
 
         subject_dto = await payload_dto(data_body, SubjectDTO, public_tender_exception)
 

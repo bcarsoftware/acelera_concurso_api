@@ -90,6 +90,7 @@ def make_a_commit() -> None:
     print("4. Infrastructure")
     print("5. Refactoring")
     print("6. Documentation")
+    print("7. Exception")
 
     line()
     option = input("What would you like to do? ")
@@ -98,7 +99,7 @@ def make_a_commit() -> None:
 
     option = int(option)
 
-    if option > 6 or option < 1:
+    if option > 7 or option < 1:
         return
 
     line()
@@ -110,6 +111,7 @@ def make_a_commit() -> None:
         4: "infra: ",
         5: "refact: ",
         6: "doc: ",
+        7: "except: ",
     }.get(option)
 
     message = input("Commit Message: ").strip().lower()

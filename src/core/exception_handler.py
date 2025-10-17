@@ -1,18 +1,23 @@
 from functools import wraps
 from typing import Callable, Any
 
+from src.core.error_factory import error_factory
 from src.exceptions.database_exception import DatabaseException
 from src.exceptions.default_exception import DefaultException
 
-# TODO: Request Success and Error Factory | after implements here
+
 def exception_handler(function: Callable) -> Callable:
     @wraps(function)
-    def wrapper(*args: Any, **kwargs: Any) -> Any:
+    async def wrapper(*args: Any, **kwargs: Any) -> Any:
         try:
             return function(*args, **kwargs)
         except DefaultException as e:
-            raise e
+            exception = await error_factory(e)
+
+            raise exception
         except DatabaseException as d:
-            raise d
+            exception = await error_factory(d)
+
+            raise exception
 
     return wrapper

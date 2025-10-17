@@ -1,11 +1,9 @@
-from pydantic import BaseModel
+from typing import Dict, Any
 
 
-async def strip_strings(data_model: BaseModel) -> BaseModel:
-    data = data_model.model_dump()
-
+async def strip_strings(data: Dict[str, Any]) -> Dict[str, Any]:
     for key, value in data.items():
         if isinstance(value, str):
             data[key] = value.strip()
 
-    return data_model.model_validate(data)
+    return data

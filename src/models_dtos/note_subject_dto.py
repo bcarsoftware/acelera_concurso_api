@@ -3,7 +3,7 @@ from decimal import Decimal
 from pydantic import BaseModel
 
 
-class NoteSubjectDto(BaseModel):
+class NoteSubjectDTO(BaseModel):
     subject_id: int
     description: str
     finish: bool = False

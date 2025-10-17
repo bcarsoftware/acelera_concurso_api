@@ -25,7 +25,7 @@ class User(Base):
     gender: Mapped[EnumGender] = Column(Enum("FEMALE", "MALE", "NOT_BINARY", "NOT_SAY", name="EnumGender"), nullable=False)
 
     username: Mapped[str] = Column(String(128), nullable=False, unique=True)
-    email: Mapped[str] = Column(String(255), nullable=False, unique=True)
+    email: Mapped[str] = Column(String(282), nullable=False, unique=True)
     password: Mapped[str] = Column(String(255), nullable=False)
 
     points: Mapped[int] = Column(Integer, nullable=False, default=0)

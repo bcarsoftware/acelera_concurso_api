@@ -53,5 +53,5 @@ class UserManager:
             raise UserException("username doesn't match length between 1 until 128 characters")
         if not match(Regex.STRING_281.value, user_dto.email):
             raise UserException("email doesn't match length between 1 until 281 characters")
-        if not match(Regex.STRING_255.value, user_dto.password):
-            raise UserException("password doesn't match length between 1 until 255 characters")
+        if not match(Regex.STRING_4_32.value, user_dto.password):
+            raise UserException("password doesn't match length between 4 until 32 characters")

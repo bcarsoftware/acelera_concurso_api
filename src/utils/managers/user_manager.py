@@ -3,12 +3,21 @@ from re import match
 from typing import Any, Dict
 
 from src.exceptions.user_exception import UserException
+from src.models_dtos.login_dto import LoginDTO
 from src.models_dtos.user_dto import UserDTO
 from src.utils.payload_dto import payload_dto
 from src.utils.regex import Regex
 
 
 class UserManager:
+    @classmethod
+    async def convert_payload_to_login_dto(cls, data_body: Dict[str, Any]) -> LoginDTO:
+        user_exception = UserException("invalid payload for user login", 422)
+
+        login_dto = await payload_dto(data_body, LoginDTO, user_exception)
+
+        return LoginDTO(**login_dto)
+
     @classmethod
     async def convert_payload_to_user_dto(cls, data_body: Dict[str, Any]) -> UserDTO:
         user_exception = UserException("invalid payload for user", 422)

@@ -19,8 +19,11 @@ class UserController(UserControllerInterface):
         return await self.user_service.add_user(user_dto)
 
     async def recover_user(self, request: Request) -> JSONResponse:
-        # TODO: need to be done an implementation
-        return await self.user_service.recover_user(request)
+        payload = await request.json()
+
+        recovery_dto = await UserManager.convert_payload_to_login_dto(payload)
+
+        return await self.user_service.recover_user(recovery_dto)
 
     async def update_user(self, request: Request, user_id: str) -> JSONResponse:
         payload = await request.json()

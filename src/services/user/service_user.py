@@ -16,7 +16,8 @@ class ServiceUser(ServiceUserInterface):
         user_dto.password = await PasswordUtil.encrypt(user_dto.password)
         pass
 
-    async def recover_user(self, request: Request) -> Any:
+    async def recover_user(self, recovery_dto: LoginDTO) -> Any:
+        recovery_dto.password = await PasswordUtil.encrypt(recovery_dto.password)
         pass
 
     async def update_user(self, user_dto: UserDTO, user_id: str) -> Any:

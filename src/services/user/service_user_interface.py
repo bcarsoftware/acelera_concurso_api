@@ -13,7 +13,7 @@ class ServiceUserInterface(ABC):
         pass
 
     @abstractmethod
-    async def recover_user(self, request: Request) -> Any:
+    async def recover_user(self, recovery_dto: LoginDTO) -> Any:
         pass
 
     @abstractmethod

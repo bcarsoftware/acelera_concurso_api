@@ -19,6 +19,7 @@ Seguindo essa ordem, você conseguirá testar essa API sem maiores problemas. Ao
 1. Instale as [Dependencias](#dependências)
 2. Verifique as [Variáveis de Ambiente](#variáveis-de-ambiente)
 3. Execute as [Migrações](#sobre-migrations) | **Opção Número 2**
+4. Verifique as informações descritas em [Segurança e Autenticação](#segurança-e-autenticação)
 
 ## Dependências
 Para ver as dependencias do projeto, você pode acessar o arquivo: [requirements.txt](requirements.txt).
@@ -43,5 +44,17 @@ Esse projeto utiliza [alembic](https://alembic.sqlalchemy.org/en/latest/) como a
 Esse projeto possui um programa Python, cujo objetivo é ser um auxiliar para realização de serviços de migrations na base de dados.
 
 Execute o Script: [migrate.py](migrate.py) e siga as instruções conforme a sua necessidade.
+
+## Segurança e Autenticação
+Esse projecto utiliza os recursos disponíbilizados através da biblioteca [bcrypt](https://pypi.org/project/bcrypt/).
+Ela utiliza dos recursos de hash passwords para fazer o processo de criptografia das senhas de nosso usuários.
+
+Também existe nesse projeto um mecanismo para o envio via e-mail do código de verificação, útil para confirmação de conta.
+O código-fonte dessa classe se encontra em: [ActiveEmailUtil](/src/utils/active_email_util.py). Ele se utiliza de recursos como
+senha de aplicativo: [Ajuda do Google](https://support.google.com/mail/answer/185833?hl=pt-BR), você precisa gerar a sua senha
+na sua conta google e colocar o seu email no arquivo de variáveis de ambiente `.env` para ter efeito, se desejas testar.
+Altere as variáveis `EMAIL_ADDRESS` e `EMAIL_PASSWORD`, onde email password é a sua senha de aplicativo.
+
+**NOTA: NÃO TESTADO PARA OUTROS PROVEDORES DE E-MAIL.**
 
 TODO: construir o restante! 

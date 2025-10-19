@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 
 from src.core.constraints import Constraints
 from src.exceptions.send_email_exception import SendEmailException
+from src.utils.password_util import PasswordUtil
 from src.utils.regex import Regex
 
 load_dotenv()
@@ -55,7 +56,14 @@ class EmailCodeUtil:
             print(f"Something went wrong to send email: {e}")
             raise SendEmailException("something went wrong to send email")
 
-        return activation_code
+        return await PasswordUtil.encrypt(activation_code)
+
+    @classmethod
+    async def verify_encrypted_verification_code(cls, verification_code: str, secure_code: str) -> None:
+        result = await PasswordUtil.verify(verification_code, secure_code)
+
+        if not result:
+            raise SendEmailException("verification code doesn't match")
 
     @classmethod
     async def _code_generator_(cls) -> str:

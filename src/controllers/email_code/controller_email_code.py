@@ -5,6 +5,7 @@ from src.controllers.email_code.controller_email_code_interface import EmailCode
 from src.core.response_factory import response_factory
 from src.services.email_code.service_email_code import ServiceEmailCode
 from src.services.email_code.service_email_code_interface import ServiceEmailCodeInterface
+from src.utils.managers.active_code_manager import ActiveCodeManager
 from src.utils.managers.email_code_manager import EmailCodeManager
 
 
@@ -20,3 +21,12 @@ class EmailCodeController(EmailCodeControllerInterface):
         response = await self.service_email_code.send_checker_code_by_email(email_dto)
 
         return await response_factory(response, "code sent with success")
+
+    async def verify_encrypted_verification_code(self, request: Request) -> JSONResponse:
+        payload = await request.json()
+
+        active_code_dto = await ActiveCodeManager.convert_payload_to_active_code_dto(payload)
+
+        response = await self.service_email_code.verify_encrypted_verification_code(active_code_dto)
+
+        return await response_factory(response, "code checked with success")

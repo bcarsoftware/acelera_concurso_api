@@ -12,3 +12,8 @@ email_code_controller: EmailCodeControllerInterface = EmailCodeController()
 @email_code_routes.post("")
 async def send_checker_code_by_email(request: Request) -> JSONResponse:
     return await email_code_controller.send_checker_code_by_email(request)
+
+
+@email_code_routes.post("/verify")
+async def send_verification_code_by_email(request: Request) -> JSONResponse:
+    return await email_code_controller.verify_encrypted_verification_code(request)

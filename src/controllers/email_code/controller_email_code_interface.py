@@ -8,3 +8,7 @@ class EmailCodeControllerInterface(ABC):
     @abstractmethod
     async def send_checker_code_by_email(self, request: Request) -> JSONResponse:
         pass
+
+    @abstractmethod
+    async def verify_encrypted_verification_code(self, request: Request) -> JSONResponse:
+        pass

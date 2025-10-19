@@ -26,5 +26,5 @@ class UserControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def delete_user(self, user_id: int) -> JSONResponse:
+    async def delete_user(self, request: Request, user_id: int) -> JSONResponse:
         pass

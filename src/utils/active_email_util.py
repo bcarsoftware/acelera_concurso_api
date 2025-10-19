@@ -1,11 +1,11 @@
 import smtplib
-from os import environ
 from  email.message import EmailMessage
 from random import choice
 from re import match
 
 from dotenv import load_dotenv
 
+from src.core.constraints import Constraints
 from src.exceptions.send_email_exception import SendEmailException
 from src.utils.regex import Regex
 
@@ -34,6 +34,7 @@ class ActiveEmailUtil:
             "Acelera Concurso\n\nOlá, tudo bem? Você está recebendo esse email com o "
             + "código de verificação de sua conta em nossa plataforma.\n\n"
             + f"O Código de Ativação é: {activation_code}\n\n"
+            + "NÃO COMPARTILHE ESSE CÓDIGO COM NINGUÉM!\n\n"
             + "Agora você pode confirmar na nossa plataforma o código fornecido!\n\n"
             + "Acelera Concurso\nUma Iniciativa BCarSoftware"
         )
@@ -70,7 +71,7 @@ class ActiveEmailUtil:
 
     @classmethod
     async def _get_envs_email_and_password_(cls) -> dict[str, str]:
-        email = environ.get("EMAIL_ADDRESS", None)
-        password = environ.get("EMAIL_PASSWORD", None)
+        email = Constraints.EMAIL_ADDRESS
+        password = Constraints.EMAIL_PASSWORD
 
         return { "email": email, "password": password }

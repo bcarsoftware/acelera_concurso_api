@@ -8,7 +8,7 @@ from src.core.token_factory import TokenFactory
 from src.exceptions.jwt_exception import JWTException
 
 
-def authenticated(function: Callable[..., Any], *args: Any):
+def authenticated(function: Callable[..., Any]):
     @wraps(function)
     async def wrapper(**kwargs: Any) -> Any:
         request: Request = kwargs["request"]

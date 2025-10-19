@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from http import HTTPStatus
 from os import environ
 
 
@@ -8,6 +9,17 @@ class Constraints:
     SECRET_KEY = environ.get("SECRET_KEY", None)
     ALGORITHM = environ.get("ALGORITHM", None)
     EXPIRE_CODE_TIME = environ.get("EXPIRE_CODE_TIME", None)
+    EXPIRE_TOKEN_SESSION = environ.get("EXPIRE_TOKEN_SESSION", None)
     EMAIL_ADDRESS = environ.get("EMAIL_ADDRESS", None)
     EMAIL_PASSWORD = environ.get("EMAIL_PASSWORD", None)
     DB_URL = environ.get("DB_URL", None)
+
+
+@dataclass
+class HttpStatus:
+    NOT_AUTHORIZED = 401
+    FORBIDDEN = HTTPStatus.FORBIDDEN
+    OK = HTTPStatus.OK
+    NOT_FOUND = HTTPStatus.NOT_FOUND
+    INTERNAL_SERVER_ERROR = HTTPStatus.INTERNAL_SERVER_ERROR
+    CREATED = HTTPStatus.CREATED

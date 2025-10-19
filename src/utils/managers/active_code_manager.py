@@ -15,6 +15,6 @@ class ActiveCodeManager:
         return ActiveCodeDTO(**active_code_dto)
 
     @classmethod
-    async def verify_validation(cls, active_code_dto: ActiveCodeDTO) -> None:
-        if not active_code_dto.code or not active_code_dto.token:
+    async def make_validation(cls, active_code_dto: ActiveCodeDTO) -> None:
+        if not active_code_dto.secure_code:
             raise ActiveCodeException("code or token is empty or null")

@@ -7,6 +7,7 @@ from src.models_dtos.active_code_dto import ActiveCodeDTO
 from src.models_dtos.email_dto import EmailDTO
 from src.services.email_code.service_email_code_interface import ServiceEmailCodeInterface
 from src.utils.email_code_util import EmailCodeUtil
+from src.utils.managers.active_code_manager import ActiveCodeManager
 from src.utils.password_util import PasswordUtil
 
 
@@ -21,6 +22,8 @@ class ServiceEmailCode(ServiceEmailCodeInterface):
         return ActiveCodeDTO(secure_code=varification_code, token=token)
 
     async def verify_encrypted_verification_code(self, active_code_dto: ActiveCodeDTO) -> ActiveCodeDTO:
+        await ActiveCodeManager.make_validation(active_code_dto)
+
         if not active_code_dto.code:
             raise ActiveCodeException("missing code param to compare")
 

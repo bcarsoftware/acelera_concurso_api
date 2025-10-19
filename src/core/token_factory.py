@@ -5,21 +5,24 @@ from typing import Any
 from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
 
 from src.core.constraints import Constraints
+from src.enums.enum_token_time import EnumTokenTime
 from src.exceptions.jwt_exception import JWTException
 
 
 class TokenFactory:
     @classmethod
-    async def create_token(cls, data: Any, time: int = 10) -> str:
+    async def create_token(cls, data: Any, time: float, time_select: EnumTokenTime) -> str:
         if time <= 0:
             raise JWTException("time must be positive integer")
 
         secret_key = await cls._get_secret_key_()
         algorithm = await cls._get_algorithm_()
 
+        time_delta = await cls._get_time_delta_(time, time_select)
+
         payload = {
             "data": data,
-            "exp": datetime.now(timezone.utc) + timedelta(minutes=time),
+            "exp": datetime.now(timezone.utc) + time_delta,
         }
 
         encoded_jwt = encode(payload, secret_key, algorithm=algorithm)
@@ -66,3 +69,15 @@ class TokenFactory:
             raise JWTException("secret key must be set in environment")
 
         return secret_key
+
+    @staticmethod
+    async def _get_time_delta_(time: float, enum_time: EnumTokenTime) -> timedelta:
+        return {
+            EnumTokenTime.DAYS: timedelta(days=time),
+            EnumTokenTime.SECONDS: timedelta(seconds=time),
+            EnumTokenTime.MICROSECONDS: timedelta(microseconds=time),
+            EnumTokenTime.MILLISECONDS: timedelta(milliseconds=time),
+            EnumTokenTime.MINUTES: timedelta(minutes=time),
+            EnumTokenTime.HOURS: timedelta(hours=time),
+            EnumTokenTime.WEEKS: timedelta(weeks=time),
+        }.get(enum_time)

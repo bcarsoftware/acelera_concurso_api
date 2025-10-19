@@ -91,7 +91,7 @@ O projeto conta com alguns scripts para auxiliar em tarefas comuns:
 
 > [gen_secret_key.py](gen_secret_key.py): Gera uma chave secreta (SECRET_KEY) segura para a aplicação e a copia para sua área de transferência. 
 >
-> * **Dependência:** Requer OpenSSL instalado no sistema. Para mais informações, veja o repositório do OpenSSL. 
+> * **Dependência:** Requer OpenSSL instalado no sistema. Para mais informações, veja o repositório do [OpenSSL](https://github.com/openssl/openssl). 
 >
 > * **Dependência Python:** Utiliza a biblioteca [pyperclip](https://github.com/asweigart/pyperclip). Em sistemas baseados em Debian/Ubuntu, pode ser necessário instalar o xclip:
 > 

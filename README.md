@@ -50,7 +50,7 @@ Esse projecto utiliza os recursos disponíbilizados através da biblioteca [bcry
 Ela utiliza dos recursos de hash passwords para fazer o processo de criptografia das senhas de nosso usuários.
 
 Também existe nesse projeto um mecanismo para o envio via e-mail do código de verificação, útil para confirmação de conta.
-O código-fonte dessa classe se encontra em: [ActiveEmailUtil](/src/utils/active_email_util.py). Ele se utiliza de recursos como
+O código-fonte dessa classe se encontra em: [ActiveEmailUtil](/src/utils/email_code_util.py). Ele se utiliza de recursos como
 senha de aplicativo: [Ajuda do Google](https://support.google.com/mail/answer/185833?hl=pt-BR), você precisa gerar a sua senha
 na sua conta google e colocar o seu email no arquivo de variáveis de ambiente `.env` para ter efeito, se desejas testar.
 Altere as variáveis `EMAIL_ADDRESS` e `EMAIL_PASSWORD`, onde email password é a sua senha de aplicativo.

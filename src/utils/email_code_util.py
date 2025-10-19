@@ -12,7 +12,7 @@ from src.utils.regex import Regex
 load_dotenv()
 
 
-class ActiveEmailUtil:
+class EmailCodeUtil:
     @classmethod
     async def send_email_verification_code(cls, email_receiver: str) -> str:
         if not match(Regex.EMAIL.value, email_receiver):

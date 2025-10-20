@@ -19,7 +19,7 @@ async def public_tender_create(request: Request) -> JSONResponse:
 
 
 @exception_handler
-@public_tender_routes.patch("/{user_id}")
+@public_tender_routes.patch("/{public_tender_id}")
 @authenticated
 async def public_tender_patch(request: Request, public_tender_id: int) -> JSONResponse:
     return await controller_public_tender.public_tender_patch(request=request, public_tender_id=public_tender_id)
@@ -47,7 +47,7 @@ async def public_tender_board_list(request: Request, tender_board: str) -> JSONR
 
 
 @exception_handler
-@public_tender_routes.delete("/{user_id}")
+@public_tender_routes.delete("/{public_tender_id}")
 @authenticated
 async def public_tender_delete(request: Request, public_tender_id: int) -> JSONResponse:
     return await controller_public_tender.public_tender_delete(request=request, public_tender_id=public_tender_id)

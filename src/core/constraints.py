@@ -29,3 +29,4 @@ class HttpStatus:
 class ParamNames:
     USER_ID = "UserID"
     TENDER_ID = "TenderID"
+    SUBJECT_ID = "SubjectID"

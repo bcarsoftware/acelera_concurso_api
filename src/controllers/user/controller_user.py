@@ -50,8 +50,8 @@ class UserController(UserControllerInterface):
 
         return await response_factory(
             data=response,
-            message="user created successfully",
-            status_code=HttpStatus.CREATED,
+            message="user updated successfully",
+            status_code=HttpStatus.OK,
         )
 
     async def login_user(self, request: Request) -> JSONResponse:
@@ -70,8 +70,8 @@ class UserController(UserControllerInterface):
 
         return await response_factory(
             data=user_with_token,
-            message="user created successfully",
-            status_code=HttpStatus.CREATED,
+            message="user logged successfully",
+            status_code=HttpStatus.OK,
         )
 
     async def logout_user(self, request: Request) -> JSONResponse:
@@ -84,5 +84,5 @@ class UserController(UserControllerInterface):
         return await response_factory(
             data=response,
             message="user deleted successfully",
-            status_code=HttpStatus.CREATED,
+            status_code=HttpStatus.OK,
         )

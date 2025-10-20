@@ -38,8 +38,8 @@ class PublicTenderController(PublicTenderControllerInterface):
 
         return await response_factory(
             data=public_tender,
-            message="public tender created successfully",
-            status_code=HttpStatus.CREATED
+            message="public tender updated successfully",
+            status_code=HttpStatus.OK
         )
 
     async def public_tender_list(self, request: Request) -> JSONResponse:
@@ -49,8 +49,8 @@ class PublicTenderController(PublicTenderControllerInterface):
 
         return await response_factory(
             data=public_tenders,
-            message="public tender created successfully",
-            status_code=HttpStatus.CREATED
+            message="public tender find successfully",
+            status_code=HttpStatus.OK
         )
 
     async def public_tender_institute_list(self, request: Request, institute: str) -> JSONResponse:
@@ -60,8 +60,8 @@ class PublicTenderController(PublicTenderControllerInterface):
 
         return await response_factory(
             data=public_tenders,
-            message="public tender created successfully",
-            status_code=HttpStatus.CREATED
+            message="public tender find successfully",
+            status_code=HttpStatus.OK
         )
 
     async def public_tender_board_list(self, request: Request, tender_board: str) -> JSONResponse:
@@ -71,8 +71,8 @@ class PublicTenderController(PublicTenderControllerInterface):
 
         return await response_factory(
             data=public_tenders,
-            message="public tender created successfully",
-            status_code=HttpStatus.CREATED
+            message="public tender find successfully",
+            status_code=HttpStatus.OK
         )
 
     async def public_tender_delete(self, request: Request, public_tender_id: int) -> JSONResponse:
@@ -80,6 +80,6 @@ class PublicTenderController(PublicTenderControllerInterface):
 
         return await response_factory(
             data=public_tender,
-            message="public tender created successfully",
-            status_code=HttpStatus.CREATED
+            message="public tender deleted successfully",
+            status_code=HttpStatus.OK
         )

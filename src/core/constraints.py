@@ -28,3 +28,4 @@ class HttpStatus:
 @dataclass
 class ParamNames:
     USER_ID = "UserID"
+    TENDER_ID = "TenderID"

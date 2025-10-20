@@ -10,7 +10,7 @@ class PublicTenderControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def public_tender_patch(self, request: Request, user_id: int) -> JSONResponse:
+    async def public_tender_patch(self, request: Request, public_tender_id: int) -> JSONResponse:
         pass
 
     @abstractmethod
@@ -26,5 +26,5 @@ class PublicTenderControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def public_tender_delete(self, request: Request, user_id: int) -> JSONResponse:
+    async def public_tender_delete(self, request: Request, public_tender_id: int) -> JSONResponse:
         pass

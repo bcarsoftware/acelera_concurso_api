@@ -23,3 +23,8 @@ class HttpStatus:
     NOT_FOUND = HTTPStatus.NOT_FOUND
     INTERNAL_SERVER_ERROR = HTTPStatus.INTERNAL_SERVER_ERROR
     CREATED = HTTPStatus.CREATED
+
+
+@dataclass
+class ParamNames:
+    USER_ID = "UserID"

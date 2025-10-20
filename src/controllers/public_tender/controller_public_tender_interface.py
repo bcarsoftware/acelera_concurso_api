@@ -22,7 +22,7 @@ class PublicTenderControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def public_tender_board_delete(self, request: Request, tender_board: str) -> JSONResponse:
+    async def public_tender_board_list(self, request: Request, tender_board: str) -> JSONResponse:
         pass
 
     @abstractmethod

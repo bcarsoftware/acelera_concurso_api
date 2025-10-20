@@ -42,7 +42,7 @@ async def public_tender_institute_list(request: Request, institute: str) -> JSON
 @exception_handler
 @public_tender_routes.delete("/tender-board/{tender_board}")
 @authenticated
-async def public_tender_board_delete(request: Request, tender_board: str) -> JSONResponse:
+async def public_tender_board_list(request: Request, tender_board: str) -> JSONResponse:
     return await controller_public_tender.public_tender_board_delete(tender_board=tender_board)
 
 

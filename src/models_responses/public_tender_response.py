@@ -10,7 +10,7 @@ class PublicTenderResponse(BaseModel):
     tender_name: str
     tender_board: str
     work_tile: str
-    institute: Optional[str] = None
+    institute: str
     notice_link: Optional[str] = None
     tender_date: Optional[date] = None
     deleted: bool = False

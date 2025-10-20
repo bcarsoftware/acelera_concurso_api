@@ -47,7 +47,7 @@ class PublicTender(Base):
 
     tender_name: Mapped[str] = Column(String(255), nullable=False)
     tender_board: Mapped[str] = Column(String(255), nullable=False)
-    institute: Mapped[str] = Column(String(128), nullable=True)
+    institute: Mapped[str] = Column(String(128), nullable=False)
     work_title: Mapped[str] = Column(String(128), nullable=False)
     notice_link: Mapped[str] = Column(String(1024), nullable=True)
     tender_date: Mapped[date] = Column(Date, nullable=True)

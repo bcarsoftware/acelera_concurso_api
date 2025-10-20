@@ -41,3 +41,7 @@ class PublicTenderManager:
             raise PublicTenderException("public tender board length doesn't match between 1 until 255 characters")
         if public_tender_dto.notice_link and not match(Regex.STRING_1024.value, public_tender_dto.notice_link):
             raise PublicTenderException("public tender notice link length doesn't match between 1 until 1024 characters")
+        if public_tender_dto.institute and not match(Regex.STRING_128.value, public_tender_dto.institute):
+            raise PublicTenderException("public tender institute length doesn't match between 1 until 128 characters")
+        if not match(Regex.STRING_128.value, public_tender_dto.work_tile):
+            raise PublicTenderException("public tender work tile length doesn't match between 1 until 128 characters")

@@ -142,11 +142,16 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", 500)
 
-    async def public_tender_delete(self, user_id: int) -> PublicTenderResponse:
+    async def public_tender_delete(self, public_tender_id: int) -> PublicTenderResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(PublicTender).filter_by(user_id=user_id)
+                    select(PublicTender).filter(
+                        and_(
+                            PublicTender.public_tender_id == public_tender_id,
+                            not PublicTender.deleted
+                        )
+                    )
                 )
 
                 public_tender = response.scalar_one_or_none()

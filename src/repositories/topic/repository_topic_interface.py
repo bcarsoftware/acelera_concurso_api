@@ -1,11 +1,11 @@
 from abc import ABC, abstractmethod
-from typing import List
 
-from src.models_dtos.topic_dto import TopicDTO
-from src.models_responses.topic_response import TopicResponse
+from sqlalchemy.ext.asyncio import AsyncEngine
+
+from src.db.core.db_base import get_engine
 
 
-class ServiceTopicInterface(ABC):
+class TopicRepositoryInterface(ABC):
     @abstractmethod
     async def create_topic(self, topic_dto: TopicDTO) -> TopicResponse:
         pass
@@ -29,3 +29,8 @@ class ServiceTopicInterface(ABC):
     @abstractmethod
     async def delete_topic(self, topic_id: int) -> TopicResponse:
         pass
+
+    @property
+    def _engine_(self) -> AsyncEngine:
+        eng = get_engine()
+        return next(eng)

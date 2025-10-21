@@ -1,7 +1,6 @@
 from sqlalchemy import select, or_, and_
-from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.db.core.db_base import get_engine
 from src.db.model.models import User
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.login_dto import LoginDTO
@@ -72,12 +71,8 @@ class UserRepository(UserRepositoryInterface):
                 if not user:
                     raise DatabaseException("user not found", 404)
 
-                original_password = user.password
-
                 for key, value in user_dto.model_dump().items():
                     setattr(user, key, value)
-
-                user.password = original_password
 
                 await session.commit()
                 await session.refresh(user)
@@ -149,8 +144,3 @@ class UserRepository(UserRepositoryInterface):
                 raise DatabaseException(e.message, e.code)
 
             raise DatabaseException("Internal Server Error", 500)
-
-    @property
-    def _engine_(self) -> AsyncEngine:
-        eng = get_engine()
-        return next(eng)

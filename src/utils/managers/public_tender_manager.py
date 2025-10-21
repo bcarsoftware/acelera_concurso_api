@@ -24,6 +24,16 @@ class PublicTenderManager:
         await cls._check_public_tender_strings_length_(public_tender_dto)
 
     @classmethod
+    async def verify_institute_empty(cls, institute: str) -> None:
+        if not institute:
+            raise PublicTenderException("institute cannot be empty")
+
+    @classmethod
+    async def verify_tender_board_empty(cls, tender_board: str) -> None:
+        if not tender_board:
+            raise PublicTenderException("tender board cannot be empty")
+
+    @classmethod
     async def _check_public_tender_deleted_(cls, public_tender_dto: PublicTenderDTO) -> None:
         if public_tender_dto.deleted:
             raise PublicTenderException("public tender deleted")

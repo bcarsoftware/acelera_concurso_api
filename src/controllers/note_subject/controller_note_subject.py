@@ -46,7 +46,7 @@ class NoteSubjectController(NoteSubjectControllerInterface):
 
         return await response_factory(
             data=note_subjects,
-            message="note subject find successfully",
+            message="note subject found successfully",
             status_code=HttpStatus.OK
         )
 

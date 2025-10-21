@@ -25,6 +25,7 @@ class NoteSubjectManager:
     @classmethod
     async def rate_success_seventh_percent(cls, note_subject: NoteSubjectDTO) -> None:
         seventh_percent = Decimal("70.0")
+
         if not note_subject.rate_success or note_subject.rate_success < seventh_percent:
             raise NoteException("you can't finish note subject with success rate less than 70%")
 

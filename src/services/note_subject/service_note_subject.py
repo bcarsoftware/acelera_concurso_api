@@ -19,6 +19,7 @@ class ServiceNoteSubject(ServiceNoteSubjectInterface):
         pass
 
     async def finish_note_subject(self, note_subject: NoteSubjectDTO, note_subject_id: int) -> NoteSubjectResponse:
+        await NoteSubjectManager.make_validation(note_subject)
         await NoteSubjectManager.rate_success_seventh_percent(note_subject)
         pass
 

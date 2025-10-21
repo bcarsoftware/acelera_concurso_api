@@ -1,3 +1,4 @@
+from decimal import Decimal
 from re import match
 from typing import Dict, Any
 
@@ -9,7 +10,7 @@ from src.utils.regex import Regex
 
 class NoteTopicManager:
     @classmethod
-    async def convert_payload_to_note_subject_dto(cls, data_body: Dict[str, Any]) -> NoteTopicDTO:
+    async def convert_payload_to_note_topic_dto(cls, data_body: Dict[str, Any]) -> NoteTopicDTO:
         note_subject_exception = NoteException("invalid payload for note topic", 422)
 
         note_subject = await payload_dto(data_body, NoteTopicDTO, note_subject_exception)
@@ -20,6 +21,13 @@ class NoteTopicManager:
     async def make_validation(cls, note_subject: NoteTopicDTO) -> None:
         await cls._check_note_topic_deleted_(note_subject)
         await cls._check_note_topic_strings_length_(note_subject)
+
+    @classmethod
+    async def rate_success_seventh_percent(cls, note_topic: NoteTopicDTO) -> None:
+        seventh_percent = Decimal("70.0")
+
+        if not note_topic.rate_success or note_topic.rate_success < seventh_percent:
+            raise NoteException("you can't finish note topic with success rate less than 70%")
 
     @classmethod
     async def _check_note_topic_deleted_(cls, note_subject: NoteTopicDTO) -> None:

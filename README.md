@@ -11,8 +11,9 @@ API RESTful responsável pela camada de persistência de dados do sistema Aceler
 7. [Executando as Migrações](#executando-as-migrações)
 8. [Scripts Utilitários](#scripts-utilitários)
 9. [Segurança e Autenticação](#segurança-e-autenticação)
+   1. [Autenticação de Rotas](#autenticação-de-rotas)
 10. [Variáveis de Ambiente de Segurança](#variáveis-de-ambiente-de-segurança)
-10. [TODO](#todo)
+11. [TODO](#todo)
 
 ## Sobre o Projeto
 Esta API gerencia todas as operações de banco de dados para a plataforma Acelera Concurso. Construída em Python, utiliza PostgreSQL como sistema de gerenciamento de banco de dados e Alembic para o versionamento das migrações de schema.
@@ -116,6 +117,11 @@ Para testar o envio de e-mails, você precisará de uma conta Google com a verif
 Para que funcione nesse projeto, garanta que as [variáveis de ambiente e segurança](#variáveis-de-ambiente-de-segurança) estejam devidamente configuradas.
 
 **NOTA: A funcionalidade de envio de e-mail foi testada apenas com o Gmail.**
+
+### Autenticação de Rotas
+Utilizo autenticação via [**JWT**](https://github.com/jpadilla/pyjwt) em conjunto com uma fabrica de tokens: [token_factory](src/core/token_factory.py), com o auxílio de um *wrapper* que retira o token do cabeçalho (header) da requisição.
+Se quiser conferir a lógica, acesse o arquivo [authentication](src/core/authentication.py), essa função é utilizada com
+um decorator em todas as rotas que forem necessárias, você vai encontrar em alguns módulos do pacote [src/routes](src/routes).
 
 ## Variáveis de Ambiente de Segurança
 As seguintes variáveis no arquivo .env precisam ser configuradas:

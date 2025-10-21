@@ -23,9 +23,9 @@ O projeto foi desenvolvido utilizando Python 3.12.0. Para garantir a compatibili
 ## Sobre as Rotas
 Nesse projeto existe também uma documentação específica para lidar com as rotas, se você quiser conferir os modulos, entre no pacote [routes](src/routes).
 
-Para maiores detalhes, acesse O [Mapa das Rotas](/docs/ROUTES.md)!
+Para maiores detalhes, acesse O [Mapa das Rotas](/docs/ROUTES_MAP.md)!
 
-Acesso o Indice [Aqui](/docs/ROUTES.md#tabela-de-conteúdo).
+Acesso o Indice [Aqui](/docs/ROUTES_MAP.md#tabela-de-conteúdo).
 
 ## Pré-requisitos
 Antes de começar, certifique-se de que você tem os seguintes softwares instalados em sua máquina:

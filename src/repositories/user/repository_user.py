@@ -1,4 +1,4 @@
-from sqlalchemy import select, or_
+from sqlalchemy import select, or_, and_
 from sqlalchemy.ext.asyncio import AsyncSession, AsyncEngine
 
 from src.db.core.db_base import get_engine
@@ -31,7 +31,12 @@ class UserRepository(UserRepositoryInterface):
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(User).filter_by(email=recovery_dto.username)
+                    select(User).filter(
+                        and_(
+                            User.email == recovery_dto.username,
+                            not User.deleted
+                        )
+                    )
                 )
 
                 user = response.scalar_one_or_none()
@@ -54,7 +59,12 @@ class UserRepository(UserRepositoryInterface):
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(User).filter_by(user_id=user_id)
+                    select(User).filter(
+                        and_(
+                            User.user_id == user_id,
+                            not User.deleted
+                        )
+                    )
                 )
 
                 user = response.scalar_one_or_none()
@@ -115,7 +125,12 @@ class UserRepository(UserRepositoryInterface):
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(User).filter_by(user_id=user_id)
+                    select(User).filter(
+                        and_(
+                            User.user_id == user_id,
+                            not User.deleted
+                        )
+                    )
                 )
 
                 user = response.scalar_one_or_none()

@@ -33,6 +33,10 @@ class PublicTenderRepositoryInterface(ABC):
     async def public_tender_delete(self, public_tender_id: int) -> PublicTenderResponse:
         pass
 
+    @abstractmethod
+    async def public_tender_exists(self, public_tender_id: int) -> bool:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

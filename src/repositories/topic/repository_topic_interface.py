@@ -30,6 +30,10 @@ class TopicRepositoryInterface(ABC):
     async def delete_topic(self, topic_id: int) -> TopicResponse:
         pass
 
+    @abstractmethod
+    async def topic_exists(self, topic_id: int) -> bool:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

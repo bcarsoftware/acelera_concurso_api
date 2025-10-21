@@ -29,6 +29,10 @@ class UserRepositoryInterface(ABC):
     async def delete_user(self, user_id: int) -> UserResponse:
         pass
 
+    @abstractmethod
+    async def user_exists(self, user_id: int) -> bool:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

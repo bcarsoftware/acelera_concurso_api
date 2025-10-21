@@ -144,3 +144,17 @@ class UserRepository(UserRepositoryInterface):
                 raise DatabaseException(e.message, e.code)
 
             raise DatabaseException("Internal Server Error", 500)
+
+    async def user_exists(self, user_id: int) -> bool:
+        async with AsyncSession(self._engine_) as session:
+            response = await session.execute(
+                select(User).filter(
+                    and_(
+                        User.user_id == user_id,
+                        not User.deleted
+                    )
+                )
+            )
+
+            result = not response.scalar_one_or_none()
+        return not result

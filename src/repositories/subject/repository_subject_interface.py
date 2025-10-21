@@ -26,6 +26,10 @@ class SubjectRepositoryInterface(ABC):
     async def delete_subject(self, subject_id: int) -> SubjectResponse:
         pass
 
+    @abstractmethod
+    async def subject_exists(self, subject_id: int) -> bool:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

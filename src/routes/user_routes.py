@@ -44,7 +44,7 @@ async def logout_user(request: Request) -> JSONResponse:
 
 
 @exception_handler
-@user_rotes.delete("/delete/{user_id}")
+@user_rotes.delete("/{user_id}")
 @authenticated
 async def delete_user(request: Request, user_id: int) -> JSONResponse:
     return await user_controller.delete_user(request, user_id)

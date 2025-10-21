@@ -3,22 +3,29 @@ API RESTful responsável pela camada de persistência de dados do sistema Aceler
 
 ## Tabela de Conteúdos
 1. [Sobre o Projeto](#sobre-o-projeto)
-2. [Pré-requisitos](#pré-requisitos)
-3. [Configuração Local](#configuração-local)
-4. [Clone o Repositório](#clone-o-repositório)
-5. [Ambiente Virtual e Dependências](#ambiente-virtual-e-dependências)
-6. [Variáveis de Ambiente](#variáveis-de-ambiente)
-7. [Executando as Migrações](#executando-as-migrações)
-8. [Scripts Utilitários](#scripts-utilitários)
-9. [Segurança e Autenticação](#segurança-e-autenticação)
-   1. [Autenticação de Rotas](#autenticação-de-rotas)
-10. [Variáveis de Ambiente de Segurança](#variáveis-de-ambiente-de-segurança)
-11. [TODO](#todo)
+2. [Sobre as Rotas](#sobre-as-rotas)
+3. [Pré-requisitos](#pré-requisitos)
+4. [Configuração Local](#configuração-local)
+5. [Clone o Repositório](#clone-o-repositório)
+6. [Ambiente Virtual e Dependências](#ambiente-virtual-e-dependências)
+7. [Variáveis de Ambiente](#variáveis-de-ambiente)
+8. [Executando as Migrações](#executando-as-migrações)
+9. [Scripts Utilitários](#scripts-utilitários)
+10. [Segurança e Autenticação](#segurança-e-autenticação)
+    1. [Autenticação de Rotas](#autenticação-de-rotas)
+11. [Variáveis de Ambiente de Segurança](#variáveis-de-ambiente-de-segurança)
 
 ## Sobre o Projeto
 Esta API gerencia todas as operações de banco de dados para a plataforma Acelera Concurso. Construída em Python, utiliza PostgreSQL como sistema de gerenciamento de banco de dados e Alembic para o versionamento das migrações de schema.
 
 O projeto foi desenvolvido utilizando Python 3.12.0. Para garantir a compatibilidade e evitar problemas, recomendamos o uso do [PyEnv](https://github.com/pyenv/pyenv) para gerenciar a versão do Python.
+
+## Sobre as Rotas
+Nesse projeto existe também uma documentação específica para lidar com as rotas, se você quiser conferir os modulos, entre no pacote [routes](src/routes).
+
+Para maiores detalhes, acesse O [Mapa das Rotas](/docs/ROUTES.md)!
+
+Acesso o Indice [Aqui](/docs/ROUTES.md#tabela-de-conteúdo).
 
 ## Pré-requisitos
 Antes de começar, certifique-se de que você tem os seguintes softwares instalados em sua máquina:
@@ -36,8 +43,21 @@ Para executar o projeto localmente, siga os passos abaixo em ordem.
 5. [Segurança e Autenticação](#segurança-e-autenticação)
 
 ## Clone o Repositório
+```commandline
 git clone https://github.com/seu-usuario/acelera-concurso-api.git
-cd acelera-concurso-api 
+```
+Ou opção via SSH:
+```commandline
+git clone git@github.com:bcarsoftware/acelera_concurso_api.git
+```
+Ou [GitHubCLI](https://cli.github.com/):
+```commandline
+gh repo clone bcarsoftware/acelera_concurso_api
+```
+Depois, acesse o diretório:
+```commandline
+cd acelera-concurso-api
+```
 
 ## Ambiente Virtual e Dependências
 É uma boa prática criar um ambiente virtual para isolar as dependências do projeto.
@@ -138,5 +158,4 @@ As seguintes variáveis no arquivo .env precisam ser configuradas:
 
 **NOTA: recomendo fortemente a configuração da variável `DB_URL` [ver mais](#variáveis-de-ambiente).**
 
-## TODO
-Construir o restante!
+*That's All Folks!*

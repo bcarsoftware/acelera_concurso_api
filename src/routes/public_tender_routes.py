@@ -33,14 +33,14 @@ async def public_tender_list(request: Request) -> JSONResponse:
 
 
 @exception_handler
-@public_tender_routes.get("/institute/{institute}")
+@public_tender_routes.get("/{institute}/institute")
 @authenticated
 async def public_tender_institute_list(request: Request, institute: str) -> JSONResponse:
     return await controller_public_tender.public_tender_institute_list(request=request, institute=institute)
 
 
 @exception_handler
-@public_tender_routes.delete("/tender-board/{tender_board}")
+@public_tender_routes.get("/{tender_board}/tender-board")
 @authenticated
 async def public_tender_board_list(request: Request, tender_board: str) -> JSONResponse:
     return await controller_public_tender.public_tender_board_list(request=request, tender_board=tender_board)

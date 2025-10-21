@@ -1,3 +1,4 @@
+from decimal import Decimal
 from re import match
 from typing import Dict, Any
 
@@ -20,6 +21,12 @@ class NoteSubjectManager:
     async def make_validation(cls, note_subject: NoteSubjectDTO) -> None:
         await cls._check_note_subject_deleted_(note_subject)
         await cls._check_note_subject_strings_length_(note_subject)
+
+    @classmethod
+    async def rate_success_seventh_percent(cls, note_subject: NoteSubjectDTO) -> None:
+        seventh_percent = Decimal("70.0")
+        if not note_subject.rate_success or note_subject.rate_success < seventh_percent:
+            raise NoteException("you can't finish note subject with success rate less than 70%")
 
     @classmethod
     async def _check_note_subject_deleted_(cls, note_subject: NoteSubjectDTO) -> None:

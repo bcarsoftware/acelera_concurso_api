@@ -34,6 +34,13 @@ class UserManager:
         await cls._check_user_access_(user_dto)
 
     @classmethod
+    async def make_email_verification(cls, login_dto: LoginDTO) -> None:
+        if not match(Regex.STRING_281.value, login_dto.username):
+            raise UserException("invalid email length")
+        if not match(Regex.EMAIL.value, login_dto.username):
+            raise UserException("invalid email for user")
+
+    @classmethod
     async def _check_user_deleted_(cls, user_dto: UserDTO) -> None:
         if user_dto.deleted:
             raise UserException("you can't create an user that is deleted")

@@ -13,7 +13,6 @@ class UserResponse(BaseModel):
     gender: EnumGender
     username: str
     email: str
-    password: str
     points: int = 0
     deleted: bool = False
     create_at: datetime

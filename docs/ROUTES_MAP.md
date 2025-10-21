@@ -1,6 +1,6 @@
 # Mapa de Rotas
 Aqui você consegue conferir as Rotas da aplicação e seus parametros importantes para cada rota de API Rest nesse sistema.
-[Voltar](../README.md).
+[Voltar](https://github.com/bcarsoftware/acelera_concurso_api).
 
 ## Tabela de Conteúdo
 1. [Rotas de Usuário](#rotas-de-usuário)
@@ -189,4 +189,4 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 *That's All Folks!*
-[Voltar](../README.md).
+[Voltar](https://github.com/bcarsoftware/acelera_concurso_api).

@@ -31,7 +31,9 @@ def main() -> None:
 
         print("7. See Git Status")
 
-        print("8. Log Out!")
+        print("8. Make a Pull")
+
+        print("9. Log Out!")
 
         line()
 
@@ -44,10 +46,10 @@ def main() -> None:
 
         choice = int(option)
 
-        if choice > 8 or choice < 1:
+        if choice > 9 or choice < 1:
             continue
 
-        if choice == 8:
+        if choice == 9:
             print("Thank you for using Gitter! See you later!")
             line()
             break
@@ -59,6 +61,7 @@ def main() -> None:
             5: make_pull_request,
             6: add_all_files,
             7: see_status,
+            8: make_a_pull,
         }.get(choice, None)
 
         if function is None:
@@ -157,6 +160,14 @@ def make_pull_request() -> None:
     line()
 
     command = "gh pr create"
+
+    system(command)
+
+
+def make_a_pull() -> None:
+    line()
+
+    command = "git pull"
 
     system(command)
 

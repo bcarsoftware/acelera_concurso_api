@@ -33,6 +33,10 @@ class NoteSubjectRepositoryInterface(ABC):
     async def exists_note_subjects_incomplete(self, subject_id: int) -> bool:
         pass
 
+    @abstractmethod
+    async def count_finished_note_subjects(self, subject_id: int) -> int:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

@@ -26,6 +26,11 @@ class SubjectManager:
         await cls._check_subject_strings_length_(subject_dto)
 
     @classmethod
+    async def lock_unfinished_notes_subject(cls, unfinished_notes: bool) -> None:
+        if unfinished_notes:
+            raise SubjectException("there are unfinished notes", HttpStatus.BAD_REQUEST)
+
+    @classmethod
     async def _check_subject_deleted_(cls, subject_dto: SubjectDTO) -> None:
         if subject_dto.deleted:
             raise SubjectException(

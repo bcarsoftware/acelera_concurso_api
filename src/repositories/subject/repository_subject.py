@@ -171,11 +171,14 @@ class SubjectRepository(SubjectRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def delete_subject(self, subject_id: int) -> SubjectResponse:
+    async def delete_subject(self, subject_id: int, points: int) -> SubjectResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(Subject).filter(
+                    select(Subject).options(
+                        joinedload(Subject.public_tender).
+                        joinedload(PublicTender.user)
+                    ).filter(
                         and_(
                             Subject.subject_id == subject_id,
                             not Subject.deleted
@@ -188,7 +191,11 @@ class SubjectRepository(SubjectRepositoryInterface):
                 if not subject:
                     raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
 
+                if not subject.public_tender or not subject.public_tender.user:
+                    raise DatabaseException("subject is broken", HttpStatus.UNPROCESSABLE_ENTITY)
+
                 subject.deleted = True
+                subject.public_tender.user.points -= points
                 await session.commit()
                 await session.refresh(subject)
             return await SubjectResponse.model_validate(subject)

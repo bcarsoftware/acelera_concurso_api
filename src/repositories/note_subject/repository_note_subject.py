@@ -4,7 +4,7 @@ from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.constraints import HttpStatus
-from src.db.model.models import NoteSubject, PublicTender, Subject, User
+from src.db.model.models import NoteSubject
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.note_subject_dto import NoteSubjectDTO
 from src.models_responses.note_subject_response import NoteSubjectResponse
@@ -164,6 +164,25 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
 
                 note_subjects = response.scalars().all()
             return len(note_subjects) > 0
+        except Exception as e:
+            print(str(e))
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    async def count_finished_note_subjects(self, subject_id: int) -> int:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(NoteSubject).filter(
+                        and_(
+                            NoteSubject.subject_id == subject_id,
+                            NoteSubject.finish,
+                            not NoteSubject.deleted
+                        )
+                    )
+                )
+
+                note_subjects = response.scalars().all()
+            return len(note_subjects)
         except Exception as e:
             print(str(e))
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)

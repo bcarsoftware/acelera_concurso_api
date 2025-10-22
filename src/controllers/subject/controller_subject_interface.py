@@ -22,5 +22,9 @@ class SubjectControllerInterface(ABC):
         pass
 
     @abstractmethod
+    async def finish_subject(self, request: Request, subject_id: int) -> JSONResponse:
+        pass
+
+    @abstractmethod
     async def delete_subject(self, request: Request, subject_id: int) -> JSONResponse:
         pass

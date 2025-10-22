@@ -23,5 +23,9 @@ class ServiceSubjectInterface(ABC):
         pass
 
     @abstractmethod
+    async def finish_subject(self, subject_id: int) -> SubjectResponse:
+        pass
+
+    @abstractmethod
     async def delete_subject(self, subject_id: int) -> SubjectResponse:
         pass

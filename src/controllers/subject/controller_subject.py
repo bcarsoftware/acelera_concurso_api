@@ -64,6 +64,15 @@ class SubjectController(SubjectControllerInterface):
             status_code=HttpStatus.OK
         )
 
+    async def finish_subject(self, request: Request, subject_id: int) -> JSONResponse:
+        subject = await self.service_subject.finish_subject(subject_id)
+
+        return await response_factory(
+            data=subject,
+            message="subject finished successfully",
+            status_code=HttpStatus.OK
+        )
+
     async def delete_subject(self, request: Request, subject_id: int) -> JSONResponse:
         subject = await self.service_subject.delete_subject(subject_id)
 

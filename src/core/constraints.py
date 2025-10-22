@@ -23,6 +23,7 @@ class HttpStatus:
     NOT_FOUND = HTTPStatus.NOT_FOUND
     INTERNAL_SERVER_ERROR = HTTPStatus.INTERNAL_SERVER_ERROR
     CREATED = HTTPStatus.CREATED
+    BAD_REQUEST = HTTPStatus.BAD_REQUEST
 
 
 @dataclass
@@ -30,3 +31,10 @@ class ParamNames:
     USER_ID = "UserID"
     TENDER_ID = "TenderID"
     SUBJECT_ID = "SubjectID"
+
+
+@dataclass
+class Points:
+    SUBJECT_POINTS = int(environ.get("SUBJECT_POINTS"))
+    TOPICS_POINTS = int(environ.get("TOPICS_POINTS"))
+    NOTE_POINTS = int(environ.get("NOTE_POINTS"))

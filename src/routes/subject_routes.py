@@ -40,6 +40,13 @@ async def get_subject_by_name(request: Request, name: str) -> JSONResponse:
 
 
 @exception_handler
+@subject_route.patch("/{subject_id}/finish")
+@authenticated
+async def finish_subject(request: Request, subject_id: int) -> JSONResponse:
+    return await controller_subject.finish_subject(request, subject_id)
+
+
+@exception_handler
 @subject_route.delete("/{subject_id}")
 @authenticated
 async def delete_subject(request: Request, subject_id: int) -> JSONResponse:

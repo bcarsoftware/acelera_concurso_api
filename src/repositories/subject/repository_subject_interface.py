@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.db.core.db_base import get_engine
+from src.models_dtos.subject_dto import SubjectDTO
+from src.models_responses.subject_response import SubjectResponse
 
 
 class SubjectRepositoryInterface(ABC):
@@ -24,6 +27,10 @@ class SubjectRepositoryInterface(ABC):
 
     @abstractmethod
     async def delete_subject(self, subject_id: int) -> SubjectResponse:
+        pass
+
+    @abstractmethod
+    async def finish_subject(self, subject_id: int) -> SubjectResponse:
         pass
 
     @abstractmethod

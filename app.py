@@ -11,12 +11,9 @@ from src.routes.topic_routes import topic_route
 from src.routes.user_routes import user_rote
 
 
-origins = [
-    "http://localhost.tiangolo.com",
-    "https://localhost.tiangolo.com",
-    "http://localhost",
-    "http://localhost:8080",
-]
+with open("cors_origins.txt", "r") as reader:
+    origins = reader.readlines()
+    origins = [origin[:-1] for origin in origins]
 
 
 app = FastAPI()

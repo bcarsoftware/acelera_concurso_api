@@ -4,16 +4,17 @@ API RESTful responsável pela camada de persistência de dados do sistema Aceler
 ## Tabela de Conteúdos
 1. [Sobre o Projeto](#sobre-o-projeto)
 2. [Sobre as Rotas](#sobre-as-rotas)
-3. [Pré-requisitos](#pré-requisitos)
-4. [Configuração Local](#configuração-local)
-5. [Clone o Repositório](#clone-o-repositório)
-6. [Ambiente Virtual e Dependências](#ambiente-virtual-e-dependências)
-7. [Variáveis de Ambiente](#variáveis-de-ambiente)
-8. [Executando as Migrações](#executando-as-migrações)
-9. [Scripts Utilitários](#scripts-utilitários)
-10. [Segurança e Autenticação](#segurança-e-autenticação)
+3. [Como Funcionar?](#como-funcionar)
+4. [Pré-requisitos](#pré-requisitos)
+5. [Configuração Local](#configuração-local)
+6. [Clone o Repositório](#clone-o-repositório)
+7. [Ambiente Virtual e Dependências](#ambiente-virtual-e-dependências)
+8. [Variáveis de Ambiente](#variáveis-de-ambiente)
+9. [Executando as Migrações](#executando-as-migrações)
+10. [Scripts Utilitários](#scripts-utilitários)
+11. [Segurança e Autenticação](#segurança-e-autenticação)
     1. [Autenticação de Rotas](#autenticação-de-rotas)
-11. [Variáveis de Ambiente de Segurança](#variáveis-de-ambiente-de-segurança)
+12. [Variáveis de Ambiente de Segurança](#variáveis-de-ambiente-de-segurança)
 
 ## Sobre o Projeto
 Esta API gerencia todas as operações de banco de dados para a plataforma Acelera Concurso. Construída em Python, utiliza PostgreSQL como sistema de gerenciamento de banco de dados e Alembic para o versionamento das migrações de schema.
@@ -26,6 +27,38 @@ Nesse projeto existe também uma documentação específica para lidar com as ro
 Para maiores detalhes, acesse O [Mapa das Rotas](/docs/ROUTES_MAP.md)!
 
 Acesso o Indice [Aqui](/docs/ROUTES_MAP.md#tabela-de-conteúdo).
+
+## Como Funcionar?
+Considere todos os capítulos de configuração dessa aplicação antes de tentar fazer funcionar essa API para testes. Se tudo correr bem, você pode executar localmente sem problemas.
+
+Ver: [Clone o Repositório](#clone-o-repositório), [Pré Requisítos](#pré-requisitos),
+[Configuração Local](#configuração-local), [Ambiente Virtual e Dependencias](#ambiente-virtual-e-dependências),
+[Variáveis de Ambiente](#variáveis-de-ambiente), [Variáveis de Ambiente e Segurança](#variáveis-de-ambiente-de-segurança) e
+[Executando as Migrações](#executando-as-migrações).
+
+**AGORA, execute o Módulo: [RenameCorsFile](rename_cors_file.py).**
+```commandline
+python rename_cors_file.py
+```
+
+**SOMENTE APÓS TUDO ISSO, VOCÊ PODERÁ FAZER FUNCIONAR SEM PROBLEMAS!**
+
+[Ver o Módulo](app.py)
+
+Se precisar alterar o cors, altere a lista.
+
+Em Modo Desenvolvimento (Debugger)
+```commandline
+fastapi dev app.py
+``` 
+Em Modo Local (Sem Debugger)
+```commandline
+fastapi run app.py
+``` 
+Pelo Script
+```
+python app.py
+```
 
 ## Pré-requisitos
 Antes de começar, certifique-se de que você tem os seguintes softwares instalados em sua máquina:
@@ -111,6 +144,8 @@ pelas suas credenciais e informações do banco de dados. Existem também variá
 
 ## Executando as Migrações
 As migrações do banco de dados são gerenciadas pelo Alembic. Para facilitar o processo, utilize o script auxiliar [migrate.py](migrate.py). Execute-o e siga as instruções para aplicar as migrações e criar o schema inicial na sua base de dados.
+
+**OBSERVAÇÃO:** Crie um banco de dados no seu postgres e insira o nome desse banco na variável `DB_URL`, no arquivo `.env` já renomeado. Eu sugiro: **`db_acelera_concurso`** com nome do banco de dados.
 
 ```commandline
 python migrate.py

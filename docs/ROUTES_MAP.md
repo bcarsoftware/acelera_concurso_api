@@ -1,5 +1,8 @@
 # Mapa de Rotas
 Aqui você consegue conferir as Rotas da aplicação e seus parametros importantes para cada rota de API Rest nesse sistema.
+
+As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes).
+
 [Voltar](https://github.com/bcarsoftware/acelera_concurso_api).
 
 ## Tabela de Conteúdo
@@ -19,6 +22,7 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
    * [Objetos JSON de Verificação por Email](#objetos-json-de-verificação)
 
 ## Rotas de Usuário
+Módulo: [User Routes](../src/routes/user_routes.py)
 
 | Method | Rota                   | DTO                                         | Auth | Header Param                                                                                                  |
 |--------|------------------------|---------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
@@ -54,6 +58,8 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 ## Rotas de Concurso
+Módulo: [PublicTender Routes](../src/routes/public_tender_routes.py)
+
 | Method | Rota                                              | DTO                                                        | Auth | Header Param                                                                                                                   |
 |--------|---------------------------------------------------|------------------------------------------------------------|------|--------------------------------------------------------------------------------------------------------------------------------|
 | POST   | `/public-tender`                                  | [PublicTenderDTO](../src/models_dtos/public_tender_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                  |
@@ -79,13 +85,16 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 ## Rotas de Disciplina
-| Method | Rota                         | DTO                                             | Auth | Header Param                                                                                                                     |
-|--------|------------------------------|-------------------------------------------------|------|----------------------------------------------------------------------------------------------------------------------------------|
-| POST   | `/subject`                   | [SubjectDTO](../src/models_dtos/subject_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |
-| PATCH  | `/subject/<subject_id: int>` | [SubjectDTO](../src/models_dtos/subject_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |
-| GET    | `/subject`                   | -                                               | ON   | <details><code>{ "TenderID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/subject/<name: stc>`       | -                                               | ON   | <details><code>{ "TenderID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| DELETE | `/subject/<subject_id: int>` | -                                               | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |
+Módulo: [Subject Routes](../src/routes/subject_routes.py)
+
+| Method | Rota                                | DTO                                             | Auth | Header Param                                                                                                                     |
+|--------|-------------------------------------|-------------------------------------------------|------|----------------------------------------------------------------------------------------------------------------------------------|
+| POST   | `/subject`                          | [SubjectDTO](../src/models_dtos/subject_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |
+| PATCH  | `/subject/<subject_id: int>`        | [SubjectDTO](../src/models_dtos/subject_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |
+| GET    | `/subject`                          | -                                               | ON   | <details><code>{ "TenderID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/subject/<name: str>`              | -                                               | ON   | <details><code>{ "TenderID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/subject/<subject_id: int>/finish` | -                                               | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |              
+| DELETE | `/subject/<subject_id: int>`        | -                                               | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                    |
 
 ### Objetos JSON de Disciplina
 > [SubjectDTO](../src/models_dtos/subject_dto.py)
@@ -100,14 +109,17 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 ## Rotas de Assunto
-| Method | Rota                          | DTO                                         | Auth | Header Param                                                                                                                      |
-|--------|-------------------------------|---------------------------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------|
-| POST   | `/topic`                      | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
-| PATCH  | `/topic/<topic_id: int>`      | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
-| GET    | `/topic`                      | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/topic/<name: str>/name`     | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/topic/<status: str>/status` | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| DELETE | `/topic/<topic_id: int>`      | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+Módulo: [Topic Routes](../src/routes/topic_routes.py)
+
+| Method | Rota                            | DTO                                         | Auth | Header Param                                                                                                                      |
+|--------|---------------------------------|---------------------------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------|
+| POST   | `/topic`                        | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| PATCH  | `/topic/<topic_id: int>`        | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| GET    | `/topic`                        | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/topic/<name: str>/name`       | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/topic/<status: str>/status`   | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/topic/<topic_id: int>/finish` | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| DELETE | `/topic/<topic_id: int>`        | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
 
 > status: COMPLETE | INCOMPLETE
 
@@ -124,6 +136,8 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 ## Rotas de Notas de Disciplina
+Módulo: [NoteSubject Routes](../src/routes/note_subject_routes.py)
+
 | Method | Rota                                      | DTO                                                      | Auth | Header Param                                                                                                  |
 |--------|-------------------------------------------|----------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
 | POST   | `/note-subject`                           | [NoteSubjectDTO](../src/models_dtos/note_subject_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
@@ -145,6 +159,8 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 ## Rotas de Notas de Assunto
+Módulo: [NoteTopic Routes](../src/routes/note_topic_routes.py)
+
 | Method | Rota                                      | DTO                                                  | Auth | Header Param                                                                                                  |
 |--------|-------------------------------------------|------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
 | POST   | `/note-topic`                             | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
@@ -166,6 +182,8 @@ Aqui você consegue conferir as Rotas da aplicação e seus parametros important
 > ```
 
 ## Rotas de Verificação por Email
+Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
+
 | Method | Rota                 | DTO                                                    | Auth | Header Param                                                           |
 |--------|----------------------|--------------------------------------------------------|------|------------------------------------------------------------------------|
 | POST   | `/email-code`        | [EmailDTO](../src/models_dtos/email_dto.py)            | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details> |

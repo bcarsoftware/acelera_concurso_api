@@ -5,7 +5,7 @@ from re import match
 
 from dotenv import load_dotenv
 
-from src.core.constraints import Constraints
+from src.core.constraints import Constraints, HttpStatus
 from src.exceptions.send_email_exception import SendEmailException
 from src.utils.password_util import PasswordUtil
 from src.utils.regex import Regex
@@ -17,12 +17,12 @@ class EmailCodeUtil:
     @classmethod
     async def send_email_verification_code(cls, email_receiver: str) -> str:
         if not match(Regex.EMAIL.value, email_receiver):
-            raise SendEmailException("invalid email receiver found")
+            raise SendEmailException("invalid email receiver found", HttpStatus.BAD_REQUEST)
 
         credentials = await cls._get_envs_email_and_password_()
 
         if None in credentials.values():
-            raise SendEmailException("invalid credentials email or password")
+            raise SendEmailException("invalid credentials email or password", HttpStatus.BAD_REQUEST)
 
         message = EmailMessage()
         message["Subject"] = "Acelera Concurso | Código de Verificação"
@@ -48,13 +48,13 @@ class EmailCodeUtil:
                 smtp.send_message(message)
         except smtplib.SMTPAuthenticationError as a_e:
             print(f"SMTP Authentication Failed. {a_e}")
-            raise SendEmailException("SMTP authentication failed")
+            raise SendEmailException("SMTP authentication failed", HttpStatus.BAD_REQUEST)
         except smtplib.SMTPConnectError as c_e:
             print(f"Can't connect to SMTP Server. {c_e}")
-            raise SendEmailException("can't connect to SMTP server")
+            raise SendEmailException("can't connect to SMTP server", HttpStatus.BAD_REQUEST)
         except Exception as e:
             print(f"Something went wrong to send email: {e}")
-            raise SendEmailException("something went wrong to send email")
+            raise SendEmailException("something went wrong to send email", HttpStatus.BAD_REQUEST)
 
         return await PasswordUtil.encrypt(activation_code)
 
@@ -63,7 +63,7 @@ class EmailCodeUtil:
         result = await PasswordUtil.verify(verification_code, secure_code)
 
         if not result:
-            raise SendEmailException("verification code doesn't match")
+            raise SendEmailException("verification code doesn't match", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _code_generator_(cls) -> str:

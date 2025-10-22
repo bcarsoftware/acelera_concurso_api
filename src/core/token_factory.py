@@ -4,7 +4,7 @@ from typing import Any
 
 from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
 
-from src.core.constraints import Constraints
+from src.core.constraints import Constraints, HttpStatus
 from src.enums.enum_token_time import EnumTokenTime
 from src.exceptions.jwt_exception import JWTException
 
@@ -13,7 +13,7 @@ class TokenFactory:
     @classmethod
     async def create_token(cls, data: Any, time: float, time_select: EnumTokenTime) -> str:
         if time <= 0:
-            raise JWTException("time must be positive integer")
+            raise JWTException("time must be positive integer", HttpStatus.BAD_REQUEST)
 
         secret_key = await cls._get_secret_key_()
         algorithm = await cls._get_algorithm_()
@@ -48,16 +48,16 @@ class TokenFactory:
         try:
             decode(token, secret_key, algorithms=[algorithm])
         except ExpiredSignatureError:
-            raise JWTException("this token has expired")
+            raise JWTException("this token has expired", HttpStatus.BAD_REQUEST)
         except InvalidTokenError:
-            raise JWTException("this token is invalid")
+            raise JWTException("this token is invalid", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _get_algorithm_(cls) -> str:
         algorithm = Constraints.ALGORITHM
 
         if algorithm is None:
-            raise JWTException("algorithm is not set in environment")
+            raise JWTException("algorithm is not set in environment", HttpStatus.NOT_FOUND)
 
         return algorithm
 
@@ -66,7 +66,7 @@ class TokenFactory:
         secret_key = Constraints.SECRET_KEY
 
         if not secret_key:
-            raise JWTException("secret key must be set in environment")
+            raise JWTException("secret key must be set in environment", HttpStatus.NOT_FOUND)
 
         return secret_key
 

@@ -33,7 +33,7 @@ class TopicManager:
     @classmethod
     async def _check_topic_deleted_(cls, topic_dto: TopicDTO) -> None:
         if topic_dto.deleted:
-            raise TopicException("topic was deleted")
+            raise TopicException("topic was deleted", HttpStatus.NOT_FOUND)
 
     @classmethod
     async def _check_topics_strings_length_(cls, topic_dto: TopicDTO) -> None:

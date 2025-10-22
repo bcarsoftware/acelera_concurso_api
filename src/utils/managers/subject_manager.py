@@ -1,6 +1,7 @@
 from re import match
 from typing import Dict, Any
 
+from src.core.constraints import HttpStatus
 from src.exceptions.subject_exception import SubjectException
 from src.models_dtos.subject_dto import SubjectDTO
 from src.utils.payload_dto import payload_dto
@@ -10,7 +11,10 @@ from src.utils.regex import Regex
 class SubjectManager:
     @classmethod
     async def convert_payload_to_subject_dto(cls, data_body: Dict[str, Any]) -> SubjectDTO:
-        public_tender_exception = SubjectException("invalid payload for subject", 422)
+        public_tender_exception = SubjectException(
+            "invalid payload for subject",
+            HttpStatus.UNPROCESSABLE_ENTITY
+        )
 
         subject_dto = await payload_dto(data_body, SubjectDTO, public_tender_exception)
 
@@ -24,9 +28,15 @@ class SubjectManager:
     @classmethod
     async def _check_subject_deleted_(cls, subject_dto: SubjectDTO) -> None:
         if subject_dto.deleted:
-            raise SubjectException("subject was deleted")
+            raise SubjectException(
+                "subject was deleted",
+                HttpStatus.NOT_FOUND
+            )
 
     @classmethod
     async def _check_subject_strings_length_(cls, subject_dto: SubjectDTO) -> None:
         if not match(Regex.STRING_255.value, subject_dto.name):
-            raise SubjectException("subject name length doesn't match between 1 until 255 characters")
+            raise SubjectException(
+                "subject name length doesn't match between 1 until 255 characters",
+                HttpStatus.BAD_REQUEST
+            )

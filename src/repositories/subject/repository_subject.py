@@ -66,25 +66,24 @@ class SubjectRepository(SubjectRepositoryInterface):
     async def get_subjects(self, tender_id: int) -> List[SubjectResponse]:
         try:
             async with AsyncSession(self._engine_) as session:
-                async with AsyncSession(self._engine_) as session:
-                    response = await session.execute(
-                        select(Subject).filter(
-                            and_(
-                                Subject.public_tender_id == tender_id,
-                                not Subject.deleted
-                            )
+                response = await session.execute(
+                    select(Subject).filter(
+                        and_(
+                            Subject.public_tender_id == tender_id,
+                            not Subject.deleted
                         )
                     )
+                )
 
-                    subjects = response.scalars().all()
+                subjects = response.scalars().all()
 
-                    if not subjects:
-                        raise DatabaseException("any subject found by name and tender id", HttpStatus.NOT_FOUND)
+                if not subjects:
+                    raise DatabaseException("any subject found by name and tender id", HttpStatus.NOT_FOUND)
 
-                return [
-                    await SubjectResponse.model_validate(subject)
-                    for subject in subjects
-                ]
+            return [
+                await SubjectResponse.model_validate(subject)
+                for subject in subjects
+            ]
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

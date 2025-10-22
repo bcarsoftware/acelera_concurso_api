@@ -151,23 +151,7 @@ class TopicRepository(TopicRepositoryInterface):
     async def finish_topic(self, topic_id: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:
-                response = await session.execute(
-                    select(Topic).options(
-                        joinedload(Topic.subject).
-                        joinedload(Subject.public_tender).
-                        joinedload(PublicTender.user)
-                    ).filter(
-                        and_(
-                            Topic.topic_id == topic_id,
-                            not Topic.deleted
-                        )
-                    )
-                )
-
-                topic = response.scalar_one_or_none()
-
-                if not topic:
-                    raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
+                topic = await self._get_topic_finish_or_delete_(session, topic_id)
 
                 await TopicManager.verify_fulfillment(topic.fulfillment)
 
@@ -191,22 +175,16 @@ class TopicRepository(TopicRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def delete_topic(self, topic_id: int) -> TopicResponse:
+    async def delete_topic(self, topic_id: int, points: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:
-                response = await session.execute(
-                    select(Topic).filter(
-                        and_(
-                            Topic.topic_id == topic_id,
-                            not Topic.deleted
-                        )
-                    )
-                )
+                topic = await self._get_topic_finish_or_delete_(session, topic_id)
 
-                topic = response.scalar_one_or_none()
-
-                if not topic:
-                    raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
+                if (
+                    not topic.subject or not topic.subject.public_tender or
+                    not topic.subject.public_tender.user
+                ):
+                    raise DatabaseException("topic is broken", HttpStatus.UNPROCESSABLE_ENTITY)
 
                 topic.deleted = True
 
@@ -233,3 +211,25 @@ class TopicRepository(TopicRepositoryInterface):
 
             result = not response.scalar_one_or_none()
         return not result
+
+    @staticmethod
+    async def _get_topic_finish_or_delete_(session: AsyncSession, topic_id: int) -> Topic:
+        response = await session.execute(
+            select(Topic).options(
+                joinedload(Topic.subject).
+                joinedload(Subject.public_tender).
+                joinedload(PublicTender.user)
+            ).filter(
+                and_(
+                    Topic.topic_id == topic_id,
+                    not Topic.deleted
+                )
+            )
+        )
+
+        topic = response.scalar_one_or_none()
+
+        if not topic:
+            raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
+
+        return topic

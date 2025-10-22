@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -162,6 +164,25 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
 
                 note_topics = response.scalars().all()
             return len(note_topics) > 0
+        except Exception as e:
+            print(str(e))
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    async def count_finished_note_topics(self, topic_id: int) -> int:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(NoteTopic).filter(
+                        and_(
+                            NoteTopic.topic_id == topic_id,
+                            NoteTopic.finish,
+                            not NoteTopic.deleted
+                        )
+                    )
+                )
+
+                note_topics = response.scalars().all()
+            return len(note_topics)
         except Exception as e:
             print(str(e))
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)

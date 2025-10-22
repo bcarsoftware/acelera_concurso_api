@@ -24,6 +24,11 @@ class TopicManager:
         await cls._check_topics_strings_length_(topic_dto)
 
     @classmethod
+    async def lock_unfinished_notes_topic(cls, unfinished_notes: bool) -> None:
+        if unfinished_notes:
+            raise TopicException("there are unfinished notes", HttpStatus.BAD_REQUEST)
+
+    @classmethod
     async def verify_fulfillment(cls, fulfillment: Optional[Decimal] = None) -> None:
         seventh_five_percent = Decimal("75.0")
 

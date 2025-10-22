@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.db.core.db_base import get_engine
+from src.models_dtos.note_topic_dto import NoteTopicDTO
+from src.models_responses.note_topic_response import NoteTopicResponse
 
 
 class NoteTopicRepositoryInterface(ABC):
@@ -28,6 +31,10 @@ class NoteTopicRepositoryInterface(ABC):
 
     @abstractmethod
     async def exists_note_topics_incomplete(self, topic_id: int) -> bool:
+        pass
+
+    @abstractmethod
+    async def count_finished_note_topics(self, topic_id: int) -> int:
         pass
 
     @property

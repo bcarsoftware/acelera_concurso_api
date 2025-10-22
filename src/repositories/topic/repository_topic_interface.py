@@ -1,8 +1,11 @@
 from abc import ABC, abstractmethod
+from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from src.db.core.db_base import get_engine
+from src.models_dtos.topic_dto import TopicDTO
+from src.models_responses.topic_response import TopicResponse
 
 
 class TopicRepositoryInterface(ABC):

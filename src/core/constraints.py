@@ -17,7 +17,8 @@ class Constraints:
 
 @dataclass
 class HttpStatus:
-    NOT_AUTHORIZED = 401
+    UNPROCESSABLE_ENTITY = HTTPStatus.UNPROCESSABLE_ENTITY
+    NOT_AUTHORIZED = HTTPStatus.UNAUTHORIZED
     FORBIDDEN = HTTPStatus.FORBIDDEN
     OK = HTTPStatus.OK
     NOT_FOUND = HTTPStatus.NOT_FOUND

@@ -1,4 +1,3 @@
-from decimal import Decimal
 from typing import List
 
 from sqlalchemy import select, and_
@@ -9,9 +8,11 @@ from src.core.constraints import HttpStatus, Points
 from src.db.model.models import Topic, Subject, PublicTender
 from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
+from src.exceptions.topic_exception import TopicException
 from src.models_dtos.topic_dto import TopicDTO
 from src.models_responses.topic_response import TopicResponse
 from src.repositories.topic.repository_topic_interface import TopicRepositoryInterface
+from src.utils.managers.topic_manager import TopicManager
 
 
 class TopicRepository(TopicRepositoryInterface):
@@ -149,7 +150,6 @@ class TopicRepository(TopicRepositoryInterface):
 
     async def finish_topic(self, topic_id: int) -> TopicResponse:
         try:
-            seventh_five_percent = Decimal("75.0")
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
                     select(Topic).options(
@@ -169,11 +169,9 @@ class TopicRepository(TopicRepositoryInterface):
                 if not topic:
                     raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
 
-                can_finish = (
-                    topic.fulfillment >= seventh_five_percent and
-                    topic.subject and topic.subject.public_tender and
-                    topic.subject.public_tender.user
-                )
+                await TopicManager.verify_fulfillment(topic.fulfillment)
+
+                can_finish = topic.subject and topic.subject.public_tender and topic.subject.public_tender.user
 
                 if can_finish:
                     topic.status = EnumStatus.COMPLETE
@@ -188,6 +186,8 @@ class TopicRepository(TopicRepositoryInterface):
             print(str(e))
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
+            elif isinstance(e, TopicException):
+                raise e
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 

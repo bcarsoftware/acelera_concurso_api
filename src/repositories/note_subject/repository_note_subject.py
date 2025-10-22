@@ -148,3 +148,22 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 raise DatabaseException(e.message, e.code)
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    async def exists_note_subjects_incomplete(self, subject_id: int) -> bool:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(NoteSubject).filter(
+                        and_(
+                            NoteSubject.subject_id == subject_id,
+                            not NoteSubject.finish,
+                            not NoteSubject.deleted
+                        )
+                    )
+                )
+
+                note_subjects = response.scalars().all()
+            return len(note_subjects) > 0
+        except Exception as e:
+            print(str(e))
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)

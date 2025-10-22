@@ -26,6 +26,10 @@ class NoteTopicRepositoryInterface(ABC):
     async def delete_note_topic(self, note_topic_id: int) -> NoteTopicResponse:
         pass
 
+    @abstractmethod
+    async def exists_note_topics_incomplete(self, topic_id: int) -> bool:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

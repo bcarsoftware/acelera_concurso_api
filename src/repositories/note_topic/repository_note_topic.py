@@ -40,7 +40,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                 note_topic_orm = response.scalar_one_or_none()
 
                 if not note_topic_orm:
-                    raise DatabaseException("note topic not found", 404)
+                    raise DatabaseException("note topic not found", HttpStatus.NOT_FOUND)
 
                 note_topic.finish = False
                 note_topic.deleted = False
@@ -73,7 +73,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                 note_topics = response.scalars().all()
 
                 if not note_topics:
-                    raise DatabaseException("note topic not found", 404)
+                    raise DatabaseException("note topic not found", HttpStatus.NOT_FOUND)
 
             return [
                 await NoteTopicResponse.model_validate(note_topic)
@@ -101,7 +101,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                 note_topic_data = response.scalar_one_or_none()
 
                 if not note_topic_data:
-                    raise DatabaseException("note topic not found", 404)
+                    raise DatabaseException("note topic not found", HttpStatus.NOT_FOUND)
 
                 for key, value in note_topic.model_dump().items():
                     setattr(note_topic_data, key, value)
@@ -133,7 +133,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                 note_topic = response.scalar_one_or_none()
 
                 if not note_topic:
-                    raise DatabaseException("note subject not found", 404)
+                    raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
                 note_topic.deleted = True
 

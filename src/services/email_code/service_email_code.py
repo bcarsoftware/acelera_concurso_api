@@ -1,4 +1,4 @@
-from src.core.constraints import Constraints
+from src.core.constraints import Constraints, HttpStatus
 from src.core.token_factory import TokenFactory
 from src.enums.enum_token_time import EnumTokenTime
 from src.exceptions.active_code_exception import ActiveCodeException
@@ -41,8 +41,8 @@ class ServiceEmailCode(ServiceEmailCodeInterface):
         expire = Constraints.EXPIRE_CODE_TIME
 
         if expire is None:
-            raise SendEmailException("expire time not set")
+            raise SendEmailException("expire time not set", HttpStatus.NOT_FOUND)
         if not expire.replace(".", "").isnumeric():
-            raise SendEmailException("expire time not valid")
+            raise SendEmailException("expire time not valid", HttpStatus.BAD_REQUEST)
 
         return float(expire)

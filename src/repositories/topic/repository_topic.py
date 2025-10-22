@@ -62,7 +62,7 @@ class TopicRepository(TopicRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def get_topics(self, subject_id: int) -> List[TopicResponse]:
         try:

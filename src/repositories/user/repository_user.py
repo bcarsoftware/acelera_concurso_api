@@ -1,3 +1,5 @@
+from http import HTTPStatus
+
 from sqlalchemy import select, or_, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -24,7 +26,7 @@ class UserRepository(UserRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
     async def recover_user(self, recovery_dto: LoginDTO) -> UserResponse:
         try:
@@ -41,7 +43,7 @@ class UserRepository(UserRepositoryInterface):
                 user = response.scalar_one_or_none()
 
                 if not user:
-                    raise DatabaseException("user not found", 404)
+                    raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
 
                 user.password = recovery_dto.password
                 await session.commit()
@@ -52,7 +54,7 @@ class UserRepository(UserRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
     async def update_user(self, user_dto: UserDTO, user_id: str) -> UserResponse:
         try:
@@ -69,7 +71,7 @@ class UserRepository(UserRepositoryInterface):
                 user = response.scalar_one_or_none()
 
                 if not user:
-                    raise DatabaseException("user not found", 404)
+                    raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
 
                 user_dto.deleted = False
 
@@ -84,7 +86,7 @@ class UserRepository(UserRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
     async def login_user(self, login_dto: LoginDTO) -> UserResponse:
         try:
@@ -99,7 +101,7 @@ class UserRepository(UserRepositoryInterface):
                 user = response.scalar_one_or_none()
 
                 if not user:
-                    raise DatabaseException("user not found", 404)
+                    raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
 
                 if user.deleted:
                     user.deleted = False
@@ -109,14 +111,14 @@ class UserRepository(UserRepositoryInterface):
                 success = await PasswordUtil.verify(login_dto.password, user.password)
 
                 if not success:
-                    raise DatabaseException("password not correct", 401)
+                    raise DatabaseException("password not correct", HTTPStatus.FORBIDDEN)
             return await UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
     async def delete_user(self, user_id: int) -> UserResponse:
         try:
@@ -133,7 +135,7 @@ class UserRepository(UserRepositoryInterface):
                 user = response.scalar_one_or_none()
 
                 if not user:
-                    raise DatabaseException("user not found", 404)
+                    raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
 
                 user.deleted = True
 
@@ -145,7 +147,7 @@ class UserRepository(UserRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
     async def user_exists(self, user_id: int) -> bool:
         async with AsyncSession(self._engine_) as session:

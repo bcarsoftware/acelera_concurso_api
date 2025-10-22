@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.core.constraints import HttpStatus
 from src.db.model.models import PublicTender
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.public_tender_dto import PublicTenderDTO
@@ -24,7 +25,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def public_tender_patch(self, public_tender: PublicTenderDTO, public_tender_id: int) -> PublicTenderResponse:
         try:
@@ -41,7 +42,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 public_tender_orm = response.scalar_one_or_none()
 
                 if not public_tender_orm:
-                    raise DatabaseException("public tender not found", 404)
+                    raise DatabaseException("public tender not found", HttpStatus.NOT_FOUND)
 
                 public_tender.deleted = False
 
@@ -56,7 +57,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def public_tender_list(self, user_id: int) -> List[PublicTenderResponse]:
         try:
@@ -73,7 +74,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 public_tenders = response.scalars().all()
 
                 if not public_tenders:
-                    raise DatabaseException("any public tender found by user", 404)
+                    raise DatabaseException("any public tender found by user", HttpStatus.NOT_FOUND)
 
             return [
                 await PublicTenderResponse.model_validate(p_tender)
@@ -84,7 +85,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def public_tender_institute_list(self, institute: str, user_id: int) -> List[PublicTenderResponse]:
         try:
@@ -102,7 +103,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 public_tenders = response.scalars().all()
 
                 if not public_tenders:
-                    raise DatabaseException("any public tender found by institute", 404)
+                    raise DatabaseException("any public tender found by institute", HttpStatus.NOT_FOUND)
 
             return [
                 await PublicTenderResponse.model_validate(p_tender)
@@ -113,7 +114,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def public_tender_board_list(self, tender_board: str, user_id: int) -> List[PublicTenderResponse]:
         try:
@@ -131,7 +132,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 public_tenders = response.scalars().all()
 
                 if not public_tenders:
-                    raise DatabaseException("any public tender found by tender board", 404)
+                    raise DatabaseException("any public tender found by tender board", HttpStatus.NOT_FOUND)
 
             return [
                 await PublicTenderResponse.model_validate(p_tender)
@@ -142,7 +143,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def public_tender_delete(self, public_tender_id: int) -> PublicTenderResponse:
         try:
@@ -158,6 +159,9 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
 
                 public_tender = response.scalar_one_or_none()
 
+                if not public_tender:
+                    raise DatabaseException("public tender not found", HttpStatus.NOT_FOUND)
+
                 public_tender.deleted = True
 
                 await session.commit()
@@ -168,7 +172,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
             if isinstance(e, DatabaseException):
                 raise DatabaseException(e.message, e.code)
 
-            raise DatabaseException("Internal Server Error", 500)
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def public_tender_exists(self, public_tender_id: int) -> bool:
         async with AsyncSession(self._engine_) as session:

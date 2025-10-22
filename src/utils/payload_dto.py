@@ -11,5 +11,6 @@ async def payload_dto(payload: Any, type_dto: Type[BaseModel], exception_obj: De
 
     try:
         return type_dto.model_validate(data)
-    except ValidationError:
+    except ValidationError as ve:
+        print(ve.errors)
         raise exception_obj

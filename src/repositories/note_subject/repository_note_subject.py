@@ -42,7 +42,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 note_subject_orm = response.scalar_one_or_none()
 
                 if not note_subject_orm:
-                    raise DatabaseException("note subject not found", 404)
+                    raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
                 note_subject.finish = False
                 note_subject.deleted = False
@@ -75,7 +75,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 note_subjects = response.scalars().all()
 
                 if not note_subjects:
-                    raise DatabaseException("note subject not found", 404)
+                    raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
             return [
                 await NoteSubjectResponse.model_validate(n_subject)
@@ -103,7 +103,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 note_subject_data = response.scalar_one_or_none()
 
                 if not note_subject_data:
-                    raise DatabaseException("note subject not found", 404)
+                    raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
                 for key, value in note_subject.model_dump().items():
                     setattr(note_subject_data, key, value)
@@ -135,7 +135,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 note_subject = response.scalar_one_or_none()
 
                 if not note_subject:
-                    raise DatabaseException("note subject not found", 404)
+                    raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
                 note_subject.deleted = True
 

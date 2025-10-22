@@ -71,6 +71,8 @@ class UserRepository(UserRepositoryInterface):
                 if not user:
                     raise DatabaseException("user not found", 404)
 
+                user_dto.deleted = False
+
                 for key, value in user_dto.model_dump().items():
                     setattr(user, key, value)
 

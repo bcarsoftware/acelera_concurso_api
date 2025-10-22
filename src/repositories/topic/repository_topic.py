@@ -4,6 +4,7 @@ from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.model.models import Topic
+from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.topic_dto import TopicDTO
 from src.models_responses.topic_response import TopicResponse
@@ -42,6 +43,9 @@ class TopicRepository(TopicRepositoryInterface):
 
                 if topic is None:
                     raise DatabaseException("topic not found", 404)
+
+                topic_dto.deleted = False
+                topic_dto.status = EnumStatus.INCOMPLETE
 
                 for key, value in topic_dto.model_dump().items():
                     setattr(topic, key, value)

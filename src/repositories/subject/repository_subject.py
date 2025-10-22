@@ -4,6 +4,7 @@ from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.db.model.models import Subject
+from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.subject_dto import SubjectDTO
 from src.models_responses.subject_response import SubjectResponse
@@ -42,6 +43,9 @@ class SubjectRepository(SubjectRepositoryInterface):
 
                 if not subject:
                     raise DatabaseException("subject not found", 404)
+
+                subject_dto.deleted = False
+                subject_dto.status = EnumStatus.INCOMPLETE
 
                 for key, value in subject_dto.model_dump().items():
                     setattr(subject, key, value)

@@ -43,6 +43,8 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 if not public_tender_orm:
                     raise DatabaseException("public tender not found", 404)
 
+                public_tender.deleted = False
+
                 for key, value in public_tender.model_dump().items():
                     setattr(public_tender_orm, key, value)
 

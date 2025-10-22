@@ -44,6 +44,9 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 if not note_subject_orm:
                     raise DatabaseException("note subject not found", 404)
 
+                note_subject.finish = False
+                note_subject.deleted = False
+
                 for key, value in note_subject.model_dump().items():
                     setattr(note_subject_orm, key, value)
 
@@ -97,19 +100,19 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     )
                 )
 
-                note_subject_orm = response.scalar_one_or_none()
+                note_subject_data = response.scalar_one_or_none()
 
-                if not note_subject_orm:
+                if not note_subject_data:
                     raise DatabaseException("note subject not found", 404)
 
                 for key, value in note_subject.model_dump().items():
-                    setattr(note_subject_orm, key, value)
+                    setattr(note_subject_data, key, value)
 
-                note_subject_orm.subject.public_tender.user.points += 5
+                note_subject_data.subject.public_tender.user.points += 5
 
                 await session.commit()
-                await session.refresh(note_subject_orm)
-            return await NoteSubjectResponse.model_validate(note_subject_orm)
+                await session.refresh(note_subject_data)
+            return await NoteSubjectResponse.model_validate(note_subject_data)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

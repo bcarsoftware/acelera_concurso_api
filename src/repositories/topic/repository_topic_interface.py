@@ -34,6 +34,10 @@ class TopicRepositoryInterface(ABC):
     async def topic_exists(self, topic_id: int) -> bool:
         pass
 
+    @abstractmethod
+    async def finish_topic(self, topic_id: int) -> TopicResponse:
+        pass
+
     @property
     def _engine_(self) -> AsyncEngine:
         eng = get_engine()

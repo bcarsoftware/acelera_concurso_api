@@ -26,5 +26,9 @@ class TopicControllerInterface(ABC):
         pass
 
     @abstractmethod
+    async def finish_topic(self, request: Request, topic_id: int) -> JSONResponse:
+        pass
+
+    @abstractmethod
     async def delete_topic(self, request: Request, topic_id: int) -> JSONResponse:
         pass

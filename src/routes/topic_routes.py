@@ -47,6 +47,13 @@ async def get_topic_by_status(request: Request, status: str) -> JSONResponse:
 
 
 @exception_handler
+@topic_route.patch("/{topic_id}/finish")
+@authenticated
+async def finish_topic(request: Request, topic_id: int) -> JSONResponse:
+    return await controller_topic.finish_topic(request, topic_id)
+
+
+@exception_handler
 @topic_route.delete("/{topic_id}")
 @authenticated
 async def delete_topic(request: Request, topic_id: int) -> JSONResponse:

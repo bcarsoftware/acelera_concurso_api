@@ -75,6 +75,15 @@ class TopicController(TopicControllerInterface):
             status_code=HttpStatus.OK
         )
 
+    async def finish_topic(self, request: Request, topic_id: int) -> JSONResponse:
+        topic = await self.service_topic.finish_topic(topic_id)
+
+        return await response_factory(
+            data=topic,
+            message="topic finished successfully",
+            status_code=HttpStatus.OK
+        )
+
     async def delete_topic(self, request: Request, topic_id: int) -> JSONResponse:
         topic = await self.service_topic.delete_topic(topic_id)
 

@@ -33,5 +33,8 @@ class ServiceTopic(ServiceTopicInterface):
     async def get_topic_by_status(self, subject_id: int, status: str) -> List[TopicResponse]:
         return await self.topic_repository.get_topic_by_status(subject_id, status)
 
+    async def finish_topic(self, topic_id: int) -> TopicResponse:
+        return await self.topic_repository.finish_topic(topic_id)
+
     async def delete_topic(self, topic_id: int) -> TopicResponse:
         return await self.topic_repository.delete_topic(topic_id)

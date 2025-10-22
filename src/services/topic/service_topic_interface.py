@@ -27,5 +27,9 @@ class ServiceTopicInterface(ABC):
         pass
 
     @abstractmethod
+    async def finish_topic(self, topic_id: int) -> TopicResponse:
+        pass
+
+    @abstractmethod
     async def delete_topic(self, topic_id: int) -> TopicResponse:
         pass

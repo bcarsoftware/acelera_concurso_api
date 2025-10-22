@@ -47,7 +47,7 @@ Para executar o projeto localmente, siga os passos abaixo em ordem.
 git clone https://github.com/seu-usuario/acelera-concurso-api.git
 ```
 Ou opção via SSH:
-```commandline
+```
 git clone git@github.com:bcarsoftware/acelera_concurso_api.git
 ```
 Ou [GitHubCLI](https://cli.github.com/):
@@ -94,8 +94,18 @@ cp .env.example .env
 
 Abra o arquivo `.env` e configure as variáveis:
 
-Banco de Dados: Crie um banco de dados no PostgreSQL (sugestão: db_acelera_concurso). Em seguida, edite a variável `DB_URL` no arquivo .env, substituindo os valores dentro das chaves {} **(como {user}, {password}, {host}, {port} e {db_name})**
-pelas suas credenciais e informações do banco de dados.
+Banco de Dados: Crie um banco de dados no [PostgreSQL](https://www.postgresql.org/) (sugestão: db_acelera_concurso). Em seguida, edite a variável `DB_URL` no arquivo .env, substituindo os valores dentro das chaves {} **(como {user}, {password}, {host}, {port} e {db_name})**
+pelas suas credenciais e informações do banco de dados. Existem também variáveis de ambientes que se refere à quantidade de pontos do estudante que utiliza o sistema. Elas são:
+`SUBJECT_POINTS`; `TOPICS_POINTS` e `NOTE_POINTS`. As *Variáveis de Ambiente* são carregadas no módulo: [Constraints](/src/core/constraints.py).
+
+| Variável         | Descrição                        | Exemplo                   |
+|------------------|----------------------------------|---------------------------|
+| `DB_URL`         | Url do Banco de Dados.           | postgresql+psycopg2://... |
+| `SUBJECT_POINTS` | Pontos de Disciplina Finalizada. | 45 (Valor Número Inteiro) |
+| `TOPIC_POINTS`   | Pontos de Assunto Finalizada.    | 15 (Valor Número Inteiro) |
+| `NOTE_POINTS`    | Pontos de Nota Finalizada        | 5 (Valor Número Inteiro)  |
+
+**Considere os exemplos de tipo de dados para evitar erros.**
 
 **Segurança:** Configure as variáveis de segurança conforme detalhado na seção [Segurança e Autenticação](#segurança-e-autenticação). 
 

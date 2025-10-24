@@ -31,7 +31,25 @@ class User(Base):
     points: Mapped[int] = Column(Integer, nullable=False, default=0)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
+    study_tips: Mapped[List["StudyTips"]] = relationship(back_populates="user")
     public_tenders: Mapped[List["PublicTender"]] = relationship(back_populates="user")
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+
+
+class StudyTips(Base):
+    __tablename__ = "study_tips"
+
+    study_tip_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    user_id: Mapped[int] = Column(Integer, ForeignKey(User.user_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    user: Mapped["User"] = relationship(back_populates="study_tips")
+
+    name: Mapped[str] = Column(String(255), nullable=False)
+    description: Mapped[str] = Column(String(1024), nullable=True)
+    ai_generate: Mapped[bool] = Column(Boolean, nullable=False)
+    deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
     update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)

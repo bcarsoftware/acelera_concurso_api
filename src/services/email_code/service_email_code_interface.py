@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Any
 
 from src.models_dtos.active_code_dto import ActiveCodeDTO
 from src.models_dtos.email_dto import EmailDTO

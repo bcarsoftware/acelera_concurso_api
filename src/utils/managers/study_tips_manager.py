@@ -3,12 +3,13 @@ from typing import Any, Dict
 
 from src.core.constraints import HttpStatus
 from src.exceptions.study_tips_exception import StudyTipsException
+from src.models_dtos.list_id_dto import ListIDDTO
 from src.models_dtos.study_tips_dto import StudyTipsDTO
 from src.utils.payload_dto import payload_dto
 from src.utils.regex import Regex
 
 
-class TopicManager:
+class StudyTipsManager:
     @classmethod
     async def convert_payload_to_study_tips_dto(cls, data_body: Dict[str, Any]) -> StudyTipsDTO:
         study_tips_exception = StudyTipsException(
@@ -19,6 +20,17 @@ class TopicManager:
         study_tips_dto = await payload_dto(data_body, StudyTipsDTO, study_tips_exception)
 
         return StudyTipsDTO(**study_tips_dto)
+
+    @classmethod
+    async def convert_payload_to_list_id_dto(cls, data_body: Dict[str, Any]) -> ListIDDTO:
+        study_tips_exception = StudyTipsException(
+            "invalid payload for list ids",
+            HttpStatus.UNPROCESSABLE_ENTITY
+        )
+
+        list_ids_dto = await payload_dto(data_body, ListIDDTO, study_tips_exception)
+
+        return ListIDDTO(**list_ids_dto)
 
     @classmethod
     async def make_validation(cls, study_tips_dto: StudyTipsDTO) -> None:

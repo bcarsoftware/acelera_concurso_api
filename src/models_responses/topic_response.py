@@ -1,5 +1,6 @@
 from datetime import datetime
 from decimal import Decimal
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -10,8 +11,9 @@ class TopicResponse(BaseModel):
     topic_id: int
     subject_id: int
     name: str
-    fulfillment: Decimal
+    description: Optional[str] = None
     status: EnumStatus
+    fulfillment: Optional[Decimal] = None
     deleted: bool = False
     create_at: datetime
     update_at: datetime

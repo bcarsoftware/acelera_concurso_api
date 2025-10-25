@@ -47,3 +47,8 @@ class TopicManager:
                 "topic name doesn't match between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST
             )
+        if topic_dto.description and not match(Regex.STRING_1024.value, topic_dto.description):
+            raise TopicException(
+                "topic description doesn't match between 1 until 1024 characters",
+                HttpStatus.BAD_REQUEST
+            )

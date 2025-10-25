@@ -129,11 +129,12 @@ Módulo: [Topic Routes](../src/routes/topic_routes.py)
 > [TopicDTO](../src/models_dtos/topic_dto.py)
 > ```
 > {
->   subject_id: 0,
->   name: "topic name,
->   fulfillment: 50.0,
->   status: "COMPLETE" | "INCOMPLETE",
->   deleted: false
+>   "subject_id": 0,
+>   "name": "topic name,
+>   "description": "description text" | null,
+>   "fulfillment": 50.0 | null,
+>   "status": "COMPLETE" | "INCOMPLETE",
+>   "deleted": false
 > }
 > ```
 

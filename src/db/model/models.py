@@ -106,6 +106,7 @@ class Topic(Base):
     subject: Mapped["Subject"] = relationship(back_populates="topics")
 
     name: Mapped[str] = Column(String(255), nullable=False)
+    description: Mapped[str] = Column(String(1024), nullable=True)
     fulfillment: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     status: Mapped[EnumStatus] = Column(Enum("COMPLETE", "INCOMPLETE", name="EnumStatusTopic"), nullable=False, default="INCOMPLETE")
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)

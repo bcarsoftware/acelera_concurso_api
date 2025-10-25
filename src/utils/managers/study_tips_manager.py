@@ -30,6 +30,9 @@ class StudyTipsManager:
 
         list_ids_dto = await payload_dto(data_body, ListIDDTO, study_tips_exception)
 
+        if not list_ids_dto.ids:
+            raise StudyTipsException("list ids is empty", HttpStatus.BAD_REQUEST)
+
         return ListIDDTO(**list_ids_dto)
 
     @classmethod

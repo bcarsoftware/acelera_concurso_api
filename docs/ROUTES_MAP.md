@@ -20,6 +20,8 @@ As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes
    * [Objetos JSON de Notas de Assunto](#objetos-json-de-notas-de-assunto)
 7. [Rotas de Verificação por Email](#rotas-de-verificação-por-email)
    * [Objetos JSON de Verificação por Email](#objetos-json-de-verificação)
+8. [Rotas de Dicas de Estudo](#rotas-de-dicas-de-estudo)
+   * [Objetos JSON de Dicas de Estudo](#objetos-json-de-dicas-de-estudo)
 
 ## Rotas de Usuário
 Módulo: [User Routes](../src/routes/user_routes.py)
@@ -203,6 +205,33 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 >   "code": "code_not_encrypted" | null
 >   "secure_code": "secure_encrypted_code",
 >   "token": "jwt_token" | null
+> }
+> ```
+
+## Rotas de Dicas de Estudo
+| Method | Rota                                                  | DTO                                                | Auth | Header Param                                                                                                  |
+|--------|-------------------------------------------------------|----------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
+| POST   | `/study-tips`                                         | [StudyTipsDTO](/src/models_dtos/study_tips_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/study-tips/<study_tip_id: int>/user/<user_id: int>` | [StudyTipsDTO](/src/models_dtos/study_tips_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/study-tips/<user_id: int>`                          | -                                                  | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| POST   | `/study-tips/<user_id: int>`                          | [ListIDDTO](/src/models_dtos/list_id_dto.py)       | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+
+### Objetos JSON de Dicas de Estudo
+> StudyTipsDTO
+> ```
+> {
+>   "user_id": 0,
+>   "name": "Dica de Estudo",
+>   "ai_generate": false,
+>   "description": "description" | null,
+>   "deleted": false
+> }
+>```
+> 
+> ListIDDTO
+> ```
+> {
+>   "ids": [0, 1, 2, 3, 4]
 > }
 > ```
 

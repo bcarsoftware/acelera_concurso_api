@@ -103,10 +103,10 @@ Módulo: [Subject Routes](../src/routes/subject_routes.py)
 > ```
 > {
 >   "public_tender_id": 0
->   name: "subject name"
->   category: "GENERAL" | "SPECIFIC"
->   status: "COMPLETE" | "INCOMPLETE",
->   deleted: false
+>   "name": "subject name"
+>   "category": "GENERAL" | "SPECIFIC"
+>   "status": "COMPLETE" | "INCOMPLETE",
+>   "deleted": false
 > }
 > ```
 
@@ -154,6 +154,7 @@ Módulo: [NoteSubject Routes](../src/routes/note_subject_routes.py)
 > ```
 > {
 >   "subject_id": 0,
+>   "name": "note subject name",
 >   "description": "note subject dscription",
 >   "finish": false,
 >   "rate_success": 41.5 | null
@@ -177,6 +178,7 @@ Módulo: [NoteTopic Routes](../src/routes/note_topic_routes.py)
 > ```
 > {
 >   "topic_id": 0,
+>   "name": "note topic name",
 >   "description": "note topic dscription",
 >   "finish": false,
 >   "rate_success": 41.5 | null

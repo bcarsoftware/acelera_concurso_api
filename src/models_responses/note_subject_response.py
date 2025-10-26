@@ -8,6 +8,7 @@ from pydantic import BaseModel
 class NoteSubjectResponse(BaseModel):
     note_subject_id: int
     subject_id: int
+    name: str
     description: str
     finish: bool = False
     rate_success: Optional[Decimal] = None

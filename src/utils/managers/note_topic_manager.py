@@ -43,6 +43,11 @@ class NoteTopicManager:
 
     @classmethod
     async def _check_note_topic_strings_length_(cls, note_topic: NoteTopicDTO) -> None:
+        if not match(Regex.STRING_255.value, note_topic.name):
+            raise NoteException(
+                "note topic name doesn't match between 1 util 255 characters",
+                HttpStatus.BAD_REQUEST
+            )
         if not match(Regex.STRING_1024.value, note_topic.description):
             raise NoteException(
                 "note topic description doesn't match between 1 until 1024 characters",

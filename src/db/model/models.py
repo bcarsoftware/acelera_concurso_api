@@ -32,7 +32,27 @@ class User(Base):
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     study_tips: Mapped[List["StudyTips"]] = relationship(back_populates="user")
+    pomodoros: Mapped[List["Pomodoro"]] = relationship(back_populates="user")
     public_tenders: Mapped[List["PublicTender"]] = relationship(back_populates="user")
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+
+
+class Pomodoro(Base):
+    __tablename__ = "pomodoros"
+
+    pomodoro_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    user_id: Mapped[int] = Column(Integer, ForeignKey(User.user_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
+    user: Mapped["User"] = relationship(back_populates="pomodoros")
+
+    pomodoro_name: Mapped[str] = Column(String(128), nullable=False)
+    focus_minutes: Mapped[int] = Column(Integer, nullable=False)
+    focus_seconds: Mapped[int] = Column(Integer, nullable=False)
+    break_short: Mapped[int] = Column(Integer, nullable=False)
+    break_long: Mapped[int] = Column(Integer, nullable=False)
+    rounds: Mapped[int] = Column(Integer, nullable=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
     update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)

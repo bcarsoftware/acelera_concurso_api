@@ -22,6 +22,8 @@ As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes
    * [Objetos JSON de Verificação por Email](#objetos-json-de-verificação)
 8. [Rotas de Dicas de Estudo](#rotas-de-dicas-de-estudo)
    * [Objetos JSON de Dicas de Estudo](#objetos-json-de-dicas-de-estudo)
+9. [Rotas de Pomodoro](#rotas-de-pomodoro)
+   * [Objetos JSON de Pomodoro](#objetos-json-de-pomodoro)
 
 ## Rotas de Usuário
 Módulo: [User Routes](../src/routes/user_routes.py)
@@ -234,9 +236,31 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 > ListIDDTO
 > ```
 > {
->   "ids": [0, 1, 2, 3, 4]
+>   "ids": [0, 1, 2, 3, 4, ...]
 > }
 > ```
+
+## Rotas de Pomodoro
+| Method | Rota                                               | DTO                                               | Auth | Header Param                                                                                                  |
+|--------|----------------------------------------------------|---------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
+| POST   | `/pomodoro`                                        | [PomodoroDTO](../src/models_dtos/pomodoro_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/pomodoro/<pomodoro_id: int>`                     | [PomodoroDTO](../src/models_dtos/pomodoro_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/pomodoro/<user_id: int>/user`                    | -                                                 | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| DELETE | `/pomodoro/<pomodoro_id: int>/user/<user_id: int>` | -                                                 | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+
+### Objetos JSON de Pomodoro
+> PomodoroDTO
+> ```
+>{
+>   "user_id": 0,
+>   "pomodoro_name": 0,
+>   "focus_minutes": 0,
+>   "focus_seconds": 0,
+>   "break_short": 0,
+>   "break_long": 0,
+>   "rounds": 0
+>}
+>```
 
 *That's All Folks!*
 [Voltar](https://github.com/bcarsoftware/acelera_concurso_api).

@@ -19,7 +19,7 @@ async def create_pomodoro(request: Request) -> JSONResponse:
 
 
 @exception_handler
-@pomodoro_route.patch("")
+@pomodoro_route.patch("/{pomodoro_id}")
 @authenticated
 async def update_pomodoro(request: Request, pomodoro_id: int) -> JSONResponse:
     return await controller_pomodoro.update_pomodoro(request, pomodoro_id)
@@ -33,7 +33,7 @@ async def get_all_pomodoros_by_user_id(request: Request, user_id: int) -> JSONRe
 
 
 @exception_handler
-@pomodoro_route.delete("{pomodoro_id}/user/{user_id}/delete")
+@pomodoro_route.delete("{pomodoro_id}/user/{user_id}")
 @authenticated
 async def delete_pomodoro(request: Request, user_id: int, pomodoro_id: int) -> JSONResponse:
     return await controller_pomodoro.delete_pomodoro(request, user_id, pomodoro_id)

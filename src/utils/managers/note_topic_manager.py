@@ -12,19 +12,19 @@ from src.utils.regex import Regex
 class NoteTopicManager:
     @classmethod
     async def convert_payload_to_note_topic_dto(cls, data_body: Dict[str, Any]) -> NoteTopicDTO:
-        note_subject_exception = NoteException(
+        note_topic_exception = NoteException(
             "invalid payload for note topic",
             HttpStatus.UNPROCESSABLE_ENTITY
         )
 
-        note_subject = await payload_dto(data_body, NoteTopicDTO, note_subject_exception)
+        note_topic = await payload_dto(data_body, NoteTopicDTO, note_topic_exception)
 
-        return NoteTopicDTO(**note_subject)
+        return NoteTopicDTO(**note_topic)
 
     @classmethod
-    async def make_validation(cls, note_subject: NoteTopicDTO) -> None:
-        await cls._check_note_topic_deleted_(note_subject)
-        await cls._check_note_topic_strings_length_(note_subject)
+    async def make_validation(cls, note_topic: NoteTopicDTO) -> None:
+        await cls._check_note_topic_deleted_(note_topic)
+        await cls._check_note_topic_strings_length_(note_topic)
 
     @classmethod
     async def rate_success_seventh_percent(cls, note_topic: NoteTopicDTO) -> None:
@@ -37,8 +37,8 @@ class NoteTopicManager:
             )
 
     @classmethod
-    async def _check_note_topic_deleted_(cls, note_subject: NoteTopicDTO) -> None:
-        if note_subject.deleted:
+    async def _check_note_topic_deleted_(cls, note_topic: NoteTopicDTO) -> None:
+        if note_topic.deleted:
             raise NoteException("note topic was deleted", HttpStatus.NOT_FOUND)
 
     @classmethod

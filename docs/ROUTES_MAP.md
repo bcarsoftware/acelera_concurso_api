@@ -26,6 +26,8 @@ As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes
    * [Objetos JSON de Pomodoro](#objetos-json-de-pomodoro)
 10. [Rotas de Public Tender Board](#rotas-de-public-tender-board)
     * [Objetos JSON de Public Tender Board](#objetos-json-de-public-tender-board)
+11. [Rotas de User Admin](#rotas-de-user-admin)
+    * [Objetos JSON de User Admin](#objetos-json-de-user-admin)
 
 ## Rotas de Usuário
 Módulo: [User Routes](../src/routes/user_routes.py)
@@ -51,7 +53,7 @@ Módulo: [User Routes](../src/routes/user_routes.py)
 >    "email": "email@service.com",
 >    "password": "password123",
 >    "points": 10,
->    "deleted": bool = False
+>    "deleted": = false
 > }
 > ```
 
@@ -253,7 +255,7 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 ### Objetos JSON de Pomodoro
 > PomodoroDTO
 > ```
->{
+> {
 >   "user_id": 0,
 >   "pomodoro_name": 0,
 >   "focus_minutes": 0,
@@ -261,7 +263,7 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 >   "break_short": 0,
 >   "break_long": 0,
 >   "rounds": 0
->}
+> }
 >```
 
 ## Rotas de Public Tender Board
@@ -269,16 +271,43 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 |--------|-------------------------------------------------------------|-----------------------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
 | POST   | `/public_tender_board`                                      | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 | PATCH  | `/public_tender_board/<public_tender_board_id: int>`        | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/public_tender_board`                                      | -                                                                     | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/public_tender_board`                                      | -                                                                     | OFF  | <details><code>{ "Content-Type": "application/json" }</details>                                               |
 | DELETE | `/public_tender_board/<public_tender_board_id: int>/delete` | -                                                                     | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 
 ### Objetos JSON de Public Tender Board
 > PublicTenderBoardDTO
 > ```
->{
+> {
 >   "sail": "ABC",
 >   "name": "Institute ABC"
->}
+> }
+> ```
+
+
+## Rotas de User Admin
+| Method | Route                              | DTO                                                  | Auth | Header Param                                                                                                  |
+|--------|------------------------------------|------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
+| POST   | `/user-admin`                      | [UserAdminDTO](../src/models_dtos/user_admin_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| POST   | `/user-admin/login`                | [LoginDTO](../src/models_dtos/login_dto.py)          | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                        |
+| PATCH  | `/user-admin/<user_admin_id: int>` | [UserAdminDTO](../src/models_dtos/user_admin_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+
+### Objetos JSON de User Admin
+> UserAdminDTO
+> ```
+> {
+>   "full_name": "full name",
+>   "username": "username",
+>   "password": "password123"
+>   "new_password": "new_password123" | null
+> }
+> ```
+
+> LoginDTO
+> ```
+> {
+>   "username": "username",
+>   "password": "password123"
+> }
 > ```
 
 *That's All Folks!*

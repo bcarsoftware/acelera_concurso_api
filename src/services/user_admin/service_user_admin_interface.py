@@ -1,0 +1,19 @@
+from abc import ABC, abstractmethod
+
+from src.models_dtos.login_dto import LoginDTO
+from src.models_dtos.user_admin_dto import UserAdminDTO
+from src.models_responses.user_admin_response import UserAdminResponse
+
+
+class ServiceUserAdminInterface(ABC):
+    @abstractmethod
+    async def create_user_admin(self, user_admin_dto: UserAdminDTO) -> UserAdminResponse:
+        pass
+
+    @abstractmethod
+    async def login_user_admin(self, user_admin_dto: LoginDTO) -> UserAdminResponse:
+        pass
+
+    @abstractmethod
+    async def update_user_admin(self, user_admin_dto: UserAdminDTO, user_admin_id: int) -> UserAdminResponse:
+        pass

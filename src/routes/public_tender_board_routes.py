@@ -31,7 +31,6 @@ async def update_public_tender_board(request: Request, public_tender_board_id: i
 
 @exception_handler
 @public_tender_board_route.get("")
-@authenticated
 async def find_all_public_tender_boards(request: Request) -> JSONResponse:
     return await controller_public_tender_board.find_all_public_tender_boards(request)
 

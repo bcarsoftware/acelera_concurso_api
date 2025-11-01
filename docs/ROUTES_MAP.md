@@ -24,6 +24,8 @@ As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes
    * [Objetos JSON de Dicas de Estudo](#objetos-json-de-dicas-de-estudo)
 9. [Rotas de Pomodoro](#rotas-de-pomodoro)
    * [Objetos JSON de Pomodoro](#objetos-json-de-pomodoro)
+10. [Rotas de Public Tender Board](#rotas-de-public-tender-board)
+    * [Objetos JSON de Public Tender Board](#objetos-json-de-public-tender-board)
 
 ## Rotas de Usuário
 Módulo: [User Routes](../src/routes/user_routes.py)
@@ -261,6 +263,23 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 >   "rounds": 0
 >}
 >```
+
+## Rotas de Public Tender Board
+| Method | Rota                                                        | DTO                                                                   | Auth | Header Param                                                                                                  |
+|--------|-------------------------------------------------------------|-----------------------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
+| POST   | `/public_tender_board`                                      | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/public_tender_board/<public_tender_board_id: int>`        | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/public_tender_board`                                      | -                                                                     | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| DELETE | `/public_tender_board/<public_tender_board_id: int>/delete` | -                                                                     | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+
+### Objetos JSON de Public Tender Board
+> PublicTenderBoardDTO
+> ```
+>{
+>   "sail": "ABC",
+>   "name": "Institute ABC"
+>}
+> ```
 
 *That's All Folks!*
 [Voltar](https://github.com/bcarsoftware/acelera_concurso_api).

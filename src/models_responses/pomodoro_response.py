@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -13,4 +14,4 @@ class PomodoroResponse(BaseModel):
     break_long: int
     rounds: int
     create_at: datetime
-    update_at: datetime
+    update_at: Optional[datetime] = None

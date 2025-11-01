@@ -1,4 +1,5 @@
 from datetime import datetime
+from typing import Optional
 
 from pydantic import BaseModel
 
@@ -14,4 +15,4 @@ class SubjectResponse(BaseModel):
     status: EnumStatus = EnumStatus.INCOMPLETE
     deleted: bool = False
     create_at: datetime
-    update_at: datetime
+    update_at: Optional[datetime] = None

@@ -15,4 +15,4 @@ class PublicTenderResponse(BaseModel):
     tender_date: Optional[date] = None
     deleted: bool = False
     create_at: datetime
-    update_at: datetime
+    update_at: Optional[datetime] = None

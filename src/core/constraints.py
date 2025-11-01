@@ -13,6 +13,7 @@ class Constraints:
     EMAIL_ADDRESS = environ.get("EMAIL_ADDRESS", None)
     EMAIL_PASSWORD = environ.get("EMAIL_PASSWORD", None)
     DB_URL = environ.get("DB_URL", None)
+    EXPIRE_ADMIN_TOKEN_SESSION = environ.get("EXPIRE_ADMIN_TOKEN_SESSION", None)
 
 
 @dataclass

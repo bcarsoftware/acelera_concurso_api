@@ -191,15 +191,16 @@ um decorator em todas as rotas que forem necessárias, você vai encontrar em al
 ## Variáveis de Ambiente de Segurança
 As seguintes variáveis no arquivo .env precisam ser configuradas:
 
-| Variável               | Descrição                                                                                                                    |
-|------------------------|------------------------------------------------------------------------------------------------------------------------------|
-| `ALGORITHM`            | Algoritmo usado para gerar os tokens JWT (ex: HS265).                                                                        |
-| `EMAIL_PASSWORD`       | A senha de aplicativo de 16 caracteres gerada na sua conta Google.                                                           |
-| `SECRET_KEY`           | Chave secreta para operações criptográficas. Use o script [gen_secret_key.py](gen_secret_key.py) para gerar um valor seguro. |
-| `EMAIL_ADDRESS`        | Seu endereço de e-mail do Gmail para os testes.                                                                              |
-| `EXPIRE_CODE_TIME`     | Tempo de expiração (em minutos) para o código de verificação enviado por e-mail.                                             |
-|  `EXPIRE_SESSION_TIME` | Tempo de expiração (em minutos) para o token de sessão JWT, definindo a duração do login do usuário.                         |
-| `EXPIRE_TOKEN_SESSION` | Tempo de sessão ativa do usuário no sistema, troque 0 por número positivo.                                                   |
+| Variável                      | Descrição                                                                                                                    |
+|-------------------------------|------------------------------------------------------------------------------------------------------------------------------|
+| `ALGORITHM`                   | Algoritmo usado para gerar os tokens JWT (ex: HS265).                                                                        |
+| `EMAIL_PASSWORD`              | A senha de aplicativo de 16 caracteres gerada na sua conta Google.                                                           |
+| `SECRET_KEY`                  | Chave secreta para operações criptográficas. Use o script [gen_secret_key.py](gen_secret_key.py) para gerar um valor seguro. |
+| `EMAIL_ADDRESS`               | Seu endereço de e-mail do Gmail para os testes.                                                                              |
+| `EXPIRE_CODE_TIME`            | Tempo de expiração (em minutos) para o código de verificação enviado por e-mail.                                             |
+| `EXPIRE_SESSION_TIME`         | Tempo de expiração (em minutos) para o token de sessão JWT, definindo a duração do login do usuário.                         |
+| `EXPIRE_TOKEN_SESSION`        | Tempo de sessão ativa do usuário no sistema, troque 0 por número positivo.                                                   |
+| `EXPIRE_ADMIN_TOKEN_SESSION`  | Tempo de sessão ativa do usuário administrador, troque 0 por número positivo.                                                |
 
 **NOTA: recomendo fortemente a configuração da variável `DB_URL` [ver mais](#variáveis-de-ambiente).**
 

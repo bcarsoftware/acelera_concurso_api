@@ -204,17 +204,3 @@ class SubjectRepository(SubjectRepositoryInterface):
                 raise DatabaseException(e.message, e.code)
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
-    async def subject_exists(self, subject_id: int) -> bool:
-        async with AsyncSession(self._engine_) as session:
-            response = await session.execute(
-                select(Subject).filter(
-                    and_(
-                        Subject.subject_id == subject_id,
-                        not Subject.deleted
-                    )
-                )
-            )
-
-            result = not response.scalar_one_or_none()
-        return not result

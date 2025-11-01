@@ -20,10 +20,10 @@ class NoteSubjectController(NoteSubjectControllerInterface):
 
         note_subject_dto = await NoteSubjectManager.convert_payload_to_note_subject_dto(payload)
 
-        note_subject = await self.service_note_subject.create_note_subject(note_subject_dto)
+        response = await self.service_note_subject.create_note_subject(note_subject_dto)
 
         return await response_factory(
-            data=note_subject,
+            data=response,
             message="note subject created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -33,19 +33,19 @@ class NoteSubjectController(NoteSubjectControllerInterface):
 
         note_subject_dto = await NoteSubjectManager.convert_payload_to_note_subject_dto(payload)
 
-        note_subject = await self.service_note_subject.update_note_subject(note_subject_dto, note_subject_id)
+        response = await self.service_note_subject.update_note_subject(note_subject_dto, note_subject_id)
 
         return await response_factory(
-            data=note_subject,
+            data=response,
             message="note subject updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_note_subject_by_subject_id(self, request: Request, subject_id: int) -> JSONResponse:
-        note_subjects = await self.service_note_subject.find_note_subject_by_subject_id(subject_id)
+        responses = await self.service_note_subject.find_note_subject_by_subject_id(subject_id)
 
         return await response_factory(
-            data=note_subjects,
+            data=responses,
             message="note subject found successfully",
             status_code=HttpStatus.OK
         )
@@ -55,19 +55,19 @@ class NoteSubjectController(NoteSubjectControllerInterface):
 
         note_subject_dto = await NoteSubjectManager.convert_payload_to_note_subject_dto(payload)
 
-        note_subject = await self.service_note_subject.finish_note_subject(note_subject_dto, note_subject_id)
+        response = await self.service_note_subject.finish_note_subject(note_subject_dto, note_subject_id)
 
         return await response_factory(
-            data=note_subject,
+            data=response,
             message="note subject finished successfully",
             status_code=HttpStatus.OK
         )
 
     async def delete_note_subject(self, request: Request, note_subject_id: int) -> JSONResponse:
-        note_subject = await self.service_note_subject.delete_note_subject(note_subject_id)
+        response = await self.service_note_subject.delete_note_subject(note_subject_id)
 
         return await response_factory(
-            data=note_subject,
+            data=response,
             message="note subject deleted successfully",
             status_code=HttpStatus.OK
         )

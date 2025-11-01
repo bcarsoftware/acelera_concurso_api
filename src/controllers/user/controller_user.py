@@ -74,10 +74,6 @@ class UserController(UserControllerInterface):
             status_code=HttpStatus.OK,
         )
 
-    async def logout_user(self, request: Request) -> JSONResponse:
-        # TODO: need to be done an implementation
-        return await self.user_service.logout_user(request)
-
     async def delete_user(self, request: Request, user_id: int) -> JSONResponse:
         response = await self.user_service.delete_user(user_id)
 

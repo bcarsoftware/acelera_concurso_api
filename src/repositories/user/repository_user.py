@@ -73,6 +73,7 @@ class UserRepository(UserRepositoryInterface):
                 if not user:
                     raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
 
+                user_dto.password = user.password
                 user_dto.deleted = False
 
                 for key, value in user_dto.model_dump().items():
@@ -148,17 +149,3 @@ class UserRepository(UserRepositoryInterface):
                 raise DatabaseException(e.message, e.code)
 
             raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
-
-    async def user_exists(self, user_id: int) -> bool:
-        async with AsyncSession(self._engine_) as session:
-            response = await session.execute(
-                select(User).filter(
-                    and_(
-                        User.user_id == user_id,
-                        not User.deleted
-                    )
-                )
-            )
-
-            result = not response.scalar_one_or_none()
-        return not result

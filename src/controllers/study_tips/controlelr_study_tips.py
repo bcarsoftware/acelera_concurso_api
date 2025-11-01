@@ -20,10 +20,10 @@ class StudyTipsController(StudyTipsControllerInterface):
 
         study_tip_dto = await StudyTipsManager.convert_payload_to_study_tips_dto(study_tip_json)
 
-        study_tip = await self.service_study_tips.create_study_tip(study_tip_dto)
+        response = await self.service_study_tips.create_study_tip(study_tip_dto)
 
         return await response_factory(
-            data=study_tip,
+            data=response,
             message="study_tip created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -33,19 +33,19 @@ class StudyTipsController(StudyTipsControllerInterface):
 
         study_tip_dto = await StudyTipsManager.convert_payload_to_study_tips_dto(study_tip_json)
 
-        study_tip = await self.service_study_tips.update_study_tip(study_tip_dto, study_tip_id, user_id)
+        response = await self.service_study_tips.update_study_tip(study_tip_dto, study_tip_id, user_id)
 
         return await response_factory(
-            data=study_tip,
+            data=response,
             message="study_tip created successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_study_tips_by_user_id(self, request: Request, user_id: int) -> JSONResponse:
-        study_tips = await self.service_study_tips.find_study_tips_by_user_id(user_id)
+        responses = await self.service_study_tips.find_study_tips_by_user_id(user_id)
 
         return await response_factory(
-            data=study_tips,
+            data=responses,
             message="study_tip created successfully",
             status_code=HttpStatus.OK
         )
@@ -55,10 +55,10 @@ class StudyTipsController(StudyTipsControllerInterface):
 
         list_ids_dto = await StudyTipsManager.convert_payload_to_list_id_dto(study_tip_json)
 
-        study_tip = await self.service_study_tips.delete_one_or_more_study_tip(list_ids_dto, user_id)
+        response = await self.service_study_tips.delete_one_or_more_study_tip(list_ids_dto, user_id)
 
         return await response_factory(
-            data=study_tip,
+            data=response,
             message="study_tip created successfully",
             status_code=HttpStatus.OK
         )

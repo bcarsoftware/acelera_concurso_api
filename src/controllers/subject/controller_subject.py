@@ -21,10 +21,10 @@ class SubjectController(SubjectControllerInterface):
 
         subject_dto = await SubjectManager.convert_payload_to_subject_dto(payload)
 
-        subject = await self.service_subject.create_subject(subject_dto)
+        response = await self.service_subject.create_subject(subject_dto)
 
         return await response_factory(
-            data=subject,
+            data=response,
             message="subject created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -34,10 +34,10 @@ class SubjectController(SubjectControllerInterface):
 
         subject_dto = await SubjectManager.convert_payload_to_subject_dto(payload)
 
-        subject = await self.service_subject.update_subject(subject_dto, subject_id)
+        response = await self.service_subject.update_subject(subject_dto, subject_id)
 
         return await response_factory(
-            data=subject,
+            data=response,
             message="subject updated successfully",
             status_code=HttpStatus.OK
         )
@@ -45,10 +45,10 @@ class SubjectController(SubjectControllerInterface):
     async def get_subjects(self, request: Request) -> JSONResponse:
         public_tender_id = await get_header_param_by_name(request, ParamNames.TENDER_ID)
 
-        subjects = await self.service_subject.get_subjects(public_tender_id)
+        responses = await self.service_subject.get_subjects(public_tender_id)
 
         return await response_factory(
-            data=subjects,
+            data=responses,
             message="subject find successfully",
             status_code=HttpStatus.OK
         )
@@ -56,28 +56,28 @@ class SubjectController(SubjectControllerInterface):
     async def get_subject_by_name(self, request: Request, name: str) -> JSONResponse:
         public_tender_id = await get_header_param_by_name(request, ParamNames.TENDER_ID)
 
-        subjects = await self.service_subject.get_subject_by_name(public_tender_id, name)
+        responses = await self.service_subject.get_subject_by_name(public_tender_id, name)
 
         return await response_factory(
-            data=subjects,
+            data=responses,
             message="subject find successfully",
             status_code=HttpStatus.OK
         )
 
     async def finish_subject(self, request: Request, subject_id: int) -> JSONResponse:
-        subject = await self.service_subject.finish_subject(subject_id)
+        response = await self.service_subject.finish_subject(subject_id)
 
         return await response_factory(
-            data=subject,
+            data=response,
             message="subject finished successfully",
             status_code=HttpStatus.OK
         )
 
     async def delete_subject(self, request: Request, subject_id: int) -> JSONResponse:
-        subject = await self.service_subject.delete_subject(subject_id)
+        response = await self.service_subject.delete_subject(subject_id)
 
         return await response_factory(
-            data=subject,
+            data=response,
             message="subject deleted successfully",
             status_code=HttpStatus.OK
         )

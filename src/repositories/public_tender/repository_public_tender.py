@@ -173,17 +173,3 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 raise DatabaseException(e.message, e.code)
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
-    async def public_tender_exists(self, public_tender_id: int) -> bool:
-        async with AsyncSession(self._engine_) as session:
-            response = await session.execute(
-                select(PublicTender).filter(
-                    and_(
-                        PublicTender.public_tender_id == public_tender_id,
-                        not PublicTender.deleted
-                    )
-                )
-            )
-
-            result = not response.scalar_one_or_none()
-        return not result

@@ -20,10 +20,10 @@ class NoteTopicController(NoteTopicControllerInterface):
 
         note_topic_dto = await NoteTopicManager.convert_payload_to_note_topic_dto(payload)
 
-        note_topic = await self.service_note_topic.create_note_topic(note_topic_dto)
+        response = await self.service_note_topic.create_note_topic(note_topic_dto)
 
         return await response_factory(
-            data=note_topic,
+            data=response,
             message="note topic created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -33,19 +33,19 @@ class NoteTopicController(NoteTopicControllerInterface):
 
         note_topic_dto = await NoteTopicManager.convert_payload_to_note_topic_dto(payload)
 
-        note_topic = await self.service_note_topic.update_note_topic(note_topic_dto, note_topic_id)
+        response = await self.service_note_topic.update_note_topic(note_topic_dto, note_topic_id)
 
         return await response_factory(
-            data=note_topic,
+            data=response,
             message="note topic updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_note_topic_by_topic_id(self, request: Request, topic_id: int) -> JSONResponse:
-        note_topics = await self.service_note_topic.find_note_topic_by_topic_id(topic_id)
+        responses = await self.service_note_topic.find_note_topic_by_topic_id(topic_id)
 
         return await response_factory(
-            data=note_topics,
+            data=responses,
             message="note topic found successfully",
             status_code=HttpStatus.OK
         )
@@ -55,19 +55,19 @@ class NoteTopicController(NoteTopicControllerInterface):
 
         note_topic_dto = await NoteTopicManager.convert_payload_to_note_topic_dto(payload)
 
-        note_topic = await self.service_note_topic.update_note_topic(note_topic_dto, note_topic_id)
+        response = await self.service_note_topic.update_note_topic(note_topic_dto, note_topic_id)
 
         return await response_factory(
-            data=note_topic,
+            data=response,
             message="note topic finished successfully",
             status_code=HttpStatus.OK
         )
 
     async def delete_note_topic(self, request: Request, note_topic_id: int) -> JSONResponse:
-        note_topic = await self.service_note_topic.delete_note_topic(note_topic_id)
+        response = await self.service_note_topic.delete_note_topic(note_topic_id)
 
         return await response_factory(
-            data=note_topic,
+            data=response,
             message="note topic deleted successfully",
             status_code=HttpStatus.OK
         )

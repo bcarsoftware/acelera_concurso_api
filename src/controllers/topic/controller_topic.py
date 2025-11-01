@@ -21,10 +21,10 @@ class TopicController(TopicControllerInterface):
 
         topic_dto = await TopicManager.convert_payload_to_topic_dto(payload)
 
-        topic = await self.service_topic.create_topic(topic_dto)
+        response = await self.service_topic.create_topic(topic_dto)
 
         return await response_factory(
-            data=topic,
+            data=response,
             message="topic created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -34,10 +34,10 @@ class TopicController(TopicControllerInterface):
 
         topic_dto = await TopicManager.convert_payload_to_topic_dto(payload)
 
-        topic = await self.service_topic.update_topic(topic_dto, topic_id)
+        response = await self.service_topic.update_topic(topic_dto, topic_id)
 
         return await response_factory(
-            data=topic,
+            data=response,
             message="topic updated successfully",
             status_code=HttpStatus.OK
         )
@@ -45,10 +45,10 @@ class TopicController(TopicControllerInterface):
     async def get_topics(self, request: Request) -> JSONResponse:
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
-        topics = await self.service_topic.get_topics(subject_id)
+        responses = await self.service_topic.get_topics(subject_id)
 
         return await response_factory(
-            data=topics,
+            data=responses,
             message="topic find successfully",
             status_code=HttpStatus.OK
         )
@@ -56,10 +56,10 @@ class TopicController(TopicControllerInterface):
     async def get_topic_by_name(self, request: Request, name: str) -> JSONResponse:
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
-        topics = await self.service_topic.get_topic_by_name(subject_id, name)
+        responses = await self.service_topic.get_topic_by_name(subject_id, name)
 
         return await response_factory(
-            data=topics,
+            data=responses,
             message="topic find successfully",
             status_code=HttpStatus.OK
         )
@@ -67,28 +67,28 @@ class TopicController(TopicControllerInterface):
     async def get_topic_by_status(self, request: Request, status: str) -> JSONResponse:
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
-        topics = await self.service_topic.get_topic_by_status(subject_id, status)
+        responses = await self.service_topic.get_topic_by_status(subject_id, status)
 
         return await response_factory(
-            data=topics,
+            data=responses,
             message="topic find successfully",
             status_code=HttpStatus.OK
         )
 
     async def finish_topic(self, request: Request, topic_id: int) -> JSONResponse:
-        topic = await self.service_topic.finish_topic(topic_id)
+        response = await self.service_topic.finish_topic(topic_id)
 
         return await response_factory(
-            data=topic,
+            data=response,
             message="topic finished successfully",
             status_code=HttpStatus.OK
         )
 
     async def delete_topic(self, request: Request, topic_id: int) -> JSONResponse:
-        topic = await self.service_topic.delete_topic(topic_id)
+        response = await self.service_topic.delete_topic(topic_id)
 
         return await response_factory(
-            data=topic,
+            data=response,
             message="topic deleted successfully",
             status_code=HttpStatus.OK
         )

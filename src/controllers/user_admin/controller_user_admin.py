@@ -21,10 +21,10 @@ class UserAdminController(UserAdminControllerInterface):
 
         user_admin_dto = await UserAdminManager.convert_payload_to_user_admin_dto(payload)
 
-        user_admin = self.service_user_admin.create_user_admin(user_admin_dto)
+        response = await self.service_user_admin.create_user_admin(user_admin_dto)
 
         return await response_factory(
-            data=user_admin,
+            data=response,
             message="user created successfully",
             status_code=HttpStatus.CREATED,
         )
@@ -34,10 +34,10 @@ class UserAdminController(UserAdminControllerInterface):
 
         user_admin_dto = await UserManager.convert_payload_to_login_dto(payload)
 
-        user_admin = self.service_user_admin.login_user_admin(user_admin_dto)
+        response = await self.service_user_admin.login_user_admin(user_admin_dto)
 
         return await response_factory(
-            data=user_admin,
+            data=response,
             message="user logged successfully",
             status_code=HttpStatus.OK,
         )
@@ -47,10 +47,10 @@ class UserAdminController(UserAdminControllerInterface):
 
         user_admin_dto = await UserAdminManager.convert_payload_to_user_admin_dto(payload)
 
-        user_admin = self.service_user_admin.update_user_admin(user_admin_dto, user_admin_id)
+        response = await self.service_user_admin.update_user_admin(user_admin_dto, user_admin_id)
 
         return await response_factory(
-            data=user_admin,
+            data=response,
             message="user admin updated successfully",
             status_code=HttpStatus.OK,
         )

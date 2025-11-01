@@ -198,20 +198,6 @@ class TopicRepository(TopicRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def topic_exists(self, topic_id: int) -> bool:
-        async with AsyncSession(self._engine_) as session:
-            response = await session.execute(
-                select(Topic).filter(
-                    and_(
-                        Topic.topic_id == topic_id,
-                        not Topic.deleted
-                    )
-                )
-            )
-
-            result = not response.scalar_one_or_none()
-        return not result
-
     @staticmethod
     async def _get_topic_finish_or_delete_(session: AsyncSession, topic_id: int) -> Topic:
         response = await session.execute(

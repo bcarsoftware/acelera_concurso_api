@@ -22,10 +22,10 @@ class PublicTenderBoardController(PublicTenderBoardControllerInterface):
 
         public_tender_board_dto = await PublicTenderBoardManager.convert_payload_to_public_tender_board_dto(payload)
 
-        public_tender_board = await self.service_public_tender_board.create_public_tender_board(public_tender_board_dto)
+        response = await self.service_public_tender_board.create_public_tender_board(public_tender_board_dto)
 
         return await response_factory(
-            data=public_tender_board,
+            data=response,
             message="public tender board created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -35,31 +35,31 @@ class PublicTenderBoardController(PublicTenderBoardControllerInterface):
 
         public_tender_board_dto = await PublicTenderBoardManager.convert_payload_to_public_tender_board_dto(payload)
 
-        public_tender_board = await self.service_public_tender_board.update_public_tender_board(
+        response = await self.service_public_tender_board.update_public_tender_board(
             public_tender_board_dto,
             public_tender_board_id
         )
 
         return await response_factory(
-            data=public_tender_board,
+            data=response,
             message="public tender board updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_all_public_tender_boards(self, request: Request) -> JSONResponse:
-        public_tender_boards = await self.service_public_tender_board.find_all_public_tender_boards()
+        responses = await self.service_public_tender_board.find_all_public_tender_boards()
 
         return await response_factory(
-            data=public_tender_boards,
+            data=responses,
             message="public tender boards found successfully",
             status_code=HttpStatus.OK
         )
 
     async def delete_public_tender_board(self, request: Request, public_tender_board_id: int) -> JSONResponse:
-        public_tender_board = await self.service_public_tender_board.delete_public_tender_board(public_tender_board_id)
+        response = await self.service_public_tender_board.delete_public_tender_board(public_tender_board_id)
 
         return await response_factory(
-            data=public_tender_board,
+            data=response,
             message="public tender boards deleted successfully",
             status_code=HttpStatus.OK
         )

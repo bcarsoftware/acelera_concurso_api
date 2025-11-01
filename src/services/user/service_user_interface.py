@@ -25,9 +25,5 @@ class ServiceUserInterface(ABC):
         pass
 
     @abstractmethod
-    async def logout_user(self, request: Request) -> UserResponse:
-        pass
-
-    @abstractmethod
     async def delete_user(self, user_id: int) -> UserResponse:
         pass

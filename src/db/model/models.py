@@ -36,7 +36,7 @@ class User(Base):
     public_tenders: Mapped[List["PublicTender"]] = relationship(back_populates="user")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class Pomodoro(Base):
@@ -55,7 +55,7 @@ class Pomodoro(Base):
     rounds: Mapped[int] = Column(Integer, nullable=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class StudyTips(Base):
@@ -72,7 +72,7 @@ class StudyTips(Base):
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class PublicTender(Base):
@@ -94,7 +94,7 @@ class PublicTender(Base):
     subjects: Mapped[List["Subject"]] = relationship(back_populates="public_tender")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class Subject(Base):
@@ -114,7 +114,7 @@ class Subject(Base):
     note_subjects: Mapped[List["NoteSubject"]] = relationship(back_populates="subject")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class Topic(Base):
@@ -134,7 +134,7 @@ class Topic(Base):
     note_topics: Mapped[List["NoteTopic"]] = relationship(back_populates="topic")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class NoteSubject(Base):
@@ -152,7 +152,7 @@ class NoteSubject(Base):
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
 
 
 class NoteTopic(Base):
@@ -170,4 +170,16 @@ class NoteTopic(Base):
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
-    update_at: Mapped[datetime] = Column(DateTime, nullable=False, onupdate=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)
+
+
+class PublicTenderBoard(Base):
+    __tablename__ = "public_tender_boards"
+
+    public_tender_board_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
+
+    sail: Mapped[str] = Column(String(32), unique=True, nullable=False)
+    name: Mapped[str] = Column(String(128), unique=True, nullable=False)
+
+    create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
+    update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)

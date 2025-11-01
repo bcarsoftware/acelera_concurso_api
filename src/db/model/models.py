@@ -191,7 +191,7 @@ class UserAdmin(Base):
 
     full_name: Mapped[str] = Column(String(255), nullable=False)
     username: Mapped[str] = Column(String(255), nullable=False, unique=True)
-    password: Mapped[str] = Column(String(33), nullable=False)
+    password: Mapped[str] = Column(String(255), nullable=False)
 
     public_tender_boards: Mapped[List["PublicTenderBoard"]] = relationship(back_populates="user_admin")
 

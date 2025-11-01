@@ -10,10 +10,8 @@ from src.utils.managers.pomodoro_manager import PomodoroManager
 
 
 class PomodoroController(PomodoroControllerInterface):
-    service_pomodoro: ServicePomodoroInterface
-
     def __init__(self) -> None:
-        self.service_pomodoro = ServicePomodoro()
+        self.service_pomodoro: ServicePomodoroInterface = ServicePomodoro()
 
     async def create_pomodoro(self, request: Request) -> JSONResponse:
         payload_dto = await request.json()

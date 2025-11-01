@@ -10,10 +10,8 @@ from src.utils.managers.study_tips_manager import StudyTipsManager
 
 
 class StudyTipsController(StudyTipsControllerInterface):
-    service_study_tips: ServiceStudyTipsInterface
-
     def __init__(self) -> None:
-        self.service_study_tips = ServiceStudyTips()
+        self.service_study_tips: ServiceStudyTipsInterface = ServiceStudyTips()
 
     async def create_study_tip(self, request: Request) -> JSONResponse:
         study_tip_json = await request.json()

@@ -22,6 +22,7 @@ class UserAdminRepository(UserAdminRepositoryInterface):
                 session.add(user_admin)
                 await session.commit()
                 await session.refresh(user_admin)
+                user_admin.password = ""
             return await UserAdminResponse.model_validate(user_admin)
         except Exception as e:
             print(str(e))
@@ -48,6 +49,7 @@ class UserAdminRepository(UserAdminRepositoryInterface):
 
                 if not logged:
                     raise DatabaseException("user admin login failed", HTTPStatus.BAD_REQUEST)
+                user_admin.password = ""
             return await UserAdminResponse.model_validate(user_admin)
         except Exception as e:
             print(str(e))
@@ -76,6 +78,7 @@ class UserAdminRepository(UserAdminRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(user_admin)
+                user_admin.password = ""
             return await UserAdminResponse.model_validate(user_admin)
         except Exception as e:
             print(str(e))

@@ -17,11 +17,15 @@ class ServiceUserInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_user(self, user_dto: UserDTO, user_id: str) -> UserResponse:
+    async def update_user(self, user_dto: UserDTO, user_id: int) -> UserResponse:
         pass
 
     @abstractmethod
     async def login_user(self, login_dto: LoginDTO) -> UserResponse:
+        pass
+
+    @abstractmethod
+    async def update_user_password(self, user_dto: LoginDTO, user_id: int) -> UserResponse:
         pass
 
     @abstractmethod

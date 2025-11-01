@@ -14,11 +14,15 @@ class UserControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_user(self, request: Request, user_id: str) -> JSONResponse:
+    async def update_user(self, request: Request, user_id: int) -> JSONResponse:
         pass
 
     @abstractmethod
     async def login_user(self, request: Request) -> JSONResponse:
+        pass
+
+    @abstractmethod
+    async def update_user_password(self, request: Request, user_id: int) -> JSONResponse:
         pass
 
     @abstractmethod

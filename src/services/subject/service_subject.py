@@ -12,12 +12,9 @@ from src.utils.managers.subject_manager import SubjectManager
 
 
 class ServiceSubject(ServiceSubjectInterface):
-    subject_repository: SubjectRepositoryInterface
-    note_subject_repository: NoteSubjectRepositoryInterface
-
     def __init__(self) -> None:
-        self.subject_repository = SubjectRepository()
-        self.note_subject_repository = NoteSubjectRepository()
+        self.subject_repository: SubjectRepositoryInterface = SubjectRepository()
+        self.note_subject_repository: NoteSubjectRepositoryInterface = NoteSubjectRepository()
 
     async def create_subject(self, subject_dto: SubjectDTO) -> SubjectResponse:
         await SubjectManager.make_validation(subject_dto)

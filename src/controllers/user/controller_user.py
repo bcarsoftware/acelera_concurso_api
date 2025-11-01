@@ -41,7 +41,7 @@ class UserController(UserControllerInterface):
             status_code=HttpStatus.CREATED,
         )
 
-    async def update_user(self, request: Request, user_id: str) -> JSONResponse:
+    async def update_user(self, request: Request, user_id: int) -> JSONResponse:
         payload = await request.json()
 
         user_dto = await UserManager.convert_payload_to_user_dto(payload)
@@ -61,7 +61,8 @@ class UserController(UserControllerInterface):
 
         response = await self.user_service.login_user(login_dto)
 
-        token = await TokenFactory.create_token(response, Constraints.EXPIRE_TOKEN_SESSION, EnumTokenTime.DAYS)
+        token = await TokenFactory.create_token(response,
+                int(Constraints.EXPIRE_TOKEN_SESSION), EnumTokenTime.DAYS)
 
         user_with_token = {
             "user": { **response.model_dump() },
@@ -71,6 +72,19 @@ class UserController(UserControllerInterface):
         return await response_factory(
             data=user_with_token,
             message="user logged successfully",
+            status_code=HttpStatus.OK,
+        )
+
+    async def update_user_password(self, request: Request, user_id: int) -> JSONResponse:
+        payload = await request.json()
+
+        user_dto = await UserManager.convert_payload_to_login_dto(payload)
+
+        response = await self.user_service.update_user_password(user_dto, user_id)
+
+        return await response_factory(
+            data=response,
+            message="user password updated successfully",
             status_code=HttpStatus.OK,
         )
 

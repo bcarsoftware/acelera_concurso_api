@@ -9,10 +9,8 @@ from src.utils.managers.note_topic_manager import NoteTopicManager
 
 
 class ServiceNoteTopic(ServiceNoteTopicInterface):
-    note_topic_repository: NoteTopicRepositoryInterface
-
     def __init__(self) -> None:
-        self.note_topic_repository = NoteTopicRepository()
+        self.note_topic_repository: NoteTopicRepositoryInterface = NoteTopicRepository()
 
     async def create_note_topic(self, note_topic: NoteTopicDTO) -> NoteTopicResponse:
         await NoteTopicManager.make_validation(note_topic)

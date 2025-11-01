@@ -11,10 +11,8 @@ from src.utils.managers.public_tender_board_manager import PublicTenderBoardMana
 
 
 class ServicePublicTenderBoard(ServicePublicTenderBoardInterface):
-    repository_public_tender_board: PublicTenderBoardRepositoryInterface
-
     def __init__(self) -> None:
-        self.repository_public_tender_board = PublicTenderBoardRepository()
+        self.repository_public_tender_board: PublicTenderBoardRepositoryInterface = PublicTenderBoardRepository()
 
     async def create_public_tender_board(
         self,

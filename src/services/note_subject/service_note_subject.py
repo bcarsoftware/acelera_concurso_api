@@ -9,10 +9,8 @@ from src.utils.managers.note_subject_manager import NoteSubjectManager
 
 
 class ServiceNoteSubject(ServiceNoteSubjectInterface):
-    note_subject_repository: NoteSubjectRepositoryInterface
-
     def __init__(self) -> None:
-        self.note_subject_repository = NoteSubjectRepository()
+        self.note_subject_repository: NoteSubjectRepositoryInterface = NoteSubjectRepository()
 
     async def create_note_subject(self, note_subject: NoteSubjectDTO) -> NoteSubjectResponse:
         await NoteSubjectManager.make_validation(note_subject)

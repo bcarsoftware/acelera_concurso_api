@@ -9,10 +9,8 @@ from src.utils.password_util import PasswordUtil
 
 
 class ServiceUserAdmin(ServiceUserAdminInterface):
-    repository_user_admin: UserAdminRepositoryInterface
-
     def __init__(self) -> None:
-        self.repository_user_admin = UserAdminRepository()
+        self.repository_user_admin: UserAdminRepositoryInterface = UserAdminRepository()
 
     async def create_user_admin(self, user_admin_dto: UserAdminDTO) -> UserAdminResponse:
         await UserAdminManager.make_validation(user_admin_dto)

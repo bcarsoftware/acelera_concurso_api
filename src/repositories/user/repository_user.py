@@ -20,6 +20,7 @@ class UserRepository(UserRepositoryInterface):
                 session.add(user)
                 await session.commit()
                 await session.refresh(user)
+                user.password = ""
             return await UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
@@ -48,6 +49,7 @@ class UserRepository(UserRepositoryInterface):
                 user.password = recovery_dto.password
                 await session.commit()
                 await session.refresh(user)
+                user.password = ""
             return await UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
@@ -56,7 +58,7 @@ class UserRepository(UserRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
-    async def update_user(self, user_dto: UserDTO, user_id: str) -> UserResponse:
+    async def update_user(self, user_dto: UserDTO, user_id: int) -> UserResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
@@ -81,6 +83,7 @@ class UserRepository(UserRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(user)
+                user.password = ""
             return await UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
@@ -113,6 +116,37 @@ class UserRepository(UserRepositoryInterface):
 
                 if not success:
                     raise DatabaseException("password not correct", HTTPStatus.FORBIDDEN)
+                user.password = ""
+            return await UserResponse.model_validate(user)
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
+
+    async def update_user_password(self, user_dto: LoginDTO, user_id: int) -> UserResponse:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(User).filter(
+                        and_(
+                            User.user_id == user_id,
+                            not User.deleted
+                        )
+                    )
+                )
+
+                user = response.scalar_one_or_none()
+
+                if not user:
+                    raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
+
+                user.password = user_dto.password
+
+                await session.commit()
+                await session.refresh(user)
+                user.password = ""
             return await UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
@@ -142,6 +176,7 @@ class UserRepository(UserRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(user)
+                user.password = ""
             return await UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))

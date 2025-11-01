@@ -9,10 +9,8 @@ from src.utils.managers.public_tender_manager import PublicTenderManager
 
 
 class ServicePublicTender(ServicePublicTenderInterface):
-    public_tender_repository: PublicTenderRepositoryInterface
-
     def __init__(self) -> None:
-        self.public_tender_repository = PublicTenderRepository()
+        self.public_tender_repository: PublicTenderRepositoryInterface = PublicTenderRepository()
 
     async def public_tender_create(self, public_tender: PublicTenderDTO) -> PublicTenderResponse:
         await PublicTenderManager.make_validation(public_tender)

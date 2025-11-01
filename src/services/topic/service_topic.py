@@ -12,12 +12,9 @@ from src.utils.managers.topic_manager import TopicManager
 
 
 class ServiceTopic(ServiceTopicInterface):
-    topic_repository: TopicRepositoryInterface
-    note_topic_repository: NoteTopicRepositoryInterface
-
     def __init__(self) -> None:
-        self.topic_repository = TopicRepository()
-        self.note_topic_repository = NoteTopicRepository()
+        self.topic_repository: TopicRepositoryInterface = TopicRepository()
+        self.note_topic_repository: NoteTopicRepositoryInterface = NoteTopicRepository()
 
     async def create_topic(self, topic_dto: TopicDTO) -> TopicResponse:
         await TopicManager.make_validation(topic_dto)

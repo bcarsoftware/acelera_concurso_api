@@ -26,7 +26,7 @@ async def recover_user(request: Request) -> JSONResponse:
 @exception_handler
 @user_rote.patch("/{user_id}")
 @authenticated
-async def update_user(request: Request, user_id: str) -> JSONResponse:
+async def update_user(request: Request, user_id: int) -> JSONResponse:
     return await user_controller.update_user(request, user_id)
 
 
@@ -34,6 +34,13 @@ async def update_user(request: Request, user_id: str) -> JSONResponse:
 @user_rote.post("/login")
 async def login_user(request: Request) -> JSONResponse:
     return await user_controller.login_user(request)
+
+
+@exception_handler
+@user_rote.patch("/{user_id}/password")
+@authenticated
+async def update_user_password(request: Request, user_id: int) -> JSONResponse:
+    return await user_controller.update_user_password(request, user_id)
 
 
 @exception_handler

@@ -9,10 +9,8 @@ from src.utils.managers.pomodoro_manager import PomodoroManager
 
 
 class ServicePomodoro(ServicePomodoroInterface):
-    repository_pomodoro: PomodoroRepositoryInterface
-
     def __init__(self) -> None:
-        self.repository_pomodoro = PomodoroRepository()
+        self.repository_pomodoro: PomodoroRepositoryInterface = PomodoroRepository()
 
     async def create_pomodoro(self, pomodoro_dto: PomodoroDTO) -> PomodoroResponse:
         await PomodoroManager.make_validation(pomodoro_dto)

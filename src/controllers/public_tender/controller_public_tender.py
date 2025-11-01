@@ -11,10 +11,8 @@ from src.utils.managers.public_tender_manager import PublicTenderManager
 
 
 class PublicTenderController(PublicTenderControllerInterface):
-    service_public_tender: ServicePublicTenderInterface
-
     def __init__(self) -> None:
-        self.service_public_tender = ServicePublicTender()
+        self.service_public_tender: ServicePublicTenderInterface = ServicePublicTender()
 
     async def public_tender_create(self, request: Request) -> JSONResponse:
         payload = await request.json()

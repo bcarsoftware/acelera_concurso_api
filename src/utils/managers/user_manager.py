@@ -48,6 +48,14 @@ class UserManager:
             raise UserException("invalid email for user", HttpStatus.BAD_REQUEST)
 
     @classmethod
+    async def make_password_verification(cls, user_dto: LoginDTO) -> None:
+        if not match(Regex.STRING_4_32.value, user_dto.password):
+            raise UserException("password doesn't match length between 4 until 32 characters",
+                HttpStatus.BAD_REQUEST)
+        if user_dto.password.count(" ") > 0:
+            raise UserException("password can't contain spaces", HttpStatus.BAD_REQUEST)
+
+    @classmethod
     async def _check_user_deleted_(cls, user_dto: UserDTO) -> None:
         if user_dto.deleted:
             raise UserException("you can't create an user that is deleted", HttpStatus.NOT_FOUND)
@@ -64,7 +72,7 @@ class UserManager:
         if not match(Regex.EMAIL.value, user_dto.email):
             raise UserException("email does not match the pattern", HttpStatus.BAD_REQUEST)
         if user_dto.password.count(" ") > 0:
-            raise UserException("password contains spaces", HttpStatus.BAD_REQUEST)
+            raise UserException("password can't contain spaces", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _checker_user_strings_length_(cls, user_dto: UserDTO) -> None:

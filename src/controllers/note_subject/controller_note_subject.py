@@ -10,10 +10,8 @@ from src.utils.managers.note_subject_manager import NoteSubjectManager
 
 
 class NoteSubjectController(NoteSubjectControllerInterface):
-    service_note_subject: ServiceNoteSubjectInterface
-
     def __init__(self) -> None:
-        self.service_note_subject = ServiceNoteSubject()
+        self.service_note_subject: ServiceNoteSubjectInterface = ServiceNoteSubject()
 
     async def create_note_subject(self, request: Request) -> JSONResponse:
         payload = await request.json()

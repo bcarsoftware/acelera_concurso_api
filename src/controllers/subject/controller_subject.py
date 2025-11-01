@@ -11,10 +11,8 @@ from src.utils.managers.subject_manager import SubjectManager
 
 
 class SubjectController(SubjectControllerInterface):
-    service_subject: ServiceSubjectInterface
-
     def __init__(self) -> None:
-        self.service_subject = ServiceSubject()
+        self.service_subject: ServiceSubjectInterface = ServiceSubject()
 
     async def create_subject(self, request: Request) -> JSONResponse:
         payload = await request.json()

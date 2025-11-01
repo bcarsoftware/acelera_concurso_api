@@ -11,10 +11,8 @@ from src.utils.managers.topic_manager import TopicManager
 
 
 class TopicController(TopicControllerInterface):
-    service_topic: ServiceTopicInterface
-
     def __init__(self) -> None:
-        self.service_topic = ServiceTopic()
+        self.service_topic: ServiceTopicInterface = ServiceTopic()
 
     async def create_topic(self, request: Request) -> JSONResponse:
         payload = await request.json()

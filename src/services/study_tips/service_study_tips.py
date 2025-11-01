@@ -10,10 +10,8 @@ from src.utils.managers.study_tips_manager import StudyTipsManager
 
 
 class ServiceStudyTips(ServiceStudyTipsInterface):
-    repository_study_tips: StudyTipsRepositoryInterface
-
     def __init__(self) -> None:
-        self.repository_study_tips = StudyTipsRepository()
+        self.repository_study_tips: StudyTipsRepositoryInterface = StudyTipsRepository()
 
     async def create_study_tip(self, study_tip_dto: StudyTipsDTO) -> StudyTipsResponse:
         await StudyTipsManager.make_validation(study_tip_dto)

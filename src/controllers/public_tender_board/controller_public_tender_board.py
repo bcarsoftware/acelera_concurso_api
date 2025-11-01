@@ -12,10 +12,8 @@ from src.utils.managers.public_tender_board_manager import PublicTenderBoardMana
 
 
 class PublicTenderBoardController(PublicTenderBoardControllerInterface):
-    service_public_tender_board: ServicePublicTenderBoardInterface
-
     def __init__(self) -> None:
-        self.service_public_tender_board = ServicePublicTenderBoard()
+        self.service_public_tender_board: ServicePublicTenderBoardInterface = ServicePublicTenderBoard()
 
     async def create_public_tender_board(self, request: Request) -> JSONResponse:
         payload = await request.json()

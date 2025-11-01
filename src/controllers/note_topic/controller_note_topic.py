@@ -10,10 +10,8 @@ from src.utils.managers.note_topic_manager import NoteTopicManager
 
 
 class NoteTopicController(NoteTopicControllerInterface):
-    service_note_topic: ServiceNoteTopicInterface
-
     def __init__(self) -> None:
-        self.service_note_topic = ServiceNoteTopic()
+        self.service_note_topic: ServiceNoteTopicInterface = ServiceNoteTopic()
 
     async def create_note_topic(self, request: Request) -> JSONResponse:
         payload = await request.json()

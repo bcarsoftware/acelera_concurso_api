@@ -7,11 +7,25 @@ from sqlalchemy.orm import Mapped, relationship
 
 from sqlalchemy.ext.declarative import declarative_base
 
-from src.enums.enum_category import EnumCategory
-from src.enums.enum_gender import EnumGender
-from src.enums.enum_status import EnumStatus
 
 Base = declarative_base()
+
+
+class EnumGenderDB(Enum):
+    FEMALE = "FEMALE"
+    MALE = "MALE"
+    NOT_BINARY = "NOT_BINARY"
+    NOT_SAY = "NOT_SAY"
+
+
+class EnumStatusDB(Enum):
+    COMPLETE = "COMPLETE"
+    INCOMPLETE = "INCOMPLETE"
+
+
+class EnumCategoryDB(Enum):
+    GENERAL = "GENERAL"
+    SPECIFIC = "SPECIFIC"
 
 
 class User(Base):
@@ -22,8 +36,7 @@ class User(Base):
     first_name: Mapped[str] = Column(String(64), nullable=False)
     last_name: Mapped[str] = Column(String(255), nullable=False)
     date_born: Mapped[date] = Column(Date, nullable=False)
-    gender: Mapped[EnumGender] = Column(
-        Enum("FEMALE", "MALE", "NOT_BINARY", "NOT_SAY", name="EnumGender"), nullable=False)
+    gender: Mapped[str] = Column(String(32), nullable=False)
 
     username: Mapped[str] = Column(String(128), nullable=False, unique=True)
     email: Mapped[str] = Column(String(282), nullable=False, unique=True)
@@ -111,9 +124,8 @@ class Subject(Base):
     public_tender: Mapped["PublicTender"] = relationship(back_populates="subjects")
 
     name: Mapped[str] = Column(String(255), nullable=False)
-    category: Mapped[EnumCategory] = Column(Enum("GENERAL", "SPECIFIC", name="EnumCategory"), nullable=False)
-    status: Mapped[EnumStatus] = Column(
-        Enum("COMPLETE", "INCOMPLETE", name="EnumStatus"), nullable=False, default="INCOMPLETE")
+    category: Mapped[str] = Column(String(32), nullable=False)
+    status: Mapped[str] = Column(String(32), nullable=False, default="INCOMPLETE")
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     topics: Mapped[List["Topic"]] = relationship(back_populates="subject")
@@ -135,8 +147,7 @@ class Topic(Base):
     name: Mapped[str] = Column(String(255), nullable=False)
     description: Mapped[str] = Column(String(1024), nullable=True)
     fulfillment: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
-    status: Mapped[EnumStatus] = Column(
-        Enum("COMPLETE", "INCOMPLETE", name="EnumStatusTopic"), nullable=False, default="INCOMPLETE")
+    status: Mapped[str] = Column(String(32), nullable=False, default="INCOMPLETE")
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     note_topics: Mapped[List["NoteTopic"]] = relationship(back_populates="topic")

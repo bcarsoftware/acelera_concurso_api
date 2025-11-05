@@ -30,6 +30,25 @@ class TokenFactory:
         return encoded_jwt
 
     @classmethod
+    async def create_admin_token(cls, data: Any, time: float, time_select: EnumTokenTime) -> str:
+        if time <= 0:
+            raise JWTException("time must be positive integer", HttpStatus.BAD_REQUEST)
+
+        secret_key = await cls._get_secret_key_(admin=True)
+        algorithm = await cls._get_algorithm_()
+
+        time_delta = await cls._get_time_delta_(time, time_select)
+
+        payload = {
+            "data": data,
+            "exp": datetime.now(timezone.utc) + time_delta,
+        }
+
+        encoded_jwt = encode(payload, secret_key, algorithm=algorithm)
+
+        return encoded_jwt
+
+    @classmethod
     async def get_data_from_token(cls, token: str) -> Any:
         await cls.verify_token(token)
 
@@ -48,9 +67,21 @@ class TokenFactory:
         try:
             decode(token, secret_key, algorithms=[algorithm])
         except ExpiredSignatureError:
-            raise JWTException("this token has expired", HttpStatus.BAD_REQUEST)
+            raise JWTException("this token has expired", HttpStatus.NOT_AUTHORIZED)
         except InvalidTokenError:
-            raise JWTException("this token is invalid", HttpStatus.BAD_REQUEST)
+            raise JWTException("this token is invalid", HttpStatus.FORBIDDEN)
+
+    @classmethod
+    async def verify_admin_token(cls, token: str) -> None:
+        secret_key = await cls._get_secret_key_(admin=True)
+        algorithm = await cls._get_algorithm_()
+
+        try:
+            decode(token, secret_key, algorithms=[algorithm])
+        except ExpiredSignatureError:
+            raise JWTException("this token has expired", HttpStatus.NOT_AUTHORIZED)
+        except InvalidTokenError:
+            raise JWTException("this token is invalid", HttpStatus.FORBIDDEN)
 
     @classmethod
     async def _get_algorithm_(cls) -> str:
@@ -62,11 +93,13 @@ class TokenFactory:
         return algorithm
 
     @classmethod
-    async def _get_secret_key_(cls) -> str:
-        secret_key = Constraints.SECRET_KEY
+    async def _get_secret_key_(cls, admin: bool = False) -> str:
+        secret_key = Constraints.ADMIN_SECRET_KEY if admin else Constraints.SECRET_KEY
+
+        message = f"{'admin' if admin else ''} secret key must be set in environment".strip()
 
         if not secret_key:
-            raise JWTException("secret key must be set in environment", HttpStatus.NOT_FOUND)
+            raise JWTException(message, HttpStatus.NOT_FOUND)
 
         return secret_key
 

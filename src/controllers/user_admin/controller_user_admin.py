@@ -36,7 +36,7 @@ class UserAdminController(UserAdminControllerInterface):
 
         response = await self.service_user_admin.login_user_admin(user_admin_dto)
 
-        token = await TokenFactory.create_token(response,
+        token = await TokenFactory.create_admin_token(response,
                 int(Constraints.EXPIRE_ADMIN_TOKEN_SESSION), EnumTokenTime.DAYS)
 
         user_with_token = {

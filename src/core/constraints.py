@@ -7,6 +7,7 @@ from os import environ
 class Constraints:
     ENCODING_UTF_8 = "utf-8"
     SECRET_KEY = environ.get("SECRET_KEY", None)
+    ADMIN_SECRET_KEY = environ.get("ADMIN_SECRET_KEY", None)
     ALGORITHM = environ.get("ALGORITHM", None)
     EXPIRE_CODE_TIME = environ.get("EXPIRE_CODE_TIME", None)
     EXPIRE_TOKEN_SESSION = environ.get("EXPIRE_TOKEN_SESSION", None)

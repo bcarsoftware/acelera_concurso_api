@@ -13,13 +13,17 @@ from src.utils.password_util import PasswordUtil
 
 class ServiceEmailCode(ServiceEmailCodeInterface):
     async def send_checker_code_by_email(self, email_dto: EmailDTO) -> ActiveCodeDTO:
-        varification_code = await EmailCodeUtil.send_email_verification_code(email_dto.email)
+        verification_code = await EmailCodeUtil.send_email_verification_code(email_dto.email)
 
         expire_in = await self._get_expire_code_time_()
 
-        token = await TokenFactory.create_token(varification_code, expire_in, EnumTokenTime.MINUTES)
+        token = await TokenFactory.create_token(
+            ActiveCodeDTO(secure_code=verification_code),
+            expire_in,
+            EnumTokenTime.MINUTES
+        )
 
-        return ActiveCodeDTO(secure_code=varification_code, token=token)
+        return ActiveCodeDTO(secure_code=verification_code, token=token)
 
     async def verify_encrypted_verification_code(self, active_code_dto: ActiveCodeDTO) -> ActiveCodeDTO:
         await ActiveCodeManager.make_validation(active_code_dto)

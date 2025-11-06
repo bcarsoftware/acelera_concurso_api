@@ -6,7 +6,7 @@ from src.controllers.topic.controller_topic_interface import TopicControllerInte
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-topic_route = APIRouter(prefix="/topic")
+topic_route = APIRouter(prefix="/topic", tags=["Topic"])
 
 controller_topic: TopicControllerInterface = TopicController()
 

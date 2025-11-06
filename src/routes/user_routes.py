@@ -6,7 +6,7 @@ from src.controllers.user.controller_user_interface import UserControllerInterfa
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-user_rote = APIRouter(prefix="/user")
+user_rote = APIRouter(prefix="/user", tags=["User"])
 
 user_controller: UserControllerInterface = UserController()
 

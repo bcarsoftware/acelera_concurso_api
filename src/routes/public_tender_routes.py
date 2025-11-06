@@ -6,7 +6,7 @@ from src.controllers.public_tender.controller_public_tender_interface import Pub
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-public_tender_route = APIRouter(prefix="/public-tender")
+public_tender_route = APIRouter(prefix="/public-tender", tags=["Public Tender"])
 
 controller_public_tender: PublicTenderControllerInterface = PublicTenderController()
 

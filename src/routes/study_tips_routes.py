@@ -6,7 +6,7 @@ from src.controllers.study_tips.controller_study_tips_interface import StudyTips
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-study_tips_router = APIRouter(prefix="/study-tips")
+study_tips_router = APIRouter(prefix="/study-tips", tags=["Study Tips"])
 
 controller_study_tips: StudyTipsControllerInterface = StudyTipsController()
 

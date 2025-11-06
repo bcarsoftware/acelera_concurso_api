@@ -7,7 +7,7 @@ from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
 
-pomodoro_route =  APIRouter(prefix="/pomodoro")
+pomodoro_route =  APIRouter(prefix="/pomodoro", tags=["Pomodoro"])
 controller_pomodoro: PomodoroControllerInterface = PomodoroController()
 
 

@@ -7,7 +7,7 @@ from src.core.authentication import admin_authenticated
 from src.core.exception_handler import exception_handler
 
 
-user_admin_route = APIRouter(prefix="/user-admin")
+user_admin_route = APIRouter(prefix="/user-admin", tags=["User Admin"])
 
 controller_user_admin: UserAdminControllerInterface = UserAdminController()
 

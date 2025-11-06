@@ -6,7 +6,7 @@ from src.controllers.subject.controller_subject_interface import SubjectControll
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-subject_route = APIRouter(prefix="/subject")
+subject_route = APIRouter(prefix="/subject", tags=["Subject"])
 
 controller_subject: SubjectControllerInterface = SubjectController()
 

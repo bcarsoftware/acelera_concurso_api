@@ -6,7 +6,7 @@ from src.controllers.note_topic.controller_note_topic_interface import NoteTopic
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-note_topic_route = APIRouter(prefix="/note-topic")
+note_topic_route = APIRouter(prefix="/note-topic", tags=["Note Topic"])
 
 controller_note_topic: NoteTopicControllerInterface = NoteTopicController()
 

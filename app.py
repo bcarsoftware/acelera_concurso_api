@@ -30,6 +30,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/", tags=["Principal"])
+async def root() -> dict:
+    return { "message": "Hello World! I'm The Acelera Concurso API!" }
+
 app.include_router(email_code_route)
 app.include_router(note_subject_route)
 app.include_router(note_topic_route)
@@ -43,4 +47,4 @@ app.include_router(public_tender_board_route)
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='localhost', port=8000)
+    uvicorn.run("app:app", host='localhost', port=8000, reload=True)

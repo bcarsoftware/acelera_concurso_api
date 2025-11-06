@@ -6,7 +6,7 @@ from src.controllers.note_subject.controller_note_subject_interface import NoteS
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-note_subject_route = APIRouter(prefix="/note-subject")
+note_subject_route = APIRouter(prefix="/note-subject", tags=["Note Subject"])
 
 controller_note_subject: NoteSubjectControllerInterface = NoteSubjectController()
 

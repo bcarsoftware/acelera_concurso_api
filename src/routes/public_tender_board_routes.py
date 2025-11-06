@@ -10,7 +10,7 @@ from src.core.authentication import admin_authenticated, authenticated
 from src.core.exception_handler import exception_handler
 
 
-public_tender_board_route = APIRouter(prefix="/public-tender-board")
+public_tender_board_route = APIRouter(prefix="/public-tender-board", tags=["Public Tender Board"])
 
 controller_public_tender_board: PublicTenderBoardControllerInterface = PublicTenderBoardController()
 

@@ -35,6 +35,8 @@ load_dotenv()
 
 def load_url() -> None:
     db_url = environ.get("DB_URL")
+    db_url = db_url.replace("+asyncpg", "+psycopg2")
+
     if db_url:
         config.set_main_option("sqlalchemy.url", db_url)
 

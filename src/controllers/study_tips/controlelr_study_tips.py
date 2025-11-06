@@ -21,7 +21,7 @@ class StudyTipsController(StudyTipsControllerInterface):
         response = await self.service_study_tips.create_study_tip(study_tip_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="study_tip created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -34,13 +34,14 @@ class StudyTipsController(StudyTipsControllerInterface):
         response = await self.service_study_tips.update_study_tip(study_tip_dto, study_tip_id, user_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="study_tip created successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_study_tips_by_user_id(self, request: Request, user_id: int) -> JSONResponse:
         responses = await self.service_study_tips.find_study_tips_by_user_id(user_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -56,7 +57,7 @@ class StudyTipsController(StudyTipsControllerInterface):
         response = await self.service_study_tips.delete_one_or_more_study_tip(list_ids_dto, user_id)
 
         return await response_factory(
-            data=response,
+            data={ "response": response, "message": "study_tip deleted successfully" },
             message="study_tip created successfully",
             status_code=HttpStatus.OK
         )

@@ -22,7 +22,7 @@ class PublicTenderController(PublicTenderControllerInterface):
         response = await self.service_public_tender.public_tender_create(public_tender_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="public tender created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -35,7 +35,7 @@ class PublicTenderController(PublicTenderControllerInterface):
         response = await self.service_public_tender.public_tender_patch(public_tender_dto, public_tender_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="public tender updated successfully",
             status_code=HttpStatus.OK
         )
@@ -44,6 +44,7 @@ class PublicTenderController(PublicTenderControllerInterface):
         user_id = await get_header_param_by_name(request, ParamNames.USER_ID)
 
         responses = await self.service_public_tender.public_tender_list(user_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -55,6 +56,7 @@ class PublicTenderController(PublicTenderControllerInterface):
         user_id = await get_header_param_by_name(request, ParamNames.USER_ID)
 
         responses = await self.service_public_tender.public_tender_institute_list(institute, user_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -66,6 +68,7 @@ class PublicTenderController(PublicTenderControllerInterface):
         user_id = await get_header_param_by_name(request, ParamNames.USER_ID)
 
         responses = await self.service_public_tender.public_tender_board_list(tender_board, user_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -77,7 +80,7 @@ class PublicTenderController(PublicTenderControllerInterface):
         response = await self.service_public_tender.public_tender_delete(public_tender_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="public tender deleted successfully",
             status_code=HttpStatus.OK
         )

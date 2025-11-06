@@ -19,7 +19,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                 session.add(public_tender_orm)
                 await session.commit()
                 await session.refresh(public_tender_orm)
-            return await PublicTenderResponse.model_validate(public_tender_orm)
+            return PublicTenderResponse.model_validate(public_tender_orm)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -51,7 +51,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(public_tender_orm)
-            return await PublicTenderResponse.model_validate(public_tender_orm)
+            return PublicTenderResponse.model_validate(public_tender_orm)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -77,7 +77,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                     raise DatabaseException("any public tender found by user", HttpStatus.NOT_FOUND)
 
             return [
-                await PublicTenderResponse.model_validate(p_tender)
+                PublicTenderResponse.model_validate(p_tender)
                 for p_tender in public_tenders
             ]
         except Exception as e:
@@ -106,7 +106,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                     raise DatabaseException("any public tender found by institute", HttpStatus.NOT_FOUND)
 
             return [
-                await PublicTenderResponse.model_validate(p_tender)
+                PublicTenderResponse.model_validate(p_tender)
                 for p_tender in public_tenders
             ]
         except Exception as e:
@@ -135,7 +135,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                     raise DatabaseException("any public tender found by tender board", HttpStatus.NOT_FOUND)
 
             return [
-                await PublicTenderResponse.model_validate(p_tender)
+                PublicTenderResponse.model_validate(p_tender)
                 for p_tender in public_tenders
             ]
         except Exception as e:
@@ -166,7 +166,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(public_tender)
-            return await PublicTenderResponse.model_validate(public_tender)
+            return PublicTenderResponse.model_validate(public_tender)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

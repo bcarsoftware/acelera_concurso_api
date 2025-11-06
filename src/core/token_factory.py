@@ -3,6 +3,7 @@ from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from jwt import encode, decode, ExpiredSignatureError, InvalidTokenError
+from pydantic import BaseModel
 
 from src.core.constraints import Constraints, HttpStatus
 from src.enums.enum_token_time import EnumTokenTime
@@ -21,7 +22,7 @@ class TokenFactory:
         time_delta = await cls._get_time_delta_(time, time_select)
 
         payload = {
-            "data": data,
+            "data": BaseModel.model_dump(data, mode="json"),
             "exp": datetime.now(timezone.utc) + time_delta,
         }
 
@@ -34,13 +35,13 @@ class TokenFactory:
         if time <= 0:
             raise JWTException("time must be positive integer", HttpStatus.BAD_REQUEST)
 
-        secret_key = await cls._get_secret_key_(admin=True)
         algorithm = await cls._get_algorithm_()
+        secret_key = await cls._get_secret_key_(admin=True)
 
         time_delta = await cls._get_time_delta_(time, time_select)
 
         payload = {
-            "data": data,
+            "data": BaseModel.model_dump(data, mode="json"),
             "exp": datetime.now(timezone.utc) + time_delta,
         }
 

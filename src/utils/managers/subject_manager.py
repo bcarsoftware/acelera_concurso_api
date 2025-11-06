@@ -18,7 +18,7 @@ class SubjectManager:
 
         subject_dto = await payload_dto(data_body, SubjectDTO, public_tender_exception)
 
-        return SubjectDTO(**subject_dto)
+        return SubjectDTO(**subject_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, subject_dto: SubjectDTO) -> None:

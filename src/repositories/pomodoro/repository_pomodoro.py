@@ -70,7 +70,7 @@ class PomodoroRepository(PomodoroRepositoryInterface):
                     raise DatabaseException("pomodoro not found", HttpStatus.NOT_FOUND)
 
             return [
-                await PomodoroResponse.model_validate(pomodoro)
+                PomodoroResponse.model_validate(pomodoro)
                 for pomodoro in pomodoros
             ]
         except Exception as e:

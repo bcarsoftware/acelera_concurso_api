@@ -16,7 +16,7 @@ class ActiveCodeManager:
 
         active_code_dto = await payload_dto(payload, ActiveCodeDTO, active_code_exception)
 
-        return ActiveCodeDTO(**active_code_dto)
+        return ActiveCodeDTO(**active_code_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, active_code_dto: ActiveCodeDTO) -> None:

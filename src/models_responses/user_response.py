@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from src.enums.enum_gender import EnumGender
 
@@ -18,3 +18,5 @@ class UserResponse(BaseModel):
     deleted: bool = False
     create_at: datetime
     update_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)

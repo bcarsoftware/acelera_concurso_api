@@ -2,7 +2,7 @@ from typing import List
 
 from src.models_dtos.public_tender_board_dto import PublicTenderBoardDTO
 from src.models_responses.public_tender_board_response import PublicTenderBoardResponse
-from src.repositories.public_tender_board.reposiroty_public_tender_board_interface import (
+from src.repositories.public_tender_board.repository_public_tender_board_interface import (
     PublicTenderBoardRepositoryInterface
 )
 from src.repositories.public_tender_board.repository_public_tender_board import PublicTenderBoardRepository

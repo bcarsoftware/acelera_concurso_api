@@ -18,7 +18,7 @@ class UserAdminManager:
 
         user_admin_dto = await payload_dto(data_body, UserAdminDTO, user_admin_exception)
 
-        return await UserAdminDTO(**user_admin_dto)
+        return UserAdminDTO(**user_admin_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, user_admin_dto: UserAdminDTO) -> None:

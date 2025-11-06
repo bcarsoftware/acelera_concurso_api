@@ -21,7 +21,7 @@ class UserRepository(UserRepositoryInterface):
                 await session.commit()
                 await session.refresh(user)
                 user.password = ""
-            return await UserResponse.model_validate(user)
+            return UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -50,7 +50,7 @@ class UserRepository(UserRepositoryInterface):
                 await session.commit()
                 await session.refresh(user)
                 user.password = ""
-            return await UserResponse.model_validate(user)
+            return UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -84,7 +84,7 @@ class UserRepository(UserRepositoryInterface):
                 await session.commit()
                 await session.refresh(user)
                 user.password = ""
-            return await UserResponse.model_validate(user)
+            return UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -117,7 +117,7 @@ class UserRepository(UserRepositoryInterface):
                 if not success:
                     raise DatabaseException("password not correct", HTTPStatus.FORBIDDEN)
                 user.password = ""
-            return await UserResponse.model_validate(user)
+            return UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -147,7 +147,7 @@ class UserRepository(UserRepositoryInterface):
                 await session.commit()
                 await session.refresh(user)
                 user.password = ""
-            return await UserResponse.model_validate(user)
+            return UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -177,7 +177,7 @@ class UserRepository(UserRepositoryInterface):
                 await session.commit()
                 await session.refresh(user)
                 user.password = ""
-            return await UserResponse.model_validate(user)
+            return UserResponse.model_validate(user)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

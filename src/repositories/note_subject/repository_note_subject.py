@@ -19,7 +19,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 session.add(note_subject_orm)
                 await session.commit()
                 await session.refresh(note_subject_orm)
-            return await NoteSubjectResponse.model_validate(note_subject_orm)
+            return NoteSubjectResponse.model_validate(note_subject_orm)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -52,7 +52,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(note_subject_orm)
-            return await NoteSubjectResponse.model_validate(note_subject_orm)
+            return NoteSubjectResponse.model_validate(note_subject_orm)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -78,7 +78,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
             return [
-                await NoteSubjectResponse.model_validate(n_subject)
+                NoteSubjectResponse.model_validate(n_subject)
                 for n_subject in note_subjects
             ]
         except Exception as e:
@@ -112,7 +112,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(note_subject_data)
-            return await NoteSubjectResponse.model_validate(note_subject_data)
+            return NoteSubjectResponse.model_validate(note_subject_data)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -141,7 +141,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(note_subject)
-            return await NoteSubjectResponse.model_validate(note_subject)
+            return NoteSubjectResponse.model_validate(note_subject)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

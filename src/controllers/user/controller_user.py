@@ -23,7 +23,7 @@ class UserController(UserControllerInterface):
         response = await self.user_service.add_user(user_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user created successfully",
             status_code=HttpStatus.CREATED,
         )
@@ -36,7 +36,7 @@ class UserController(UserControllerInterface):
         response = await self.user_service.recover_user(recovery_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user created successfully",
             status_code=HttpStatus.CREATED,
         )
@@ -49,7 +49,7 @@ class UserController(UserControllerInterface):
         response = await self.user_service.update_user(user_dto, user_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user updated successfully",
             status_code=HttpStatus.OK,
         )
@@ -65,7 +65,7 @@ class UserController(UserControllerInterface):
                 int(Constraints.EXPIRE_TOKEN_SESSION), EnumTokenTime.DAYS)
 
         user_with_token = {
-            "user": { **response.model_dump() },
+            "user": { **response.model_dump(mode="json") },
             "token": token,
         }
 
@@ -83,7 +83,7 @@ class UserController(UserControllerInterface):
         response = await self.user_service.update_user_password(user_dto, user_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user password updated successfully",
             status_code=HttpStatus.OK,
         )
@@ -92,7 +92,7 @@ class UserController(UserControllerInterface):
         response = await self.user_service.delete_user(user_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user deleted successfully",
             status_code=HttpStatus.OK,
         )

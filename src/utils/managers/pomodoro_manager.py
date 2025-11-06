@@ -11,14 +11,14 @@ from src.utils.regex import Regex
 class PomodoroManager:
     @classmethod
     async def convert_payload_to_pomodoro_dto(cls, data_body: Dict[str, Any]) -> PomodoroDTO:
-        note_subject_exception = PomodoroException(
+        pomodoro_exception = PomodoroException(
             "invalid payload for pomodoro",
             HttpStatus.UNPROCESSABLE_ENTITY
         )
 
-        note_subject = await payload_dto(data_body, PomodoroDTO, note_subject_exception)
+        pomodoro_dto = await payload_dto(data_body, PomodoroDTO, pomodoro_exception)
 
-        return PomodoroDTO(**note_subject)
+        return PomodoroDTO(**pomodoro_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, pomodoro_dto: PomodoroDTO) -> None:

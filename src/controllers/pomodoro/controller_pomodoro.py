@@ -21,7 +21,7 @@ class PomodoroController(PomodoroControllerInterface):
         response = await self.service_pomodoro.create_pomodoro(pomodoro_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="pomodoro created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -34,13 +34,14 @@ class PomodoroController(PomodoroControllerInterface):
         response = await self.service_pomodoro.update_pomodoro(pomodoro_dto, pomodoro_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="pomodoro updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def get_all_pomodoros_by_user_id(self, request: Request, user_id: int) -> JSONResponse:
         responses = await self.service_pomodoro.get_all_pomodoros_by_user_id(user_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -52,7 +53,7 @@ class PomodoroController(PomodoroControllerInterface):
         response = await self.service_pomodoro.delete_pomodoro(user_id, pomodoro_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="pomodoro deleted successfully",
             status_code=HttpStatus.OK
         )

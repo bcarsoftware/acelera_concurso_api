@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class StudyTipsResponse(BaseModel):
@@ -13,3 +13,5 @@ class StudyTipsResponse(BaseModel):
     deleted: bool = False
     create_at: datetime
     update_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)

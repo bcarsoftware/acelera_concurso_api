@@ -22,7 +22,7 @@ class TopicController(TopicControllerInterface):
         response = await self.service_topic.create_topic(topic_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="topic created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -35,7 +35,7 @@ class TopicController(TopicControllerInterface):
         response = await self.service_topic.update_topic(topic_dto, topic_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="topic updated successfully",
             status_code=HttpStatus.OK
         )
@@ -44,6 +44,7 @@ class TopicController(TopicControllerInterface):
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
         responses = await self.service_topic.get_topics(subject_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -55,6 +56,7 @@ class TopicController(TopicControllerInterface):
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
         responses = await self.service_topic.get_topic_by_name(subject_id, name)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -66,6 +68,7 @@ class TopicController(TopicControllerInterface):
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
         responses = await self.service_topic.get_topic_by_status(subject_id, status)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -77,7 +80,7 @@ class TopicController(TopicControllerInterface):
         response = await self.service_topic.finish_topic(topic_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="topic finished successfully",
             status_code=HttpStatus.OK
         )
@@ -86,7 +89,7 @@ class TopicController(TopicControllerInterface):
         response = await self.service_topic.delete_topic(topic_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="topic deleted successfully",
             status_code=HttpStatus.OK
         )

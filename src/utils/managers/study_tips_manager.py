@@ -19,7 +19,7 @@ class StudyTipsManager:
 
         study_tips_dto = await payload_dto(data_body, StudyTipsDTO, study_tips_exception)
 
-        return StudyTipsDTO(**study_tips_dto)
+        return StudyTipsDTO(**study_tips_dto.model_dump())
 
     @classmethod
     async def convert_payload_to_list_id_dto(cls, data_body: Dict[str, Any]) -> ListIDDTO:

@@ -16,7 +16,7 @@ class TopicManager:
 
         topic_dto = await payload_dto(data_body, TopicDTO, topic_exception)
 
-        return TopicDTO(**topic_dto)
+        return TopicDTO(**topic_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, topic_dto: TopicDTO) -> None:

@@ -24,7 +24,7 @@ class UserAdminController(UserAdminControllerInterface):
         response = await self.service_user_admin.create_user_admin(user_admin_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user created successfully",
             status_code=HttpStatus.CREATED,
         )
@@ -40,7 +40,7 @@ class UserAdminController(UserAdminControllerInterface):
                 int(Constraints.EXPIRE_ADMIN_TOKEN_SESSION), EnumTokenTime.DAYS)
 
         user_with_token = {
-            "user": { **response.model_dump() },
+            "user": response.model_dump(mode="json"),
             "token": token,
         }
 
@@ -58,7 +58,7 @@ class UserAdminController(UserAdminControllerInterface):
         response = await self.service_user_admin.update_user_admin(user_admin_dto, user_admin_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="user admin updated successfully",
             status_code=HttpStatus.OK,
         )

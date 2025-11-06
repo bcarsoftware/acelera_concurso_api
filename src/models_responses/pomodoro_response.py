@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class PomodoroResponse(BaseModel):
@@ -15,3 +15,5 @@ class PomodoroResponse(BaseModel):
     rounds: int
     create_at: datetime
     update_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)

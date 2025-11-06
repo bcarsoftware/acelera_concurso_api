@@ -10,7 +10,7 @@ def exception_handler(function: Callable) -> Callable:
     @wraps(function)
     async def wrapper(*args: Any, **kwargs: Any) -> Any:
         try:
-            return function(*args, **kwargs)
+            return await function(*args, **kwargs)
         except DefaultException as e:
             exception = await error_factory(e)
 

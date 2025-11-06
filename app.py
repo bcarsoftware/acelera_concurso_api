@@ -16,7 +16,7 @@ from src.routes.user_routes import user_rote
 
 with open("cors_origins.txt", "r") as reader:
     origins = reader.readlines()
-    origins = [origin[:-1] for origin in origins]
+    origins = [origin.strip() for origin in origins]
 
 
 app = FastAPI()
@@ -43,4 +43,4 @@ app.include_router(public_tender_board_route)
 
 
 if __name__ == '__main__':
-    uvicorn.run(app, host='0.0.0.0', port=8000)
+    uvicorn.run(app, host='localhost', port=8000)

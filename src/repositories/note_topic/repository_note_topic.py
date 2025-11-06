@@ -52,7 +52,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(note_topic_orm)
-            return await NoteTopicResponse.model_validate(note_topic_orm)
+            return NoteTopicResponse.model_validate(note_topic_orm)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -78,7 +78,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     raise DatabaseException("note topic not found", HttpStatus.NOT_FOUND)
 
             return [
-                await NoteTopicResponse.model_validate(note_topic)
+                NoteTopicResponse.model_validate(note_topic)
                 for note_topic in note_topics
             ]
         except Exception as e:
@@ -112,7 +112,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(note_topic_data)
-            return await NoteTopicResponse.model_validate(note_topic_data)
+            return NoteTopicResponse.model_validate(note_topic_data)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -141,7 +141,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(note_topic)
-            return await NoteTopicResponse.model_validate(note_topic)
+            return NoteTopicResponse.model_validate(note_topic)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

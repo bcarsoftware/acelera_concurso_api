@@ -18,7 +18,7 @@ class EmailCodeManager:
 
         email_dto = await payload_dto(data_body, EmailDTO, email_exception)
 
-        return EmailDTO(**email_dto)
+        return EmailDTO(**email_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, email_dto: EmailDTO) -> None:

@@ -23,7 +23,7 @@ class PublicTenderBoardController(PublicTenderBoardControllerInterface):
         response = await self.service_public_tender_board.create_public_tender_board(public_tender_board_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="public tender board created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -39,13 +39,14 @@ class PublicTenderBoardController(PublicTenderBoardControllerInterface):
         )
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="public tender board updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_all_public_tender_boards(self, request: Request) -> JSONResponse:
         responses = await self.service_public_tender_board.find_all_public_tender_boards()
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -57,7 +58,7 @@ class PublicTenderBoardController(PublicTenderBoardControllerInterface):
         response = await self.service_public_tender_board.delete_public_tender_board(public_tender_board_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="public tender boards deleted successfully",
             status_code=HttpStatus.OK
         )

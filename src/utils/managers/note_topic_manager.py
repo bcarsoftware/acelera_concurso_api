@@ -19,7 +19,7 @@ class NoteTopicManager:
 
         note_topic = await payload_dto(data_body, NoteTopicDTO, note_topic_exception)
 
-        return NoteTopicDTO(**note_topic)
+        return NoteTopicDTO(**note_topic.model_dump())
 
     @classmethod
     async def make_validation(cls, note_topic: NoteTopicDTO) -> None:

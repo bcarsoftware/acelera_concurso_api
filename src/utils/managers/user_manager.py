@@ -20,7 +20,7 @@ class UserManager:
 
         login_dto = await payload_dto(data_body, LoginDTO, user_exception)
 
-        return LoginDTO(**login_dto)
+        return LoginDTO(**login_dto.model_dump())
 
     @classmethod
     async def convert_payload_to_user_dto(cls, data_body: Dict[str, Any]) -> UserDTO:

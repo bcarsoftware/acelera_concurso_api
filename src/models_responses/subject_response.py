@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 from src.enums.enum_category import EnumCategory
 from src.enums.enum_status import EnumStatus
@@ -16,3 +16,5 @@ class SubjectResponse(BaseModel):
     deleted: bool = False
     create_at: datetime
     update_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)

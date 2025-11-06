@@ -1,7 +1,7 @@
 from datetime import date, datetime
 from typing import Optional
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 
 
 class PublicTenderResponse(BaseModel):
@@ -16,3 +16,5 @@ class PublicTenderResponse(BaseModel):
     deleted: bool = False
     create_at: datetime
     update_at: Optional[datetime] = None
+
+    model_config = ConfigDict(from_attributes=True)

@@ -270,10 +270,10 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 ## Rotas de Public Tender Board
 | Method | Rota                                                        | DTO                                                                   | Auth | Header Param                                                                                                  |
 |--------|-------------------------------------------------------------|-----------------------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
-| POST   | `/public_tender_board`                                      | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| PATCH  | `/public_tender_board/<public_tender_board_id: int>`        | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/public_tender_board`                                      | -                                                                     | OFF  | <details><code>{ "Content-Type": "application/json" }</details>                                               |
-| DELETE | `/public_tender_board/<public_tender_board_id: int>/delete` | -                                                                     | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| POST   | `/public-tender-board`                                      | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/public-tender-board/<public_tender_board_id: int>`        | [PublicTenderBoardDTO](../src/models_dtos/public_tender_board_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/public-tender-board`                                      | -                                                                     | OFF  | <details><code>{ "Content-Type": "application/json" }</details>                                               |
+| DELETE | `/public-tender-board/<public_tender_board_id: int>/delete` | -                                                                     | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 
 ### Objetos JSON de Public Tender Board
 > PublicTenderBoardDTO

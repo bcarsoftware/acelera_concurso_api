@@ -206,7 +206,7 @@ class PublicTenderBoard(Base):
 
     user_admin_id: Mapped[int] = Column(
         Integer, ForeignKey(UserAdmin.user_admin_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
-    user: Mapped["User"] = relationship(back_populates="public_tender_boards")
+    user_admin: Mapped["UserAdmin"] = relationship(back_populates="public_tender_boards")
 
     sail: Mapped[str] = Column(String(32), unique=True, nullable=False)
     name: Mapped[str] = Column(String(128), unique=True, nullable=False)

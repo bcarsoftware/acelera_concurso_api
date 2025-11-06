@@ -19,7 +19,7 @@ class PublicTenderManager:
 
         public_tender_dto = await payload_dto(data_body, PublicTenderDTO, public_tender_exception)
 
-        return PublicTenderDTO(**public_tender_dto)
+        return PublicTenderDTO(**public_tender_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, public_tender_dto: PublicTenderDTO) -> None:

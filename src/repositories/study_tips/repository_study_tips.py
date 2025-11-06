@@ -20,7 +20,7 @@ class StudyTipsRepository(StudyTipsRepositoryInterface):
                 session.add(study_tip)
                 await session.commit()
                 await session.refresh(study_tip)
-            return await StudyTipsResponse.model_validate(study_tip)
+            return StudyTipsResponse.model_validate(study_tip)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -53,7 +53,7 @@ class StudyTipsRepository(StudyTipsRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(study_tip)
-            return await StudyTipsResponse.model_validate(study_tip)
+            return StudyTipsResponse.model_validate(study_tip)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -79,7 +79,7 @@ class StudyTipsRepository(StudyTipsRepositoryInterface):
                     raise DatabaseException("study tip not found", HttpStatus.NOT_FOUND)
 
             return [
-                await StudyTipsResponse.model_validate(study_tip)
+                StudyTipsResponse.model_validate(study_tip)
                 for study_tip in study_tips
             ]
         except Exception as e:

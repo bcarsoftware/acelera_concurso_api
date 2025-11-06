@@ -21,7 +21,7 @@ class NoteSubjectController(NoteSubjectControllerInterface):
         response = await self.service_note_subject.create_note_subject(note_subject_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note subject created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -34,13 +34,14 @@ class NoteSubjectController(NoteSubjectControllerInterface):
         response = await self.service_note_subject.update_note_subject(note_subject_dto, note_subject_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note subject updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_note_subject_by_subject_id(self, request: Request, subject_id: int) -> JSONResponse:
         responses = await self.service_note_subject.find_note_subject_by_subject_id(subject_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -56,7 +57,7 @@ class NoteSubjectController(NoteSubjectControllerInterface):
         response = await self.service_note_subject.finish_note_subject(note_subject_dto, note_subject_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note subject finished successfully",
             status_code=HttpStatus.OK
         )
@@ -65,7 +66,7 @@ class NoteSubjectController(NoteSubjectControllerInterface):
         response = await self.service_note_subject.delete_note_subject(note_subject_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note subject deleted successfully",
             status_code=HttpStatus.OK
         )

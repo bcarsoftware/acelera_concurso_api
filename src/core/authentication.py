@@ -24,6 +24,7 @@ def authenticated(function: Callable[..., Any]):
 
         try:
             await TokenFactory.verify_token(token)
+            return await function(**kwargs)
         except JWTException as jtw_e:
             print(jtw_e)
             raise JWTException("user not authorized", HttpStatus.NOT_AUTHORIZED)
@@ -33,7 +34,7 @@ def authenticated(function: Callable[..., Any]):
 
 def admin_authenticated(function: Callable[..., Any]):
     @wraps(function)
-    async def wrapper(**kwargs: Any) -> Any:
+    async def wrapper(*args: Any, **kwargs: Any) -> Any:
         request: Request = kwargs["request"]
 
         headers = request.headers
@@ -47,6 +48,7 @@ def admin_authenticated(function: Callable[..., Any]):
 
         try:
             await TokenFactory.verify_admin_token(token)
+            return await function(**kwargs)
         except JWTException as jtw_e:
             print(jtw_e)
             raise JWTException("admin user not authorized", HttpStatus.NOT_AUTHORIZED)

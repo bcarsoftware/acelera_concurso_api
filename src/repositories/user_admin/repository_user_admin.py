@@ -18,12 +18,12 @@ class UserAdminRepository(UserAdminRepositoryInterface):
     async def create_user_admin(self, user_admin_dto: UserAdminDTO) -> UserAdminResponse:
         try:
             async with AsyncSession(self._engine_) as session:
-                user_admin = UserAdmin(**user_admin_dto.model_dump())
+                user_admin = UserAdmin(**user_admin_dto.model_dump(exclude={"new_password"}))
                 session.add(user_admin)
                 await session.commit()
                 await session.refresh(user_admin)
                 user_admin.password = ""
-            return await UserAdminResponse.model_validate(user_admin)
+            return UserAdminResponse.model_validate(user_admin)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -50,7 +50,7 @@ class UserAdminRepository(UserAdminRepositoryInterface):
                 if not logged:
                     raise DatabaseException("user admin login failed", HTTPStatus.BAD_REQUEST)
                 user_admin.password = ""
-            return await UserAdminResponse.model_validate(user_admin)
+            return UserAdminResponse.model_validate(user_admin)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -79,7 +79,7 @@ class UserAdminRepository(UserAdminRepositoryInterface):
                 await session.commit()
                 await session.refresh(user_admin)
                 user_admin.password = ""
-            return await UserAdminResponse.model_validate(user_admin)
+            return UserAdminResponse.model_validate(user_admin)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

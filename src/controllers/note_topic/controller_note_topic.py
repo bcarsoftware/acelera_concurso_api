@@ -21,7 +21,7 @@ class NoteTopicController(NoteTopicControllerInterface):
         response = await self.service_note_topic.create_note_topic(note_topic_dto)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note topic created successfully",
             status_code=HttpStatus.CREATED
         )
@@ -34,13 +34,14 @@ class NoteTopicController(NoteTopicControllerInterface):
         response = await self.service_note_topic.update_note_topic(note_topic_dto, note_topic_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note topic updated successfully",
             status_code=HttpStatus.OK
         )
 
     async def find_note_topic_by_topic_id(self, request: Request, topic_id: int) -> JSONResponse:
         responses = await self.service_note_topic.find_note_topic_by_topic_id(topic_id)
+        responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
             data=responses,
@@ -56,7 +57,7 @@ class NoteTopicController(NoteTopicControllerInterface):
         response = await self.service_note_topic.update_note_topic(note_topic_dto, note_topic_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note topic finished successfully",
             status_code=HttpStatus.OK
         )
@@ -65,7 +66,7 @@ class NoteTopicController(NoteTopicControllerInterface):
         response = await self.service_note_topic.delete_note_topic(note_topic_id)
 
         return await response_factory(
-            data=response,
+            data=response.model_dump(mode="json"),
             message="note topic deleted successfully",
             status_code=HttpStatus.OK
         )

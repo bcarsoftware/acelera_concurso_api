@@ -23,7 +23,7 @@ class TopicRepository(TopicRepositoryInterface):
                 session.add(topic)
                 await session.commit()
                 await session.refresh(topic)
-            return await TopicResponse.model_validate(topic)
+            return TopicResponse.model_validate(topic)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -56,7 +56,7 @@ class TopicRepository(TopicRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(topic)
-            return await TopicResponse.model_validate(topic)
+            return TopicResponse.model_validate(topic)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -82,7 +82,7 @@ class TopicRepository(TopicRepositoryInterface):
                     raise DatabaseException("any topic found by subject id", HttpStatus.NOT_FOUND)
 
             return [
-                await TopicResponse.model_validate(topic)
+                TopicResponse.model_validate(topic)
                 for topic in topics
             ]
         except Exception as e:
@@ -110,7 +110,7 @@ class TopicRepository(TopicRepositoryInterface):
                     raise DatabaseException("any topic found by name", HttpStatus.NOT_FOUND)
 
             return [
-                await TopicResponse.model_validate(topic)
+                TopicResponse.model_validate(topic)
                 for topic in topics
             ]
         except Exception as e:
@@ -138,7 +138,7 @@ class TopicRepository(TopicRepositoryInterface):
                     raise DatabaseException("any topic found by status", HttpStatus.NOT_FOUND)
 
             return [
-                await TopicResponse.model_validate(topic)
+                TopicResponse.model_validate(topic)
                 for topic in topics
             ]
         except Exception as e:
@@ -165,7 +165,7 @@ class TopicRepository(TopicRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(topic)
-            return await TopicResponse.model_validate(topic)
+            return TopicResponse.model_validate(topic)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -190,7 +190,7 @@ class TopicRepository(TopicRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(topic)
-            return await TopicResponse.model_validate(topic)
+            return TopicResponse.model_validate(topic)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

@@ -22,7 +22,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                 session.add(subject)
                 await session.commit()
                 await session.refresh(subject)
-            return await SubjectResponse.model_validate(subject)
+            return SubjectResponse.model_validate(subject)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -55,7 +55,7 @@ class SubjectRepository(SubjectRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(subject)
-            return await SubjectResponse.model_validate(subject)
+            return SubjectResponse.model_validate(subject)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -81,7 +81,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                     raise DatabaseException("any subject found by name and tender id", HttpStatus.NOT_FOUND)
 
             return [
-                await SubjectResponse.model_validate(subject)
+                SubjectResponse.model_validate(subject)
                 for subject in subjects
             ]
         except Exception as e:
@@ -110,7 +110,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                     raise DatabaseException("any subject found by name and tender id", HttpStatus.NOT_FOUND)
 
             return [
-                await SubjectResponse.model_validate(subject)
+                SubjectResponse.model_validate(subject)
                 for subject in subjects
             ]
         except Exception as e:
@@ -162,7 +162,7 @@ class SubjectRepository(SubjectRepositoryInterface):
 
                 await session.commit()
                 await session.refresh(subject)
-            return await SubjectResponse.model_validate(subject)
+            return SubjectResponse.model_validate(subject)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):
@@ -197,7 +197,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                 subject.public_tender.user.points -= points
                 await session.commit()
                 await session.refresh(subject)
-            return await SubjectResponse.model_validate(subject)
+            return SubjectResponse.model_validate(subject)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

@@ -20,7 +20,7 @@ class EmailCodeController(EmailCodeControllerInterface):
         
         response = await self.service_email_code.send_checker_code_by_email(email_dto)
 
-        return await response_factory(response, "code sent with success")
+        return await response_factory(response.model_dump(mode="json"), "code sent with success")
 
     async def verify_encrypted_verification_code(self, request: Request) -> JSONResponse:
         payload = await request.json()
@@ -29,4 +29,4 @@ class EmailCodeController(EmailCodeControllerInterface):
 
         response = await self.service_email_code.verify_encrypted_verification_code(active_code_dto)
 
-        return await response_factory(response, "code checked with success")
+        return await response_factory(response.model_dump(mode="json"), "code checked with success")

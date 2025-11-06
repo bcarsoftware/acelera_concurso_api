@@ -84,6 +84,29 @@ class PublicTenderBoardRepository(PublicTenderBoardRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
+    async def find_all_public_tender_boards_user(self) -> List[str]:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(PublicTenderBoard.sail, PublicTenderBoard.name).order_by(
+                    PublicTenderBoard.public_tender_board_id.asc()))
+
+                public_tender_boards = response.all()
+
+                if not public_tender_boards:
+                    raise DatabaseException("public tender board not found", HttpStatus.NOT_FOUND)
+
+            return [
+                f"{str(board[0]).upper()}: {str(board[1]).title()}"
+                for board in public_tender_boards
+            ]
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
     async def delete_public_tender_board(self, public_tender_board_id: int) -> PublicTenderBoardResponse:
         try:
             async with AsyncSession(self._engine_) as session:

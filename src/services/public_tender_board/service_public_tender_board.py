@@ -39,5 +39,8 @@ class ServicePublicTenderBoard(ServicePublicTenderBoardInterface):
     async def find_all_public_tender_boards(self) -> List[PublicTenderBoardResponse]:
         return await self.repository_public_tender_board.find_all_public_tender_boards()
 
+    async def find_all_public_tender_boards_user(self) -> List[str]:
+        return await self.repository_public_tender_board.find_all_public_tender_boards_user()
+
     async def delete_public_tender_board(self, public_tender_board_id: int) -> PublicTenderBoardResponse:
         return await self.repository_public_tender_board.delete_public_tender_board(public_tender_board_id)

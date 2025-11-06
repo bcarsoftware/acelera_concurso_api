@@ -26,5 +26,9 @@ class ServicePublicTenderBoardInterface(ABC):
         pass
 
     @abstractmethod
+    async def find_all_public_tender_boards_user(self) -> List[str]:
+        pass
+
+    @abstractmethod
     async def delete_public_tender_board(self, public_tender_board_id: int) -> PublicTenderBoardResponse:
         pass

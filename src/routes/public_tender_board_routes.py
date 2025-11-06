@@ -6,7 +6,7 @@ from src.controllers.public_tender_board.controller_public_tender_board import P
 from src.controllers.public_tender_board.controller_public_tender_board_interface import (
     PublicTenderBoardControllerInterface
 )
-from src.core.authentication import admin_authenticated
+from src.core.authentication import admin_authenticated, authenticated
 from src.core.exception_handler import exception_handler
 
 
@@ -34,6 +34,13 @@ async def update_public_tender_board(request: Request, public_tender_board_id: i
 @admin_authenticated
 async def find_all_public_tender_boards(request: Request) -> JSONResponse:
     return await controller_public_tender_board.find_all_public_tender_boards(request)
+
+
+@exception_handler
+@public_tender_board_route.get("/user")
+@authenticated
+async def find_all_public_tender_boards_user(request: Request) -> JSONResponse:
+    return await controller_public_tender_board.find_all_public_tender_boards_user(request)
 
 
 @exception_handler

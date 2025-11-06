@@ -54,6 +54,15 @@ class PublicTenderBoardController(PublicTenderBoardControllerInterface):
             status_code=HttpStatus.OK
         )
 
+    async def find_all_public_tender_boards_user(self, request: Request) -> JSONResponse:
+        responses = await self.service_public_tender_board.find_all_public_tender_boards_user()
+
+        return await response_factory(
+            data=responses,
+            message="public tender boards found successfully",
+            status_code=HttpStatus.OK
+        )
+
     async def delete_public_tender_board(self, request: Request, public_tender_board_id: int) -> JSONResponse:
         response = await self.service_public_tender_board.delete_public_tender_board(public_tender_board_id)
 

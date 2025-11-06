@@ -18,5 +18,9 @@ class PublicTenderBoardControllerInterface(ABC):
         pass
 
     @abstractmethod
+    async def find_all_public_tender_boards_user(self, request: Request) -> JSONResponse:
+        pass
+
+    @abstractmethod
     async def delete_public_tender_board(self, request: Request, public_tender_board_id: int) -> JSONResponse:
         pass

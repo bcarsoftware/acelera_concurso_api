@@ -31,7 +31,7 @@ class UserManager:
 
         user_dto = await payload_dto(data_body, UserDTO, user_exception)
 
-        return UserDTO(**user_dto)
+        return UserDTO(**user_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, user_dto: UserDTO) -> None:
@@ -62,7 +62,7 @@ class UserManager:
 
     @classmethod
     async def _checker_user_date_born_(cls, user_dto: UserDTO) -> None:
-        if user_dto.born > date.today():
+        if user_dto.date_born > date.today():
             raise UserException("you can't create an user that didn't born", HttpStatus.BAD_REQUEST)
 
     @classmethod

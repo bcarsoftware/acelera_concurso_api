@@ -7,7 +7,8 @@ def main() -> None:
         print("### Migration Software ###")
         print("[1]. Create a Migration")
         print("[2]. Make Migrations")
-        print("[3]. Go to a Migration")
+        print("[3]. Go To a Migration")
+        print("[4]. Down To Migration")
         print("--------------------------")
         option = input("> ")
 
@@ -18,6 +19,7 @@ def main() -> None:
                 1: create_migration,
                 2: make_migrations,
                 3: go_to_migration,
+                4: down_to_migration,
             }.get(choice, None)
 
             if function is None:
@@ -67,6 +69,18 @@ def go_to_migration() -> None:
         print("Empty Code!")
 
     command = f"alembic upgrade {code}"
+    system(command)
+
+
+def down_to_migration() -> None:
+    print("----------------------------------")
+    print("$$$$$$$ Downgrading To Migration $$$$$$$")
+    code = input("Migration Code: ")
+
+    if not code:
+        print("Empty Code!")
+
+    command = f"alembic downgrade {code}"
     system(command)
 
 

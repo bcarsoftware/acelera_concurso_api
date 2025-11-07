@@ -37,8 +37,8 @@ class UserController(UserControllerInterface):
 
         return await response_factory(
             data=response.model_dump(mode="json"),
-            message="user created successfully",
-            status_code=HttpStatus.CREATED,
+            message="user recovered successfully",
+            status_code=HttpStatus.OK,
         )
 
     async def update_user(self, request: Request, user_id: int) -> JSONResponse:

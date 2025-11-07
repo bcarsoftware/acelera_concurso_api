@@ -36,7 +36,7 @@ class UserRepository(UserRepositoryInterface):
                     select(User).filter(
                         and_(
                             User.email == recovery_dto.username,
-                            not User.deleted
+                            User.deleted == False
                         )
                     )
                 )
@@ -65,7 +65,7 @@ class UserRepository(UserRepositoryInterface):
                     select(User).filter(
                         and_(
                             User.user_id == user_id,
-                            not User.deleted
+                            User.deleted == False
                         )
                     )
                 )
@@ -75,11 +75,13 @@ class UserRepository(UserRepositoryInterface):
                 if not user:
                     raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
 
-                user_dto.password = user.password
+                original_password = user.password
                 user_dto.deleted = False
 
                 for key, value in user_dto.model_dump().items():
                     setattr(user, key, value)
+
+                user.password = original_password
 
                 await session.commit()
                 await session.refresh(user)
@@ -132,7 +134,7 @@ class UserRepository(UserRepositoryInterface):
                     select(User).filter(
                         and_(
                             User.user_id == user_id,
-                            not User.deleted
+                            User.deleted == False
                         )
                     )
                 )
@@ -162,7 +164,7 @@ class UserRepository(UserRepositoryInterface):
                     select(User).filter(
                         and_(
                             User.user_id == user_id,
-                            not User.deleted
+                            User.deleted == False
                         )
                     )
                 )

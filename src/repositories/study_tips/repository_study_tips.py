@@ -36,7 +36,7 @@ class StudyTipsRepository(StudyTipsRepositoryInterface):
                         and_(
                             StudyTips.user_id == user_id,
                             StudyTips.study_tip_id == study_tip_id,
-                            not StudyTips.deleted
+                            StudyTips.deleted == False
                         )
                     )
                 )
@@ -68,7 +68,7 @@ class StudyTipsRepository(StudyTipsRepositoryInterface):
                     select(StudyTips).filter(
                         and_(
                             StudyTips.user_id == user_id,
-                            not StudyTips.deleted
+                            StudyTips.deleted == False
                         )
                     )
                 )

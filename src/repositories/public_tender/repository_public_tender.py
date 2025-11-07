@@ -34,7 +34,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                     select(PublicTender).filter(
                         and_(
                             PublicTender.public_tender_id == public_tender_id,
-                            not PublicTender.deleted
+                            PublicTender.deleted == False
                         )
                     )
                 )
@@ -66,7 +66,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                     select(PublicTender).filter(
                         and_(
                             PublicTender.user_id == user_id,
-                            not PublicTender.deleted
+                            PublicTender.deleted == False
                         )
                     )
                 )
@@ -95,7 +95,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                         and_(
                             PublicTender.institute == institute,
                             PublicTender.user_id == user_id,
-                            not PublicTender.deleted
+                            PublicTender.deleted == False
                         )
                     )
                 )
@@ -124,7 +124,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                         and_(
                             PublicTender.tender_board == tender_board,
                             PublicTender.user_id == user_id,
-                            not PublicTender.deleted
+                            PublicTender.deleted == False
                         )
                     )
                 )
@@ -152,7 +152,7 @@ class PublicTenderRepository(PublicTenderRepositoryInterface):
                     select(PublicTender).filter(
                         and_(
                             PublicTender.public_tender_id == public_tender_id,
-                            not PublicTender.deleted
+                            PublicTender.deleted == False
                         )
                     )
                 )

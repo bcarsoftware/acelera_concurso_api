@@ -34,7 +34,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     select(NoteSubject).filter(
                         and_(
                             NoteSubject.note_subject_id == note_subject_id,
-                            not NoteSubject.deleted
+                            NoteSubject.deleted == False
                         )
                     )
                 )
@@ -67,7 +67,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     select(NoteSubject).filter(
                         and_(
                             NoteSubject.subject_id == subject_id,
-                            not NoteSubject.deleted
+                            NoteSubject.deleted == False
                         )
                     )
                 )
@@ -95,7 +95,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     select(NoteSubject).filter(
                         and_(
                             NoteSubject.note_subject_id == note_subject_id,
-                            not NoteSubject.deleted
+                            NoteSubject.deleted == False
                         )
                     )
                 )
@@ -127,7 +127,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     select(NoteSubject).filter(
                         and_(
                             NoteSubject.note_subject_id == note_subject_id,
-                            not NoteSubject.deleted
+                            NoteSubject.deleted == False
                         )
                     )
                 )
@@ -156,8 +156,8 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     select(NoteSubject).filter(
                         and_(
                             NoteSubject.subject_id == subject_id,
-                            not NoteSubject.finish,
-                            not NoteSubject.deleted
+                            NoteSubject.finish == False,
+                            NoteSubject.deleted == False
                         )
                     )
                 )
@@ -175,8 +175,8 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     select(NoteSubject).filter(
                         and_(
                             NoteSubject.subject_id == subject_id,
-                            NoteSubject.finish,
-                            not NoteSubject.deleted
+                            NoteSubject.finish == True,
+                            NoteSubject.deleted == False
                         )
                     )
                 )

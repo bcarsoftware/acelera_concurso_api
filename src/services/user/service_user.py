@@ -20,7 +20,7 @@ class ServiceUser(ServiceUserInterface):
         return await self.user_repository.add_user(user_dto)
 
     async def recover_user(self, recovery_dto: LoginDTO) -> UserResponse:
-        await UserManager.make_email_verification(recovery_dto.email)
+        await UserManager.make_email_verification(recovery_dto)
 
         recovery_dto.password = await PasswordUtil.encrypt(recovery_dto.password)
 

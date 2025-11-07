@@ -34,7 +34,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     select(NoteTopic).filter(
                         and_(
                             NoteTopic.note_topic_id == note_topic_id,
-                            not NoteTopic.deleted
+                            NoteTopic.deleted == False
                         )
                     )
                 )
@@ -67,7 +67,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     select(NoteTopic).filter(
                         and_(
                             NoteTopic.topic_id == topic_id,
-                            not NoteTopic.deleted
+                            NoteTopic.deleted == False
                         )
                     )
                 )
@@ -95,7 +95,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     select(NoteTopic).filter(
                         and_(
                             NoteTopic.note_topic_id == note_topic_id,
-                            not NoteTopic.deleted
+                            NoteTopic.deleted == False
                         )
                     )
                 )
@@ -127,7 +127,7 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     select(NoteTopic).filter(
                         and_(
                             NoteTopic.note_topic_id == note_topic_id,
-                            not NoteTopic.deleted
+                            NoteTopic.deleted == False
                         )
                     )
                 )
@@ -156,8 +156,8 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     select(NoteTopic).filter(
                         and_(
                             NoteTopic.topic_id == topic_id,
-                            not NoteTopic.finish,
-                            not NoteTopic.deleted
+                            NoteTopic.finish == False,
+                            NoteTopic.deleted == False
                         )
                     )
                 )
@@ -175,8 +175,8 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                     select(NoteTopic).filter(
                         and_(
                             NoteTopic.topic_id == topic_id,
-                            NoteTopic.finish,
-                            not NoteTopic.deleted
+                            NoteTopic.finish == True,
+                            NoteTopic.deleted == False
                         )
                     )
                 )

@@ -37,7 +37,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                     select(Subject).filter(
                         and_(
                             Subject.subject_id == subject_id,
-                            not Subject.deleted
+                            Subject.deleted == False
                         )
                     )
                 )
@@ -70,7 +70,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                     select(Subject).filter(
                         and_(
                             Subject.public_tender_id == tender_id,
-                            not Subject.deleted
+                            Subject.deleted == False
                         )
                     )
                 )
@@ -99,7 +99,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                         and_(
                             Subject.name == name,
                             Subject.public_tender_id == tender_id,
-                            not Subject.deleted
+                            Subject.deleted == False
                         )
                     )
                 )
@@ -131,7 +131,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                     ).filter(
                         and_(
                             Subject.subject_id == subject_id,
-                            not Subject.deleted
+                            Subject.deleted == False
                         )
                     )
                 )
@@ -180,7 +180,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                     ).filter(
                         and_(
                             Subject.subject_id == subject_id,
-                            not Subject.deleted
+                            Subject.deleted == False
                         )
                     )
                 )

@@ -38,7 +38,7 @@ class TopicRepository(TopicRepositoryInterface):
                     select(Topic).filter(
                         and_(
                             Topic.topic_id == topic_id,
-                            not Topic.deleted
+                            Topic.deleted == False
                         )
                     )
                 )
@@ -71,7 +71,7 @@ class TopicRepository(TopicRepositoryInterface):
                     select(Topic).filter(
                         and_(
                             Topic.subject_id == subject_id,
-                            not Topic.deleted
+                            Topic.deleted == False
                         )
                     )
                 )
@@ -99,7 +99,7 @@ class TopicRepository(TopicRepositoryInterface):
                     select(Topic).filter(
                         and_(
                             Topic.subject_id == subject_id,
-                            not Topic.deleted
+                            Topic.deleted == False
                         )
                     )
                 )
@@ -127,7 +127,7 @@ class TopicRepository(TopicRepositoryInterface):
                     select(Topic).filter(
                         and_(
                             Topic.subject_id == subject_id,
-                            not Topic.deleted
+                            Topic.deleted == False
                         )
                     )
                 )
@@ -208,7 +208,7 @@ class TopicRepository(TopicRepositoryInterface):
             ).filter(
                 and_(
                     Topic.topic_id == topic_id,
-                    not Topic.deleted
+                    Topic.deleted == False
                 )
             )
         )

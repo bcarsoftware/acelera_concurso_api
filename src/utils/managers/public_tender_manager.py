@@ -53,7 +53,7 @@ class PublicTenderManager:
 
     @classmethod
     async def _check_tender_date_(cls, public_tender_dto: PublicTenderDTO) -> None:
-        if public_tender_dto.tender_date < date.today():
+        if public_tender_dto.tender_date and public_tender_dto.tender_date < date.today():
             raise PublicTenderException("public tender date can't be before today", HttpStatus.BAD_REQUEST)
 
     @classmethod
@@ -78,7 +78,7 @@ class PublicTenderManager:
                 "public tender institute length doesn't match between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_128.value, public_tender_dto.work_tile):
+        if not match(Regex.STRING_128.value, public_tender_dto.work_title):
             raise PublicTenderException(
                 "public tender work tile length doesn't match between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST

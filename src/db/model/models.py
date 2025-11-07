@@ -9,6 +9,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 from src.enums.enum_category import EnumCategory
 from src.enums.enum_gender import EnumGender
+from src.enums.enum_level import EnumLevel
 from src.enums.enum_status import EnumStatus
 
 Base = declarative_base()
@@ -88,6 +89,7 @@ class PublicTender(Base):
 
     tender_name: Mapped[str] = Column(String(255), nullable=False)
     tender_board: Mapped[str] = Column(String(255), nullable=False)
+    tender_level: Mapped[EnumLevel] = Column(Enum(EnumLevel, name="EnumLevel"), nullable=False)
     institute: Mapped[str] = Column(String(128), nullable=False)
     work_title: Mapped[str] = Column(String(128), nullable=False)
     notice_link: Mapped[str] = Column(String(1024), nullable=True)

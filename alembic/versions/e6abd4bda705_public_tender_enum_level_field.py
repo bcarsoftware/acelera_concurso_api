@@ -18,7 +18,7 @@ branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
 
 
-EnumLevel = sa.Enum('UNDEFINED', 'GRADUATED', 'HIGH_SCHOOL', name='EnumLevel')
+EnumLevel = sa.Enum('UNDEFINED', 'GRADUATED', 'HIGH_SCHOOL', 'TECHNICAL', name='EnumLevel')
 
 
 def upgrade() -> None:

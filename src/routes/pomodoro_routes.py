@@ -12,7 +12,7 @@ controller_pomodoro: PomodoroControllerInterface = PomodoroController()
 
 
 @exception_handler
-@pomodoro_route.post("/")
+@pomodoro_route.post("")
 @authenticated
 async def create_pomodoro(request: Request) -> JSONResponse:
     return await controller_pomodoro.create_pomodoro(request)

@@ -20,7 +20,8 @@ class ServicePublicTender(ServicePublicTenderInterface):
     async def public_tender_patch(self, public_tender: PublicTenderDTO, public_tender_id: int) -> PublicTenderResponse:
         await PublicTenderManager.make_validation(public_tender)
 
-        return await self.public_tender_patch(public_tender, public_tender_id)
+        return await self.public_tender_repository.public_tender_patch(
+            public_tender, public_tender_id)
 
     async def public_tender_list(self, user_id: int) -> List[PublicTenderResponse]:
         return await self.public_tender_repository.public_tender_list(user_id)

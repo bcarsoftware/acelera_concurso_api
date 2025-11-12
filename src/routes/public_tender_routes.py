@@ -12,7 +12,7 @@ controller_public_tender: PublicTenderControllerInterface = PublicTenderControll
 
 
 @exception_handler
-@public_tender_route.post("/")
+@public_tender_route.post("")
 @authenticated
 async def public_tender_create(request: Request) -> JSONResponse:
     return await controller_public_tender.public_tender_create(request)
@@ -26,7 +26,7 @@ async def public_tender_patch(request: Request, public_tender_id: int) -> JSONRe
 
 
 @exception_handler
-@public_tender_route.get("/")
+@public_tender_route.get("")
 @authenticated
 async def public_tender_list(request: Request) -> JSONResponse:
     return await controller_public_tender.public_tender_list(request)

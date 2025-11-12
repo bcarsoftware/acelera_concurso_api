@@ -43,7 +43,7 @@ class PublicTenderController(PublicTenderControllerInterface):
     async def public_tender_list(self, request: Request) -> JSONResponse:
         user_id = await get_header_param_by_name(request, ParamNames.USER_ID)
 
-        responses = await self.service_public_tender.public_tender_list(user_id)
+        responses = await self.service_public_tender.public_tender_list(int(user_id))
         responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(

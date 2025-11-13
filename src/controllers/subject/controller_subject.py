@@ -43,7 +43,7 @@ class SubjectController(SubjectControllerInterface):
     async def get_subjects(self, request: Request) -> JSONResponse:
         public_tender_id = await get_header_param_by_name(request, ParamNames.TENDER_ID)
 
-        responses = await self.service_subject.get_subjects(public_tender_id)
+        responses = await self.service_subject.get_subjects(int(public_tender_id))
         responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
@@ -55,7 +55,7 @@ class SubjectController(SubjectControllerInterface):
     async def get_subject_by_name(self, request: Request, name: str) -> JSONResponse:
         public_tender_id = await get_header_param_by_name(request, ParamNames.TENDER_ID)
 
-        responses = await self.service_subject.get_subject_by_name(public_tender_id, name)
+        responses = await self.service_subject.get_subject_by_name(int(public_tender_id), name)
         responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(

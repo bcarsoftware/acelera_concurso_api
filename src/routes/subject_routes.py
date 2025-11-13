@@ -12,7 +12,7 @@ controller_subject: SubjectControllerInterface = SubjectController()
 
 
 @exception_handler
-@subject_route.post("/")
+@subject_route.post("")
 @authenticated
 async def create_subject(request: Request) -> JSONResponse:
     return await controller_subject.create_subject(request)
@@ -26,7 +26,7 @@ async def update_subject(request: Request, subject_id: int) -> JSONResponse:
 
 
 @exception_handler
-@subject_route.get("/")
+@subject_route.get("")
 @authenticated
 async def get_subjects(request: Request) -> JSONResponse:
     return await controller_subject.get_subjects(request)

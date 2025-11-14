@@ -33,7 +33,7 @@ class StudyTipsManager:
         if not list_ids_dto.ids:
             raise StudyTipsException("list ids is empty", HttpStatus.BAD_REQUEST)
 
-        return ListIDDTO(**list_ids_dto)
+        return ListIDDTO(**list_ids_dto.model_dump())
 
     @classmethod
     async def make_validation(cls, study_tips_dto: StudyTipsDTO) -> None:

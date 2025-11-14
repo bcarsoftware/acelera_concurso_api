@@ -43,7 +43,7 @@ class TopicController(TopicControllerInterface):
     async def get_topics(self, request: Request) -> JSONResponse:
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
-        responses = await self.service_topic.get_topics(subject_id)
+        responses = await self.service_topic.get_topics(int(subject_id))
         responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
@@ -55,7 +55,7 @@ class TopicController(TopicControllerInterface):
     async def get_topic_by_name(self, request: Request, name: str) -> JSONResponse:
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
-        responses = await self.service_topic.get_topic_by_name(subject_id, name)
+        responses = await self.service_topic.get_topic_by_name(int(subject_id), name)
         responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(
@@ -67,7 +67,7 @@ class TopicController(TopicControllerInterface):
     async def get_topic_by_status(self, request: Request, status: str) -> JSONResponse:
         subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
 
-        responses = await self.service_topic.get_topic_by_status(subject_id, status)
+        responses = await self.service_topic.get_topic_by_status(int(subject_id), status)
         responses = [response.model_dump(mode="json") for response in responses]
 
         return await response_factory(

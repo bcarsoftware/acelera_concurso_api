@@ -12,7 +12,7 @@ controller_topic: TopicControllerInterface = TopicController()
 
 
 @exception_handler
-@topic_route.post("/")
+@topic_route.post("")
 @authenticated
 async def create_topic(request: Request) -> JSONResponse:
     return await controller_topic.create_topic(request)
@@ -26,7 +26,7 @@ async def update_topic(request: Request, topic_id: int) -> JSONResponse:
 
 
 @exception_handler
-@topic_route.get("/")
+@topic_route.get("")
 @authenticated
 async def get_topics(request: Request) -> JSONResponse:
     return await controller_topic.get_topics(request)

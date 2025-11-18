@@ -29,9 +29,6 @@ class ServiceSubject(ServiceSubjectInterface):
     async def get_subjects(self, tender_id: int) -> List[SubjectResponse]:
         return await self.subject_repository.get_subjects(tender_id)
 
-    async def get_subject_by_name(self, tender_id: int, name: str) -> List[SubjectResponse]:
-        return await self.subject_repository.get_subject_by_name(tender_id, name)
-
     async def finish_subject(self, subject_id: int) -> SubjectResponse:
         note_subjects_unfinished = await self.note_subject_repository.exists_note_subjects_incomplete(subject_id)
 

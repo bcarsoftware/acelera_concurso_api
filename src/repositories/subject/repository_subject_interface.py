@@ -22,10 +22,6 @@ class SubjectRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_subject_by_name(self, tender_id: int, name: str) -> List[SubjectResponse]:
-        pass
-
-    @abstractmethod
     async def delete_subject(self, subject_id: int, points: int) -> SubjectResponse:
         pass
 

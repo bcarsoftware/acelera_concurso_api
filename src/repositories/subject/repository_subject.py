@@ -91,35 +91,6 @@ class SubjectRepository(SubjectRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def get_subject_by_name(self, tender_id: int, name: str) -> List[SubjectResponse]:
-        try:
-            async with AsyncSession(self._engine_) as session:
-                response = await session.execute(
-                    select(Subject).filter(
-                        and_(
-                            Subject.name == name,
-                            Subject.public_tender_id == tender_id,
-                            Subject.deleted == False
-                        )
-                    )
-                )
-
-                subjects = response.scalars().all()
-
-                if not subjects:
-                    raise DatabaseException("any subject found by name and tender id", HttpStatus.NOT_FOUND)
-
-            return [
-                SubjectResponse.model_validate(subject)
-                for subject in subjects
-            ]
-        except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
-            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
     async def finish_subject(self, subject_id: int) -> SubjectResponse:
         try:
             seventh_five_percent = Decimal("75.0")

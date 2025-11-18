@@ -12,7 +12,7 @@ controller_note_subject: NoteSubjectControllerInterface = NoteSubjectController(
 
 
 @exception_handler
-@note_subject_route.post("/")
+@note_subject_route.post("")
 @authenticated
 async def create_note_subject(request: Request) -> JSONResponse:
     return await controller_note_subject.create_note_subject(request)

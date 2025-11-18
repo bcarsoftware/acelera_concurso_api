@@ -52,18 +52,6 @@ class SubjectController(SubjectControllerInterface):
             status_code=HttpStatus.OK
         )
 
-    async def get_subject_by_name(self, request: Request, name: str) -> JSONResponse:
-        public_tender_id = await get_header_param_by_name(request, ParamNames.TENDER_ID)
-
-        responses = await self.service_subject.get_subject_by_name(int(public_tender_id), name)
-        responses = [response.model_dump(mode="json") for response in responses]
-
-        return await response_factory(
-            data=responses,
-            message="subject find successfully",
-            status_code=HttpStatus.OK
-        )
-
     async def finish_subject(self, request: Request, subject_id: int) -> JSONResponse:
         response = await self.service_subject.finish_subject(subject_id)
 

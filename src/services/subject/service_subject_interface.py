@@ -19,10 +19,6 @@ class ServiceSubjectInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_subject_by_name(self, tender_id: int, name: str) -> List[SubjectResponse]:
-        pass
-
-    @abstractmethod
     async def finish_subject(self, subject_id: int) -> SubjectResponse:
         pass
 

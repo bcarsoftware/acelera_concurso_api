@@ -92,62 +92,6 @@ class TopicRepository(TopicRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def get_topic_by_name(self, subject_id: int, name: str) -> List[TopicResponse]:
-        try:
-            async with AsyncSession(self._engine_) as session:
-                response = await session.execute(
-                    select(Topic).filter(
-                        and_(
-                            Topic.subject_id == subject_id,
-                            Topic.deleted == False
-                        )
-                    )
-                )
-
-                topics = response.scalars().all()
-
-                if not topics:
-                    raise DatabaseException("any topic found by name", HttpStatus.NOT_FOUND)
-
-            return [
-                TopicResponse.model_validate(topic)
-                for topic in topics
-            ]
-        except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
-            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
-    async def get_topic_by_status(self, subject_id: int, status: str) -> List[TopicResponse]:
-        try:
-            async with AsyncSession(self._engine_) as session:
-                response = await session.execute(
-                    select(Topic).filter(
-                        and_(
-                            Topic.subject_id == subject_id,
-                            Topic.deleted == False
-                        )
-                    )
-                )
-
-                topics = response.scalars().all()
-
-                if not topics:
-                    raise DatabaseException("any topic found by status", HttpStatus.NOT_FOUND)
-
-            return [
-                TopicResponse.model_validate(topic)
-                for topic in topics
-            ]
-        except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
-            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
     async def finish_topic(self, topic_id: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:

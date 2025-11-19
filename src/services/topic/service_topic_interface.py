@@ -19,14 +19,6 @@ class ServiceTopicInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_topic_by_name(self, subject_id: int, name: str) -> List[TopicResponse]:
-        pass
-
-    @abstractmethod
-    async def get_topic_by_status(self, subject_id: int, status: str) -> List[TopicResponse]:
-        pass
-
-    @abstractmethod
     async def finish_topic(self, topic_id: int) -> TopicResponse:
         pass
 

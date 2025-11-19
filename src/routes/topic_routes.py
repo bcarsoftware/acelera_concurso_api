@@ -33,20 +33,6 @@ async def get_topics(request: Request) -> JSONResponse:
 
 
 @exception_handler
-@topic_route.get("/{name}/name")
-@authenticated
-async def get_topic_by_name(request: Request, name: str) -> JSONResponse:
-    return await controller_topic.get_topic_by_name(request, name)
-
-
-@exception_handler
-@topic_route.get("/{status}/status")
-@authenticated
-async def get_topic_by_status(request: Request, status: str) -> JSONResponse:
-    return await controller_topic.get_topic_by_status(request, status)
-
-
-@exception_handler
 @topic_route.patch("/{topic_id}/finish")
 @authenticated
 async def finish_topic(request: Request, topic_id: int) -> JSONResponse:

@@ -2,9 +2,10 @@ from typing import List
 
 from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.orm import selectinload
 
 from src.core.constraints import HttpStatus
-from src.db.model.models import NoteTopic
+from src.db.model.models import NoteTopic, Topic, Subject, PublicTender
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.note_topic_dto import NoteTopicDTO
 from src.models_responses.note_topic_response import NoteTopicResponse
@@ -92,7 +93,14 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(NoteTopic).filter(
+                    select(NoteTopic)
+                    .options(
+                        selectinload(NoteTopic.topic)
+                        .selectinload(Topic.subject)
+                        .selectinload(Subject.public_tender)
+                        .selectinload(PublicTender.user)
+                    )
+                    .filter(
                         and_(
                             NoteTopic.note_topic_id == note_topic_id,
                             NoteTopic.deleted == False
@@ -108,7 +116,8 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                 for key, value in note_topic.model_dump().items():
                     setattr(note_topic_data, key, value)
 
-                note_topic_data.topic.subject.public_tender.user.points += 5
+                user = note_topic_data.topic.subject.public_tender.user
+                user.points += 5
 
                 await session.commit()
                 await session.refresh(note_topic_data)

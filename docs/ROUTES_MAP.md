@@ -124,8 +124,6 @@ Módulo: [Topic Routes](../src/routes/topic_routes.py)
 | POST   | `/topic`                        | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
 | PATCH  | `/topic/<topic_id: int>`        | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
 | GET    | `/topic`                        | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/topic/<name: str>/name`       | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/topic/<status: str>/status`   | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 | PATCH  | `/topic/<topic_id: int>/finish` | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
 | DELETE | `/topic/<topic_id: int>`        | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
 

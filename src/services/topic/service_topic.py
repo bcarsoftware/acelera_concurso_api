@@ -29,12 +29,6 @@ class ServiceTopic(ServiceTopicInterface):
     async def get_topics(self, subject_id: int) -> List[TopicResponse]:
         return await self.topic_repository.get_topics(subject_id)
 
-    async def get_topic_by_name(self, subject_id: int, name: str) -> List[TopicResponse]:
-        return await self.topic_repository.get_topic_by_name(subject_id, name)
-
-    async def get_topic_by_status(self, subject_id: int, status: str) -> List[TopicResponse]:
-        return await self.topic_repository.get_topic_by_status(subject_id, status)
-
     async def finish_topic(self, topic_id: int) -> TopicResponse:
         note_topics_unfinished = await self.note_topic_repository.exists_note_topics_incomplete(topic_id)
 

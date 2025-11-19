@@ -18,14 +18,6 @@ class TopicControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def get_topic_by_name(self, request: Request, name: str) -> JSONResponse:
-        pass
-
-    @abstractmethod
-    async def get_topic_by_status(self, request: Request, status: str) -> JSONResponse:
-        pass
-
-    @abstractmethod
     async def finish_topic(self, request: Request, topic_id: int) -> JSONResponse:
         pass
 

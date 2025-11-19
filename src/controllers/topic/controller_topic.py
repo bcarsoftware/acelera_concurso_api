@@ -52,30 +52,6 @@ class TopicController(TopicControllerInterface):
             status_code=HttpStatus.OK
         )
 
-    async def get_topic_by_name(self, request: Request, name: str) -> JSONResponse:
-        subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
-
-        responses = await self.service_topic.get_topic_by_name(int(subject_id), name)
-        responses = [response.model_dump(mode="json") for response in responses]
-
-        return await response_factory(
-            data=responses,
-            message="topic find successfully",
-            status_code=HttpStatus.OK
-        )
-
-    async def get_topic_by_status(self, request: Request, status: str) -> JSONResponse:
-        subject_id = await get_header_param_by_name(request, ParamNames.SUBJECT_ID)
-
-        responses = await self.service_topic.get_topic_by_status(int(subject_id), status)
-        responses = [response.model_dump(mode="json") for response in responses]
-
-        return await response_factory(
-            data=responses,
-            message="topic find successfully",
-            status_code=HttpStatus.OK
-        )
-
     async def finish_topic(self, request: Request, topic_id: int) -> JSONResponse:
         response = await self.service_topic.finish_topic(topic_id)
 

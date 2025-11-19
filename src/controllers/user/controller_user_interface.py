@@ -10,6 +10,10 @@ class UserControllerInterface(ABC):
         pass
 
     @abstractmethod
+    async def get_user_by_user_id(self, request: Request, user_id: int) -> JSONResponse:
+        pass
+
+    @abstractmethod
     async def recover_user(self, request: Request) -> JSONResponse:
         pass
 

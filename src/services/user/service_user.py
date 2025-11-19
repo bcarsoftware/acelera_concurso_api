@@ -19,6 +19,9 @@ class ServiceUser(ServiceUserInterface):
 
         return await self.user_repository.add_user(user_dto)
 
+    async def get_user_by_user_id(self, user_id: int) -> UserResponse:
+        return await self.user_repository.get_user_by_user_id(user_id)
+
     async def recover_user(self, recovery_dto: LoginDTO) -> UserResponse:
         await UserManager.make_email_verification(recovery_dto)
 

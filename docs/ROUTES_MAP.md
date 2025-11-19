@@ -32,15 +32,16 @@ As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes
 ## Rotas de Usuário
 Módulo: [User Routes](../src/routes/user_routes.py)
 
-| Method | Rota                            | DTO                                         | Auth | Header Param                                                                                                  |
-|--------|---------------------------------|---------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
-| POST   | `/user`                         | [UserDTO](../src/models_dtos/user_dto.py)   | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                        |
-| PATCH  | `/user/recovery`                | [LoginDTO](../src/models_dtos/login_dto.py) | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                        |
-| PATCH  | `/user/<user_id: int>`          | [UserDTO](../src/models_dtos/user_dto.py)   | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |                                                                        |
-| PATCH  | `/user/<user_id: int>/password` | [LoginDTO](../src/models_dtos/login_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| POST   | `/user/login`                   | [LoginDTO](../src/models_dtos/login_dto.py) | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                        |
-| POST   | `/user/logout`                  | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |                                                                      |
-| DELETE | `/user/<user_id: int>`          | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| Method | Rota                            | DTO                                         | Auth | Header Param                                                                                                                  |
+|--------|---------------------------------|---------------------------------------------|------|-------------------------------------------------------------------------------------------------------------------------------|
+| POST   | `/user`                         | [UserDTO](../src/models_dtos/user_dto.py)   | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                                        |
+| GET    | `/user`                         | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "UserID": {int} "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/user/recovery`                | [LoginDTO](../src/models_dtos/login_dto.py) | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                                        |
+| PATCH  | `/user/<user_id: int>`          | [UserDTO](../src/models_dtos/user_dto.py)   | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                 |                                                                        |
+| PATCH  | `/user/<user_id: int>/password` | [LoginDTO](../src/models_dtos/login_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                 |
+| POST   | `/user/login`                   | [LoginDTO](../src/models_dtos/login_dto.py) | OFF  | <details><code>{ "Content-Type": "application/json" }</code></details>                                                        |
+| POST   | `/user/logout`                  | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                 |                                                                      |
+| DELETE | `/user/<user_id: int>`          | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                 |
 
 ### Objetos JSON de Usuário
 > UserDTO

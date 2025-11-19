@@ -29,6 +29,24 @@ class UserRepository(UserRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
 
+    async def get_user_by_user_id(self, user_id: int) -> UserResponse:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(select(User).filter(User.user_id == user_id))
+
+                user = response.scalar_one_or_none()
+
+                if not user:
+                    raise DatabaseException("user not found", HTTPStatus.NOT_FOUND)
+
+            return UserResponse.model_validate(user)
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HTTPStatus.INTERNAL_SERVER_ERROR)
+
     async def recover_user(self, recovery_dto: LoginDTO) -> UserResponse:
         try:
             async with AsyncSession(self._engine_) as session:

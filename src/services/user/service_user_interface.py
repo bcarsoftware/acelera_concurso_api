@@ -1,7 +1,5 @@
 from abc import ABC, abstractmethod
 
-from fastapi import Request
-
 from src.models_dtos.login_dto import LoginDTO
 from src.models_dtos.user_dto import UserDTO
 from src.models_responses.user_response import UserResponse
@@ -10,6 +8,10 @@ from src.models_responses.user_response import UserResponse
 class ServiceUserInterface(ABC):
     @abstractmethod
     async def add_user(self, user_dto: UserDTO) -> UserResponse:
+        pass
+
+    @abstractmethod
+    async def get_user_by_user_id(self, user_id: int) -> UserResponse:
         pass
 
     @abstractmethod

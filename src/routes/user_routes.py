@@ -18,6 +18,13 @@ async def add_user(request: Request) -> JSONResponse:
 
 
 @exception_handler
+@user_rote.get("/{user_id}")
+@authenticated
+async def get_user_by_user_id(request: Request, user_id: int) -> JSONResponse:
+    return await user_controller.get_user_by_user_id(request, user_id)
+
+
+@exception_handler
 @user_rote.patch("/recovery")
 async def recover_user(request: Request) -> JSONResponse:
     return await user_controller.recover_user(request)

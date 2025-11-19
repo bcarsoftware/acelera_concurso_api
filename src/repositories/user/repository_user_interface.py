@@ -14,6 +14,10 @@ class UserRepositoryInterface(ABC):
         pass
 
     @abstractmethod
+    async def get_user_by_user_id(self, user_id: int) -> UserResponse:
+        pass
+
+    @abstractmethod
     async def recover_user(self, recovery_dto: LoginDTO) -> UserResponse:
         pass
 

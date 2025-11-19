@@ -56,6 +56,11 @@ class UserManager:
             raise UserException("password can't contain spaces", HttpStatus.BAD_REQUEST)
 
     @classmethod
+    async def make_user_ids_validation(cls, user_id: int, header_user_id: int) -> None:
+        if user_id != header_user_id:
+            raise UserException("invalid user id", HttpStatus.BAD_REQUEST)
+
+    @classmethod
     async def _check_user_deleted_(cls, user_dto: UserDTO) -> None:
         if user_dto.deleted:
             raise UserException("you can't create an user that is deleted", HttpStatus.NOT_FOUND)

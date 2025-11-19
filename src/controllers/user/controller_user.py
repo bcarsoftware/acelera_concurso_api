@@ -2,12 +2,13 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from src.controllers.user.controller_user_interface import UserControllerInterface
-from src.core.constraints import HttpStatus, Constraints
+from src.core.constraints import HttpStatus, Constraints, ParamNames
 from src.core.response_factory import response_factory
 from src.core.token_factory import TokenFactory
 from src.enums.enum_token_time import EnumTokenTime
 from src.services.user.service_user import ServiceUser
 from src.services.user.service_user_interface import ServiceUserInterface
+from src.utils.header_param import get_header_param_by_name
 from src.utils.managers.user_manager import UserManager
 
 
@@ -26,6 +27,19 @@ class UserController(UserControllerInterface):
             data=response.model_dump(mode="json"),
             message="user created successfully",
             status_code=HttpStatus.CREATED,
+        )
+
+    async def get_user_by_user_id(self, request: Request, user_id: int) -> JSONResponse:
+        header_user_id = await get_header_param_by_name(request, ParamNames.USER_ID)
+
+        await UserManager.make_user_ids_validation(user_id, header_user_id)
+
+        response = await self.user_service.get_user_by_user_id(user_id)
+
+        return await response_factory(
+            data=response.model_dump(mode="json"),
+            message="user retrieved successfully",
+            status_code=HttpStatus.OK,
         )
 
     async def recover_user(self, request: Request) -> JSONResponse:

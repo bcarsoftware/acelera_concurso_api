@@ -32,7 +32,7 @@ class UserController(UserControllerInterface):
     async def get_user_by_user_id(self, request: Request, user_id: int) -> JSONResponse:
         header_user_id = await get_header_param_by_name(request, ParamNames.USER_ID)
 
-        await UserManager.make_user_ids_validation(user_id, header_user_id)
+        await UserManager.make_user_ids_validation(user_id, int(header_user_id))
 
         response = await self.user_service.get_user_by_user_id(user_id)
 

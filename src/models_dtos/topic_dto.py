@@ -12,4 +12,5 @@ class TopicDTO(BaseModel):
     description: Optional[str] = None
     fulfillment: Optional[Decimal] = None
     status: EnumStatus
+    law_link: Optional[str] = None
     deleted: bool = False

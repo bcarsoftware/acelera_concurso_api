@@ -14,6 +14,7 @@ class TopicResponse(BaseModel):
     description: Optional[str] = None
     status: EnumStatus
     fulfillment: Optional[Decimal] = None
+    law_link: Optional[str] = None
     deleted: bool = False
     create_at: datetime
     update_at: Optional[datetime] = None

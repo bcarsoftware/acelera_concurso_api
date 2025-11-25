@@ -136,6 +136,7 @@ class Topic(Base):
     description: Mapped[str] = Column(String(1024), nullable=True)
     fulfillment: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     status: Mapped[EnumStatus] = Column(Enum(EnumStatus, name="EnumStatus"), nullable=False, default="INCOMPLETE")
+    law_link: Mapped[str] = Column(String(1024), nullable=True)
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)
 
     note_topics: Mapped[List["NoteTopic"]] = relationship(back_populates="topic")

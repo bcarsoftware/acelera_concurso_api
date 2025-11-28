@@ -26,10 +26,10 @@ async def update_subject(request: Request, subject_id: int) -> JSONResponse:
 
 
 @exception_handler
-@subject_route.patch("/{subject_id}/fulfillment")
+@subject_route.patch("/{subject_id}/fulfillment/{user_id}/user")
 @authenticated
-async def update_subject_fulfillment(request: Request, subject_id: int) -> JSONResponse:
-    return await controller_subject.update_subject_fulfillment(request, subject_id)
+async def update_subject_fulfillment(request: Request, subject_id: int, user_id: int) -> JSONResponse:
+    return await controller_subject.update_subject_fulfillment(request, subject_id, user_id)
 
 
 @exception_handler

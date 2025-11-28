@@ -13,19 +13,6 @@ class RateLogController(RateLogControllerInterface):
     def __init__(self) -> None:
         self.service_rate_log: ServiceRateLogInterface = ServiceRateLog()
 
-    async def create_rate_log_entry(self, request: Request) -> JSONResponse:
-        payload = await request.json()
-
-        rate_log_dto = await RateLogManager.convert_payload_to_rate_log_dto(payload)
-
-        response = await self.service_rate_log.create_rate_log_entry(rate_log_dto)
-
-        return await response_factory(
-            data=response.model_dump(mode="json"),
-            message="study_tip created successfully",
-            status_code=HttpStatus.CREATED
-        )
-
     async def find_rate_logs_entry(self, request: Request) -> JSONResponse:
         payload = await request.json()
 

@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from src.core.constraints import HttpStatus
-from src.db.model.models import NoteSubject, Subject, PublicTender
+from src.db.model.models import NoteSubject, Subject, PublicTender, RateLog
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.note_subject_dto import NoteSubjectDTO
 from src.models_responses.note_subject_response import NoteSubjectResponse
@@ -62,7 +62,7 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def update_note_subject_rate_success(self, rate_success: Decimal, note_subject_id: int) -> NoteSubjectResponse:
+    async def update_note_subject_rate_success(self, rate_success: Decimal, note_subject_id: int, user_id: int) -> NoteSubjectResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
@@ -80,7 +80,9 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                     raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
                 note_subject.rate_success = rate_success
+                rate_log = RateLog(user_id=user_id, rate=rate_success, note_subject=True)
 
+                session.add(rate_log)
                 await session.commit()
                 await session.refresh(note_subject)
             return NoteSubjectResponse.model_validate(note_subject)

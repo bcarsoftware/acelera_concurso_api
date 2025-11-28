@@ -19,7 +19,7 @@ class TopicRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_topic_fulfillment(self, fulfillment: Decimal, topic_id: int) -> TopicResponse:
+    async def update_topic_fulfillment(self, fulfillment: Decimal, topic_id: int, user_id: int) -> TopicResponse:
         pass
 
     @abstractmethod

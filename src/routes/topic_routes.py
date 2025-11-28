@@ -26,10 +26,10 @@ async def update_topic(request: Request, topic_id: int) -> JSONResponse:
 
 
 @exception_handler
-@topic_route.patch("/{topic_id}/fulfillment")
+@topic_route.patch("/{topic_id}/fulfillment/{user_id}/user")
 @authenticated
-async def update_topic_fulfillment(request: Request, topic_id: int) -> JSONResponse:
-    return await controller_topic.update_topic_fulfillment(request, topic_id)
+async def update_topic_fulfillment(request: Request, topic_id: int, user_id: int) -> JSONResponse:
+    return await controller_topic.update_topic_fulfillment(request, topic_id, user_id)
 
 
 @exception_handler

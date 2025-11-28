@@ -39,14 +39,15 @@ class NoteSubjectController(NoteSubjectControllerInterface):
             status_code=HttpStatus.OK
         )
 
-    async def update_note_subject_rate_success(self, request: Request, note_subject_id: int) -> JSONResponse:
+    async def update_note_subject_rate_success(self, request: Request, note_subject_id: int, user_id: int) -> JSONResponse:
         payload = await request.json()
 
         note_subject_dto = await NoteSubjectManager.convert_payload_to_note_subject_dto(payload)
 
         response = await self.service_note_subject.update_note_subject_rate_success(
             note_subject_dto.rate_success,
-            note_subject_id
+            note_subject_id,
+            user_id
         )
 
         return await response_factory(

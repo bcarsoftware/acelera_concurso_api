@@ -323,7 +323,6 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 ## Rotas de RateLog
 | Method | Route             | DTO                                              | Auth | Header Param                                                                                                  |
 |--------|-------------------|--------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
-| POST   | `/rate-logs`      | [RateLogDTO](../src/models_dtos/rate_log_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 | POST   | `/rate-logs/user` | [RateLogDTO](../src/models_dtos/rate_log_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 
 * Lembrando que a rota `/rate-logs/user` simula um **GET** que envia um body para comparação na área de repositório, essa rota retorna uma lista.

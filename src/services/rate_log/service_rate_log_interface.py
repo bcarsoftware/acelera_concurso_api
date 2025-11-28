@@ -7,9 +7,5 @@ from src.models_responses.rate_log_response import RateLogResponse
 
 class ServiceRateLogInterface(ABC):
     @abstractmethod
-    async def create_rate_log_entry(self, rate_log_dto: RateLogDTO) -> RateLogResponse:
-        pass
-
-    @abstractmethod
     async def find_rate_logs_entry(self, rate_log_dto: RateLogDTO) -> List[RateLogResponse]:
         pass

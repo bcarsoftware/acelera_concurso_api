@@ -14,7 +14,7 @@ class NoteTopicControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_note_topic_rate_success(self, request: Request, note_topic_id: int) -> JSONResponse:
+    async def update_note_topic_rate_success(self, request: Request, note_topic_id: int, user_id: int) -> JSONResponse:
         pass
 
     @abstractmethod

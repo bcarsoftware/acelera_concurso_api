@@ -16,7 +16,7 @@ class ServiceSubjectInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_subject_fulfillment(self, fulfillment: Optional[Decimal], subject_id: int) -> SubjectResponse:
+    async def update_subject_fulfillment(self, fulfillment: Optional[Decimal], subject_id: int, user_id: int) -> SubjectResponse:
         pass
 
     @abstractmethod

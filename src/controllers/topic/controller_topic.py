@@ -40,12 +40,12 @@ class TopicController(TopicControllerInterface):
             status_code=HttpStatus.OK
         )
 
-    async def update_topic_fulfillment(self, request: Request, topic_id: int) -> JSONResponse:
+    async def update_topic_fulfillment(self, request: Request, topic_id: int, user_id: int) -> JSONResponse:
         payload = await request.json()
 
         topic_dto = await TopicManager.convert_payload_to_topic_dto(payload)
 
-        response = await self.service_topic.update_topic_fulfillment(topic_dto.fulfillment, topic_id)
+        response = await self.service_topic.update_topic_fulfillment(topic_dto.fulfillment, topic_id, user_id)
 
         return await response_factory(
             data=response.model_dump(mode="json"),

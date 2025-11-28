@@ -26,10 +26,10 @@ async def update_note_subject(request: Request, note_subject_id: int) -> JSONRes
 
 
 @exception_handler
-@note_subject_route.patch("/{note_subject_id}/rate-success")
+@note_subject_route.patch("/{note_subject_id}/rate-success/{user_id}/user")
 @authenticated
-async def update_note_subject_rate_success(request: Request, note_subject_id: int) -> JSONResponse:
-    return await controller_note_subject.update_note_subject_rate_success(request, note_subject_id)
+async def update_note_subject_rate_success(request: Request, note_subject_id: int, user_id: int) -> JSONResponse:
+    return await controller_note_subject.update_note_subject_rate_success(request, note_subject_id, user_id)
 
 
 @exception_handler

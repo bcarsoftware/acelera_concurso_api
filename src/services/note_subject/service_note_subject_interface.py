@@ -15,7 +15,7 @@ class ServiceNoteSubjectInterface(ABC):
     async def update_note_subject(self, note_subject: NoteSubjectDTO, note_subject_id: int) -> NoteSubjectResponse:
         pass
 
-    async def update_note_subject_rate_success(self, rate_success: Optional[Decimal], note_subject_id: int) -> NoteSubjectResponse:
+    async def update_note_subject_rate_success(self, rate_success: Optional[Decimal], note_subject_id: int, user_id: int) -> NoteSubjectResponse:
         pass
 
     @abstractmethod

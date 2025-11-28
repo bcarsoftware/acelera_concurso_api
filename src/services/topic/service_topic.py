@@ -27,12 +27,12 @@ class ServiceTopic(ServiceTopicInterface):
 
         return await self.topic_repository.update_topic(topic_dto, topic_id)
 
-    async def update_topic_fulfillment(self, fulfillment: Optional[Decimal], topic_id: int) -> TopicResponse:
+    async def update_topic_fulfillment(self, fulfillment: Optional[Decimal], topic_id: int, user_id: int) -> TopicResponse:
         await TopicManager.check_fulfillment(fulfillment)
 
         new_fulfillment = fulfillment if fulfillment else Decimal("0")
 
-        return await self.topic_repository.update_topic_fulfillment(new_fulfillment, topic_id)
+        return await self.topic_repository.update_topic_fulfillment(new_fulfillment, topic_id, user_id)
 
     async def get_topics(self, subject_id: int) -> List[TopicResponse]:
         return await self.topic_repository.get_topics(subject_id)

@@ -12,13 +12,6 @@ controller_rate_log: RateLogControllerInterface = RateLogController()
 
 
 @exception_handler
-@rate_log_route.post("")
-@authenticated
-async def create_rate_log_entry(request: Request) -> JSONResponse:
-    return await controller_rate_log.create_rate_log_entry(request)
-
-
-@exception_handler
 @rate_log_route.post("/user")
 @authenticated
 async def find_rate_logs_entry(request: Request) -> JSONResponse:

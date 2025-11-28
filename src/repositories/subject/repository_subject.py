@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
 from src.core.constraints import HttpStatus, Points
-from src.db.model.models import Subject, PublicTender
+from src.db.model.models import Subject, PublicTender, RateLog
 from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.subject_dto import SubjectDTO
@@ -63,7 +63,7 @@ class SubjectRepository(SubjectRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int) -> SubjectResponse:
+    async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int, user_id: int) -> SubjectResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
@@ -81,7 +81,9 @@ class SubjectRepository(SubjectRepositoryInterface):
                     raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
 
                 subject.fulfillment = fulfillment
+                rate_log = RateLog(user_id=user_id, rate=fulfillment, subject=True)
 
+                session.add(rate_log)
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)

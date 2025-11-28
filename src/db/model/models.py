@@ -47,10 +47,10 @@ class RateLog(Base):
     
     user_id: Mapped[int] = Column(Integer, nullable=False)
     rate: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=False)
-    subject: Mapped[bool] = Column(Boolean, nullable=True)
-    topic: Mapped[bool] = Column(Boolean, nullable=True)
-    note_subject: Mapped[bool] = Column(Boolean, nullable=True)
-    note_topic: Mapped[bool] = Column(Boolean, nullable=True)
+    subject: Mapped[bool] = Column(Boolean, default=False)
+    topic: Mapped[bool] = Column(Boolean, default=False)
+    note_subject: Mapped[bool] = Column(Boolean, default=False)
+    note_topic: Mapped[bool] = Column(Boolean, default=False)
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
     update_at: Mapped[datetime] = Column(DateTime, nullable=True, onupdate=datetime.now)

@@ -12,11 +12,6 @@ class ServiceRateLog(ServiceRateLogInterface):
     def __init__(self) -> None:
         self.repository_rate_log: RateLogRepositoryInterface = RateLogRepository()
 
-    async def create_rate_log_entry(self, rate_log_dto: RateLogDTO) -> RateLogResponse:
-        await RateLogManager.make_validation(rate_log_dto)
-
-        return await self.repository_rate_log.create_rate_log_entry(rate_log_dto)
-
     async def find_rate_logs_entry(self, rate_log_dto: RateLogDTO) -> List[RateLogResponse]:
         await RateLogManager.make_validation(rate_log_dto)
 

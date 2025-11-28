@@ -16,7 +16,7 @@ class ServiceTopicInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_topic_fulfillment(self, fulfillment: Optional[Decimal], topic_id: int) -> TopicResponse:
+    async def update_topic_fulfillment(self, fulfillment: Optional[Decimal], topic_id: int, user_id: int) -> TopicResponse:
         pass
 
     @abstractmethod

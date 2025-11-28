@@ -6,7 +6,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import joinedload
 
 from src.core.constraints import HttpStatus, Points
-from src.db.model.models import Topic, Subject, PublicTender
+from src.db.model.models import Topic, Subject, PublicTender, RateLog
 from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
 from src.exceptions.topic_exception import TopicException
@@ -65,7 +65,7 @@ class TopicRepository(TopicRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def update_topic_fulfillment(self, fulfillment: Decimal, topic_id: int) -> TopicResponse:
+    async def update_topic_fulfillment(self, fulfillment: Decimal, topic_id: int, user_id: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
@@ -83,7 +83,9 @@ class TopicRepository(TopicRepositoryInterface):
                     raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
 
                 topic.fulfillment = fulfillment
+                rate_log = RateLog(user_id=user_id, rate=fulfillment, topic=True)
 
+                session.add(rate_log)
                 await session.commit()
                 await session.refresh(topic)
             return TopicResponse.model_validate(topic)

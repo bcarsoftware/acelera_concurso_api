@@ -19,7 +19,7 @@ class SubjectRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int) -> SubjectResponse:
+    async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int, user_id: int) -> SubjectResponse:
         pass
 
     @abstractmethod

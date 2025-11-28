@@ -12,21 +12,6 @@ from src.repositories.rate_log.repository_rate_log_interface import RateLogRepos
 
 
 class RateLogRepository(RateLogRepositoryInterface):
-    async def create_rate_log_entry(self, rate_log_dto: RateLogDTO) -> RateLogResponse:
-        try:
-            async with AsyncSession(self._engine_) as session:
-                rate_log_orm = RateLog(**rate_log_dto.model_dump())
-                session.add(rate_log_orm)
-                await session.commit()
-                await session.refresh(rate_log_orm)
-            return RateLogResponse.model_validate(rate_log_orm)
-        except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
-            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
     async def find_rate_logs_entry(self, rate_log_dto: RateLogDTO) -> List[RateLogResponse]:
         try:
             async with AsyncSession(self._engine_) as session:

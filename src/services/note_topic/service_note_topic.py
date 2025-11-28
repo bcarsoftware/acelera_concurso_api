@@ -23,12 +23,12 @@ class ServiceNoteTopic(ServiceNoteTopicInterface):
 
         return await self.note_topic_repository.update_note_topic(note_topic, note_topic_id)
 
-    async def update_note_topic_rate_success(self, rate_success: Optional[Decimal], note_topic_id: int) -> NoteTopicResponse:
+    async def update_note_topic_rate_success(self, rate_success: Optional[Decimal], note_topic_id: int, user_id: int) -> NoteTopicResponse:
         await NoteTopicManager.check_rate_success(rate_success)
 
         new_rate_success = rate_success if rate_success is not None else Decimal("0")
 
-        return await self.note_topic_repository.update_note_topic_rate_success(new_rate_success, note_topic_id)
+        return await self.note_topic_repository.update_note_topic_rate_success(new_rate_success, note_topic_id, user_id)
 
     async def find_note_topic_by_topic_id(self, topic_id: int) -> List[NoteTopicResponse]:
         return await self.note_topic_repository.find_note_topic_by_topic_id(topic_id)

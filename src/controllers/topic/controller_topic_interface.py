@@ -14,7 +14,7 @@ class TopicControllerInterface(ABC):
         pass
 
     @abstractmethod
-    async def update_topic_fulfillment(self, request: Request, topic_id: int) -> JSONResponse:
+    async def update_topic_fulfillment(self, request: Request, topic_id: int, user_id: int) -> JSONResponse:
         pass
 
     @abstractmethod

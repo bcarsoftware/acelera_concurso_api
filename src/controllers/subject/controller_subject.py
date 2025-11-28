@@ -40,12 +40,12 @@ class SubjectController(SubjectControllerInterface):
             status_code=HttpStatus.OK
         )
 
-    async def update_subject_fulfillment(self, request: Request, subject_id: int) -> JSONResponse:
+    async def update_subject_fulfillment(self, request: Request, subject_id: int, user_id: int) -> JSONResponse:
         payload = await request.json()
 
         subject_dto = await SubjectManager.convert_payload_to_subject_dto(payload)
 
-        response = await self.service_subject.update_subject_fulfillment(subject_dto.fulfillment, subject_id)
+        response = await self.service_subject.update_subject_fulfillment(subject_dto.fulfillment, subject_id, user_id)
 
         return await response_factory(
             data=response.model_dump(mode="json"),

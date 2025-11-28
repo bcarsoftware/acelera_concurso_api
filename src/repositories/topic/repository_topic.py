@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import List
 
 from sqlalchemy import select, and_
@@ -53,6 +54,35 @@ class TopicRepository(TopicRepositoryInterface):
 
                 for key, value in topic_dto.model_dump().items():
                     setattr(topic, key, value)
+
+                await session.commit()
+                await session.refresh(topic)
+            return TopicResponse.model_validate(topic)
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    async def update_topic_fulfillment(self, fulfillment: Decimal, topic_id: int) -> TopicResponse:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(Topic).filter(
+                        and_(
+                            Topic.topic_id == topic_id,
+                            Topic.deleted == False
+                        )
+                    )
+                )
+
+                topic = response.scalar_one_or_none()
+
+                if topic is None:
+                    raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
+
+                topic.fulfillment = fulfillment
 
                 await session.commit()
                 await session.refresh(topic)

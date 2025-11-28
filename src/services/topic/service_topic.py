@@ -1,4 +1,5 @@
-from typing import List
+from decimal import Decimal
+from typing import List, Optional
 
 from src.core.constraints import Points
 from src.models_dtos.topic_dto import TopicDTO
@@ -25,6 +26,13 @@ class ServiceTopic(ServiceTopicInterface):
         await TopicManager.make_validation(topic_dto)
 
         return await self.topic_repository.update_topic(topic_dto, topic_id)
+
+    async def update_topic_fulfillment(self, fulfillment: Optional[Decimal], topic_id: int) -> TopicResponse:
+        await TopicManager.check_fulfillment(fulfillment)
+
+        new_fulfillment = fulfillment if fulfillment else Decimal("0")
+
+        return await self.topic_repository.update_topic_fulfillment(new_fulfillment, topic_id)
 
     async def get_topics(self, subject_id: int) -> List[TopicResponse]:
         return await self.topic_repository.get_topics(subject_id)

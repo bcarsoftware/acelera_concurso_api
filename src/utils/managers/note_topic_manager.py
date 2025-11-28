@@ -1,6 +1,6 @@
 from decimal import Decimal
 from re import match
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from src.core.constraints import HttpStatus
 from src.exceptions.note_exception import NoteException
@@ -25,6 +25,11 @@ class NoteTopicManager:
     async def make_validation(cls, note_topic: NoteTopicDTO) -> None:
         await cls._check_note_topic_deleted_(note_topic)
         await cls._check_note_topic_strings_length_(note_topic)
+
+    @classmethod
+    async def check_rate_success(cls, rate_success: Optional[Decimal]) -> None:
+        if not rate_success:
+            raise NoteException("note topic rate success is required", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def rate_success_seventh_percent(cls, note_topic: NoteTopicDTO) -> None:

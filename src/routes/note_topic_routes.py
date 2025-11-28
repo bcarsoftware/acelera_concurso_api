@@ -26,6 +26,13 @@ async def update_note_topic(request: Request, note_topic_id: int) -> JSONRespons
 
 
 @exception_handler
+@note_topic_route.patch("/{note_topic_id}/rate-success")
+@authenticated
+async def update_note_topic_rate_success(request: Request, note_topic_id: int) -> JSONResponse:
+    return await controller_note_topic.update_note_topic_rate_success(request, note_topic_id)
+
+
+@exception_handler
 @note_topic_route.get("/{topic_id}/topic")
 @authenticated
 async def find_note_topic_by_topic_id(request: Request, topic_id: int) -> JSONResponse:

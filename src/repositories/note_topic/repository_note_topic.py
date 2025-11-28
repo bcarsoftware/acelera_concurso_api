@@ -1,3 +1,4 @@
+from decimal import Decimal
 from typing import List
 
 from sqlalchemy import select, and_
@@ -54,6 +55,35 @@ class NoteTopicRepository(NoteTopicRepositoryInterface):
                 await session.commit()
                 await session.refresh(note_topic_orm)
             return NoteTopicResponse.model_validate(note_topic_orm)
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    async def update_note_topic_rate_success(self, rate_success: Decimal, note_topic_id: int) -> NoteTopicResponse:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(NoteTopic).filter(
+                        and_(
+                            NoteTopic.note_topic_id == note_topic_id,
+                            NoteTopic.deleted == False
+                        )
+                    )
+                )
+
+                note_topic = response.scalar_one_or_none()
+
+                if not note_topic:
+                    raise DatabaseException("note topic not found", HttpStatus.NOT_FOUND)
+
+                note_topic.rate_success = rate_success
+
+                await session.commit()
+                await session.refresh(note_topic)
+            return NoteTopicResponse.model_validate(note_topic)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

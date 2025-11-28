@@ -29,7 +29,7 @@ class SubjectManager:
     @classmethod
     async def check_fulfillment(cls, fulfillment: Optional[Decimal]) -> None:
         if not fulfillment:
-            raise SubjectException("fulfillment is required", HttpStatus.BAD_REQUEST)
+            raise SubjectException("subject fulfillment is required", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def lock_unfinished_notes_subject(cls, unfinished_notes: bool) -> None:

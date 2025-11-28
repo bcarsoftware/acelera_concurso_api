@@ -29,7 +29,7 @@ class NoteSubjectManager:
     @classmethod
     async def check_rate_success(cls, rate_success: Optional[Decimal]) -> None:
         if not rate_success:
-            raise NoteException("rate success is required", HttpStatus.BAD_REQUEST)
+            raise NoteException("note subject rate success is required", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def rate_success_seventh_percent(cls, note_subject: NoteSubjectDTO) -> None:

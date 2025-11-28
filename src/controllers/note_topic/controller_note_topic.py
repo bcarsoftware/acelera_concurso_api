@@ -39,6 +39,22 @@ class NoteTopicController(NoteTopicControllerInterface):
             status_code=HttpStatus.OK
         )
 
+    async def update_note_topic_rate_success(self, request: Request, note_topic_id: int) -> JSONResponse:
+        payload = await request.json()
+
+        note_topic_dto = await NoteTopicManager.convert_payload_to_note_topic_dto(payload)
+
+        response = await self.service_note_topic.update_note_topic_rate_success(
+            note_topic_dto.rate_success,
+            note_topic_id
+        )
+
+        return await response_factory(
+            data=response.model_dump(mode="json"),
+            message="note topic updated successfully",
+            status_code=HttpStatus.OK
+        )
+
     async def find_note_topic_by_topic_id(self, request: Request, topic_id: int) -> JSONResponse:
         responses = await self.service_note_topic.find_note_topic_by_topic_id(topic_id)
         responses = [response.model_dump(mode="json") for response in responses]

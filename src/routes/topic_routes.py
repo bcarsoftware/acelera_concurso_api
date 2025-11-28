@@ -26,6 +26,13 @@ async def update_topic(request: Request, topic_id: int) -> JSONResponse:
 
 
 @exception_handler
+@topic_route.patch("/{topic_id}/fulfillment")
+@authenticated
+async def update_topic_fulfillment(request: Request, topic_id: int) -> JSONResponse:
+    return await controller_topic.update_topic_fulfillment(request, topic_id)
+
+
+@exception_handler
 @topic_route.get("")
 @authenticated
 async def get_topics(request: Request) -> JSONResponse:

@@ -121,13 +121,14 @@ Módulo: [Subject Routes](../src/routes/subject_routes.py)
 ## Rotas de Assunto
 Módulo: [Topic Routes](../src/routes/topic_routes.py)
 
-| Method | Rota                            | DTO                                         | Auth | Header Param                                                                                                                      |
-|--------|---------------------------------|---------------------------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------|
-| POST   | `/topic`                        | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
-| PATCH  | `/topic/<topic_id: int>`        | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
-| GET    | `/topic`                        | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| PATCH  | `/topic/<topic_id: int>/finish` | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
-| DELETE | `/topic/<topic_id: int>`        | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| Method | Rota                                 | DTO                                         | Auth | Header Param                                                                                                                      |
+|--------|--------------------------------------|---------------------------------------------|------|-----------------------------------------------------------------------------------------------------------------------------------|
+| POST   | `/topic`                             | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| PATCH  | `/topic/<topic_id: int>`             | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| PATCH  | `/topic/<topic_id: int>/fulfillment` | [TopicDTO](../src/models_dtos/topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| GET    | `/topic`                             | -                                           | ON   | <details><code>{ "SubjectID": {int}, "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/topic/<topic_id: int>/finish`      | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
+| DELETE | `/topic/<topic_id: int>`             | -                                           | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details>                     |
 
 > status: COMPLETE | INCOMPLETE
 
@@ -172,13 +173,14 @@ Módulo: [NoteSubject Routes](../src/routes/note_subject_routes.py)
 ## Rotas de Notas de Assunto
 Módulo: [NoteTopic Routes](../src/routes/note_topic_routes.py)
 
-| Method | Rota                                      | DTO                                                  | Auth | Header Param                                                                                                  |
-|--------|-------------------------------------------|------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
-| POST   | `/note-topic`                             | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| PATCH  | `/note-topic/<note_topic_id: int>`        | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| GET    | `/note-topic/<topic_id: int>/topic`       |                                                      | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| PATCH  | `/note-topic/<note_topic_id: int>/finish` | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
-| DELETE | `/note-topic/<note_topic_id: int>`        |                                                      | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| Method | Rota                                            | DTO                                                  | Auth | Header Param                                                                                                  |
+|--------|-------------------------------------------------|------------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
+| POST   | `/note-topic`                                   | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/note-topic/<note_topic_id: int>`              | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/note-topic/<note_topic_id: int>/rate-success` | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| GET    | `/note-topic/<topic_id: int>/topic`             |                                                      | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| PATCH  | `/note-topic/<note_topic_id: int>/finish`       | [NoteTopicDTO](../src/models_dtos/note_topic_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| DELETE | `/note-topic/<note_topic_id: int>`              |                                                      | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
 
 ### Objetos JSON de Notas de Assunto
 > [NoteTopicDTO](../src/models_dtos/note_topic_dto.py)

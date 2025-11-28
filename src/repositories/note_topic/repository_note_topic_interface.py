@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from decimal import Decimal
 from typing import List
 
 from sqlalchemy.ext.asyncio import AsyncEngine
@@ -15,6 +16,10 @@ class NoteTopicRepositoryInterface(ABC):
 
     @abstractmethod
     async def update_note_topic(self, note_topic: NoteTopicDTO, note_topic_id: int) -> NoteTopicResponse:
+        pass
+
+    @abstractmethod
+    async def update_note_topic_rate_success(self, rate_success: Decimal, note_topic_id: int) -> NoteTopicResponse:
         pass
 
     @abstractmethod

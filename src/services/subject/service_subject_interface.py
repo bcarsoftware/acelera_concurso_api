@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List
+from decimal import Decimal
+from typing import List, Optional
 
 from src.models_dtos.subject_dto import SubjectDTO
 from src.models_responses.subject_response import SubjectResponse
@@ -12,6 +13,10 @@ class ServiceSubjectInterface(ABC):
 
     @abstractmethod
     async def update_subject(self, subject_dto: SubjectDTO, subject_id: int) -> SubjectResponse:
+        pass
+
+    @abstractmethod
+    async def update_subject_fulfillment(self, fulfillment: Optional[Decimal], subject_id: int) -> SubjectResponse:
         pass
 
     @abstractmethod

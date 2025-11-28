@@ -63,6 +63,35 @@ class SubjectRepository(SubjectRepositoryInterface):
 
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
+    async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int) -> SubjectResponse:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(Subject).filter(
+                        and_(
+                            Subject.subject_id == subject_id,
+                            Subject.deleted == False
+                        )
+                    )
+                )
+
+                subject = response.scalar_one_or_none()
+
+                if not subject:
+                    raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
+
+                subject.fulfillment = fulfillment
+
+                await session.commit()
+                await session.refresh(subject)
+            return SubjectResponse.model_validate(subject)
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
     async def get_subjects(self, tender_id: int) -> List[SubjectResponse]:
         try:
             async with AsyncSession(self._engine_) as session:

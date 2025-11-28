@@ -40,6 +40,19 @@ class SubjectController(SubjectControllerInterface):
             status_code=HttpStatus.OK
         )
 
+    async def update_subject_fulfillment(self, request: Request, subject_id: int) -> JSONResponse:
+        payload = await request.json()
+
+        subject_dto = await SubjectManager.convert_payload_to_subject_dto(payload)
+
+        response = await self.service_subject.update_subject_fulfillment(subject_dto.fulfillment, subject_id)
+
+        return await response_factory(
+            data=response.model_dump(mode="json"),
+            message="subject updated successfully",
+            status_code=HttpStatus.OK
+        )
+
     async def get_subjects(self, request: Request) -> JSONResponse:
         public_tender_id = await get_header_param_by_name(request, ParamNames.TENDER_ID)
 

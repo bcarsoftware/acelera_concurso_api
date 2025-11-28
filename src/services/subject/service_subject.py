@@ -1,4 +1,5 @@
-from typing import List
+from decimal import Decimal
+from typing import List, Optional
 
 from src.core.constraints import Points
 from src.models_dtos.subject_dto import SubjectDTO
@@ -25,6 +26,13 @@ class ServiceSubject(ServiceSubjectInterface):
         await SubjectManager.make_validation(subject_dto)
 
         return await self.subject_repository.update_subject(subject_dto, subject_id)
+
+    async def update_subject_fulfillment(self, fulfillment: Optional[Decimal], subject_id: int) -> SubjectResponse:
+        await SubjectManager.check_fulfillment(fulfillment)
+
+        new_fulfillment = fulfillment if fulfillment else Decimal("0")
+
+        return await self.subject_repository.update_subject_fulfillment(new_fulfillment, subject_id)
 
     async def get_subjects(self, tender_id: int) -> List[SubjectResponse]:
         return await self.subject_repository.get_subjects(tender_id)

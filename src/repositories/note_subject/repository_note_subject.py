@@ -1,11 +1,12 @@
+from decimal import Decimal
 from typing import List
 
-from sqlalchemy import select, and_, update
+from sqlalchemy import select, and_
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
 from src.core.constraints import HttpStatus
-from src.db.model.models import NoteSubject, User, Subject, PublicTender
+from src.db.model.models import NoteSubject, Subject, PublicTender
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.note_subject_dto import NoteSubjectDTO
 from src.models_responses.note_subject_response import NoteSubjectResponse
@@ -54,6 +55,35 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 await session.commit()
                 await session.refresh(note_subject_orm)
             return NoteSubjectResponse.model_validate(note_subject_orm)
+        except Exception as e:
+            print(str(e))
+            if isinstance(e, DatabaseException):
+                raise DatabaseException(e.message, e.code)
+
+            raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
+
+    async def update_note_subject_rate_success(self, rate_success: Decimal, note_subject_id: int) -> NoteSubjectResponse:
+        try:
+            async with AsyncSession(self._engine_) as session:
+                response = await session.execute(
+                    select(NoteSubject).filter(
+                        and_(
+                            NoteSubject.note_subject_id == note_subject_id,
+                            NoteSubject.deleted == False
+                        )
+                    )
+                )
+
+                note_subject = response.scalar_one_or_none()
+
+                if not note_subject:
+                    raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
+
+                note_subject.rate_success = rate_success
+
+                await session.commit()
+                await session.refresh(note_subject)
+            return NoteSubjectResponse.model_validate(note_subject)
         except Exception as e:
             print(str(e))
             if isinstance(e, DatabaseException):

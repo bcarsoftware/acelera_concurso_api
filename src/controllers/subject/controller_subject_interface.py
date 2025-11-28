@@ -14,6 +14,10 @@ class SubjectControllerInterface(ABC):
         pass
 
     @abstractmethod
+    async def update_subject_fulfillment(self, request: Request, subject_id: int) -> JSONResponse:
+        pass
+
+    @abstractmethod
     async def get_subjects(self, request: Request) -> JSONResponse:
         pass
 

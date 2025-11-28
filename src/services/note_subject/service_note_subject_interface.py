@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import List
+from decimal import Decimal
+from typing import List, Optional
 
 from src.models_dtos.note_subject_dto import NoteSubjectDTO
 from src.models_responses.note_subject_response import NoteSubjectResponse
@@ -12,6 +13,9 @@ class ServiceNoteSubjectInterface(ABC):
 
     @abstractmethod
     async def update_note_subject(self, note_subject: NoteSubjectDTO, note_subject_id: int) -> NoteSubjectResponse:
+        pass
+
+    async def update_note_subject_rate_success(self, rate_success: Optional[Decimal], note_subject_id: int) -> NoteSubjectResponse:
         pass
 
     @abstractmethod

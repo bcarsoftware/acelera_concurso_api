@@ -1,5 +1,6 @@
+from decimal import Decimal
 from re import match
-from typing import Dict, Any
+from typing import Dict, Any, Optional
 
 from src.core.constraints import HttpStatus
 from src.exceptions.subject_exception import SubjectException
@@ -24,6 +25,11 @@ class SubjectManager:
     async def make_validation(cls, subject_dto: SubjectDTO) -> None:
         await cls._check_subject_deleted_(subject_dto)
         await cls._check_subject_strings_length_(subject_dto)
+
+    @classmethod
+    async def check_fulfillment(cls, fulfillment: Optional[Decimal]) -> None:
+        if not fulfillment:
+            raise SubjectException("fulfillment is required", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def lock_unfinished_notes_subject(cls, unfinished_notes: bool) -> None:

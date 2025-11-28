@@ -26,6 +26,13 @@ async def update_note_subject(request: Request, note_subject_id: int) -> JSONRes
 
 
 @exception_handler
+@note_subject_route.patch("/{note_subject_id}/rate-success")
+@authenticated
+async def update_note_subject_rate_success(request: Request, note_subject_id: int) -> JSONResponse:
+    return await controller_note_subject.update_note_subject_rate_success(request, note_subject_id)
+
+
+@exception_handler
 @note_subject_route.get("/{subject_id}/subject")
 @authenticated
 async def find_note_subject_by_subject_id(request: Request, subject_id: int) -> JSONResponse:

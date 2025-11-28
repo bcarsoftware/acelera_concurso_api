@@ -1,4 +1,5 @@
-from typing import List
+from decimal import Decimal
+from typing import List, Optional
 
 from src.models_dtos.note_subject_dto import NoteSubjectDTO
 from src.models_responses.note_subject_response import NoteSubjectResponse
@@ -21,6 +22,13 @@ class ServiceNoteSubject(ServiceNoteSubjectInterface):
         await NoteSubjectManager.make_validation(note_subject)
 
         return await self.note_subject_repository.update_note_subject(note_subject, note_subject_id)
+
+    async def update_note_subject_rate_success(self, rate_success: Optional[Decimal], note_subject_id: int) -> NoteSubjectResponse:
+        await NoteSubjectManager.check_rate_success(rate_success)
+
+        new_rate_success = rate_success if rate_success else Decimal("0")
+
+        return await self.note_subject_repository.update_note_subject_rate_success(new_rate_success, note_subject_id)
 
     async def find_note_subject_by_subject_id(self, subject_id: int) -> List[NoteSubjectResponse]:
         return await self.note_subject_repository.find_note_subject_by_subject_id(subject_id)

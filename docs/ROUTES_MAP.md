@@ -28,6 +28,8 @@ As rotas dessa aplicação sem encontra no pacote: [Source/Routes](../src/routes
     * [Objetos JSON de Public Tender Board](#objetos-json-de-public-tender-board)
 11. [Rotas de User Admin](#rotas-de-user-admin)
     * [Objetos JSON de User Admin](#objetos-json-de-user-admin)
+12. [Rotas de RateLog](#rotas-de-ratelog)
+    * [Objetos de RateLog](#objetos-json-de-ratelog)
 
 ## Rotas de Usuário
 Módulo: [User Routes](../src/routes/user_routes.py)
@@ -317,6 +319,30 @@ Módulo: [EmailCode Routes](../src/routes/email_code_routes.py)
 >   "password": "password123"
 > }
 > ```
+
+## Rotas de RateLog
+| Method | Route             | DTO                                              | Auth | Header Param                                                                                                  |
+|--------|-------------------|--------------------------------------------------|------|---------------------------------------------------------------------------------------------------------------|
+| POST   | `/rate-logs`      | [RateLogDTO](../src/models_dtos/rate_log_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+| POST   | `/rate-logs/user` | [RateLogDTO](../src/models_dtos/rate_log_dto.py) | ON   | <details><code>{ "Content-Type": "application/json", "Authentication": "Bearer token_value"}</code></details> |
+
+* Lembrando que a rota `/rate-logs/user` simula um **GET** que envia um body para comparação na área de repositório, essa rota retorna uma lista.
+
+### Objetos JSON de RateLog
+> RateLogDTO
+> ```
+> {
+>   "user_id": 0,
+>   "rate": "0.0",
+>   "subject": false,
+>   "topic": false,
+>   "note_subject": false,
+>   "note_topic": false,
+> }
+> ```
+
+* Pelo menos um desses valores do tipo **VERDADEIRO/FALSO** deverá ser **VERDADEIRO**, senão lançará um erro. Esses
+valores são opcionais, se você não declará, é assumido o valor **false**.
 
 *That's All Folks!*
 [Voltar](https://github.com/bcarsoftware/acelera_concurso_api).

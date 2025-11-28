@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Request
 from fastapi.responses import JSONResponse
 
-from src.controllers.study_tips.controlelr_study_tips import StudyTipsController
+from src.controllers.study_tips.controller_study_tips import StudyTipsController
 from src.controllers.study_tips.controller_study_tips_interface import StudyTipsControllerInterface
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler

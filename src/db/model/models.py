@@ -34,7 +34,6 @@ class User(Base):
 
     study_tips: Mapped[List["StudyTips"]] = relationship(back_populates="user")
     pomodoros: Mapped[List["Pomodoro"]] = relationship(back_populates="user")
-    rate_logs: Mapped[List["RateLog"]] = relationship(back_populates="user")
     public_tenders: Mapped[List["PublicTender"]] = relationship(back_populates="user")
 
     create_at: Mapped[datetime] = Column(DateTime, nullable=False, default=datetime.now)
@@ -46,10 +45,7 @@ class RateLog(Base):
 
     rate_log_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
     
-    user_id: Mapped[int] = Column(
-        Integer, ForeignKey(User.user_id, ondelete="CASCADE", onupdate="CASCADE"), nullable=False)
-    user: Mapped["User"] = relationship(back_populates="rate_logs")
-
+    user_id: Mapped[int] = Column(Integer, nullable=False)
     rate: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=False)
     subject: Mapped[bool] = Column(Boolean, nullable=True)
     topic: Mapped[bool] = Column(Boolean, nullable=True)

@@ -112,6 +112,7 @@ class Subject(Base):
     public_tender: Mapped["PublicTender"] = relationship(back_populates="subjects")
 
     name: Mapped[str] = Column(String(255), nullable=False)
+    fulfillment: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=True)
     category: Mapped[EnumCategory] = Column(Enum(EnumCategory, name="EnumCategory"), nullable=False)
     status: Mapped[EnumStatus] = Column(Enum(EnumStatus, name="EnumStatus"), nullable=False, default="INCOMPLETE")
     deleted: Mapped[bool] = Column(Boolean, nullable=False, default=False)

@@ -28,9 +28,9 @@ class ServiceSubject(ServiceSubjectInterface):
         return await self.subject_repository.update_subject(subject_dto, subject_id)
 
     async def update_subject_fulfillment(self, fulfillment: Optional[Decimal], subject_id: int, user_id: int) -> SubjectResponse:
-        await SubjectManager.check_fulfillment(fulfillment)
+        await SubjectManager.verify_fulfillment_none(fulfillment)
 
-        new_fulfillment = fulfillment if fulfillment else Decimal("0")
+        new_fulfillment = fulfillment or Decimal("0")
 
         return await self.subject_repository.update_subject_fulfillment(new_fulfillment, subject_id, user_id)
 
@@ -38,10 +38,6 @@ class ServiceSubject(ServiceSubjectInterface):
         return await self.subject_repository.get_subjects(tender_id)
 
     async def finish_subject(self, subject_id: int) -> SubjectResponse:
-        note_subjects_unfinished = await self.note_subject_repository.exists_note_subjects_incomplete(subject_id)
-
-        await SubjectManager.lock_unfinished_notes_subject(note_subjects_unfinished)
-
         return await self.subject_repository.finish_subject(subject_id)
 
     async def delete_subject(self, subject_id: int) -> SubjectResponse:

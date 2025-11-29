@@ -24,7 +24,7 @@ class TopicManager:
         await cls._check_topics_strings_length_(topic_dto)
 
     @classmethod
-    async def check_fulfillment(cls, fulfillment: Optional[Decimal]) -> None:
+    async def verify_fulfillment_none(cls, fulfillment: Optional[Decimal]) -> None:
         if not fulfillment:
             raise TopicException("topic fulfillment is required", HttpStatus.BAD_REQUEST)
 
@@ -34,11 +34,11 @@ class TopicManager:
             raise TopicException("there are unfinished notes", HttpStatus.BAD_REQUEST)
 
     @classmethod
-    async def verify_fulfillment(cls, fulfillment: Optional[Decimal] = None) -> None:
-        seventh_five_percent = Decimal("75.0")
-
-        if not fulfillment or fulfillment < seventh_five_percent:
-            raise TopicException("topic invalid fulfillment or small than 75% rate", HttpStatus.BAD_REQUEST)
+    async def verify_fulfillment(cls, fulfillment: Optional[Decimal], minimal: Decimal) -> None:
+        if not fulfillment:
+            raise TopicException("topic fulfillment is required", HttpStatus.BAD_REQUEST)
+        if fulfillment < minimal:
+            raise TopicException(f"topic fulfillment must be at least {minimal}", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _check_topic_deleted_(cls, topic_dto: TopicDTO) -> None:

@@ -9,9 +9,11 @@ from src.core.constraints import HttpStatus, Points
 from src.db.model.models import Subject, PublicTender, RateLog, User
 from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
+from src.exceptions.subject_exception import SubjectException
 from src.models_dtos.subject_dto import SubjectDTO
 from src.models_responses.subject_response import SubjectResponse
 from src.repositories.subject.repository_subject_interface import SubjectRepositoryInterface
+from src.utils.managers.subject_manager import SubjectManager
 
 
 class SubjectRepository(SubjectRepositoryInterface):
@@ -26,7 +28,7 @@ class SubjectRepository(SubjectRepositoryInterface):
         except DatabaseException as e:
             raise e
         except Exception as e:
-            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def update_subject(self, subject_dto: SubjectDTO, subject_id: int) -> SubjectResponse:
@@ -58,7 +60,7 @@ class SubjectRepository(SubjectRepositoryInterface):
         except DatabaseException as e:
             raise e
         except Exception as e:
-            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int, user_id: int) -> SubjectResponse:
@@ -88,7 +90,7 @@ class SubjectRepository(SubjectRepositoryInterface):
         except DatabaseException as e:
             raise e
         except Exception as e:
-            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def get_subjects(self, tender_id: int) -> List[SubjectResponse]:
@@ -115,12 +117,11 @@ class SubjectRepository(SubjectRepositoryInterface):
         except DatabaseException as e:
             raise e
         except Exception as e:
-            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def finish_subject(self, subject_id: int) -> SubjectResponse:
         try:
-            seventh_five_percent = Decimal("75.0")
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
                     select(Subject).options(
@@ -141,8 +142,7 @@ class SubjectRepository(SubjectRepositoryInterface):
                 if not subject:
                     raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
 
-                if subject.fulfillment < seventh_five_percent:
-                    raise DatabaseException("subject fulfillment must be at least 75", HttpStatus.BAD_REQUEST)
+                await SubjectManager.verify_fulfillment(subject.fulfillment, Decimal("75.0"))
 
                 note_subjects = subject.note_subjects
 
@@ -172,10 +172,12 @@ class SubjectRepository(SubjectRepositoryInterface):
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
+        except SubjectException as e:
+            raise e
         except DatabaseException as e:
             raise e
         except Exception as e:
-            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def delete_subject(self, subject_id: int, points: int) -> SubjectResponse:
@@ -183,6 +185,7 @@ class SubjectRepository(SubjectRepositoryInterface):
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
                     select(Subject).options(
+                        selectinload(Subject.note_subjects),
                         joinedload(Subject.public_tender).
                         joinedload(PublicTender.user)
                     ).filter(
@@ -198,16 +201,26 @@ class SubjectRepository(SubjectRepositoryInterface):
                 if not subject:
                     raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
 
-                if not subject.public_tender or not subject.public_tender.user:
-                    raise DatabaseException("subject is broken", HttpStatus.UNPROCESSABLE_ENTITY)
+                note_subjects = subject.note_subjects or []
 
-                subject.deleted = True
-                subject.public_tender.user.points -= points
+                finished_all_note_subjects = all(note_subject.finish for note_subject in note_subjects)
+
+                if not finished_all_note_subjects:
+                    raise DatabaseException("there is at least one note subject not finished", HttpStatus.BAD_REQUEST)
+
+                user_id = subject.public_tender.user.user_id
+                len_subjects = len(note_subjects)
+                points_decrease = len_subjects * Points.NOTE_POINTS + Points.SUBJECT_POINTS
+
+                await session.execute(
+                    update(User).where(User.user_id == user_id).values(points=User.points - points_decrease)
+                )
+
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
         except DatabaseException as e:
             raise e
         except Exception as e:
-            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)

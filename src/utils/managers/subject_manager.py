@@ -27,9 +27,17 @@ class SubjectManager:
         await cls._check_subject_strings_length_(subject_dto)
 
     @classmethod
-    async def check_fulfillment(cls, fulfillment: Optional[Decimal]) -> None:
+    @classmethod
+    async def verify_fulfillment_none(cls, fulfillment: Optional[Decimal]) -> None:
         if not fulfillment:
             raise SubjectException("subject fulfillment is required", HttpStatus.BAD_REQUEST)
+
+    @classmethod
+    async def verify_fulfillment(cls, fulfillment: Optional[Decimal], minimal: Decimal) -> None:
+        if not fulfillment:
+            raise SubjectException("subject fulfillment is required", HttpStatus.BAD_REQUEST)
+        if fulfillment < minimal:
+            raise SubjectException(f"subject fulfillment must be at least {minimal}", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def lock_unfinished_notes_subject(cls, unfinished_notes: bool) -> None:

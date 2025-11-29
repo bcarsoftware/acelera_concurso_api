@@ -1,12 +1,12 @@
 from decimal import Decimal
 from typing import List
 
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import joinedload
+from sqlalchemy.orm import joinedload, selectinload
 
 from src.core.constraints import HttpStatus, Points
-from src.db.model.models import Topic, Subject, PublicTender, RateLog
+from src.db.model.models import Topic, Subject, PublicTender, RateLog, User
 from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
 from src.exceptions.topic_exception import TopicException
@@ -25,11 +25,10 @@ class TopicRepository(TopicRepositoryInterface):
                 await session.commit()
                 await session.refresh(topic)
             return TopicResponse.model_validate(topic)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def update_topic(self, topic_dto: TopicDTO, topic_id: int) -> TopicResponse:
@@ -58,11 +57,10 @@ class TopicRepository(TopicRepositoryInterface):
                 await session.commit()
                 await session.refresh(topic)
             return TopicResponse.model_validate(topic)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def update_topic_fulfillment(self, fulfillment: Decimal, topic_id: int, user_id: int) -> TopicResponse:
@@ -89,11 +87,10 @@ class TopicRepository(TopicRepositoryInterface):
                 await session.commit()
                 await session.refresh(topic)
             return TopicResponse.model_validate(topic)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def get_topics(self, subject_id: int) -> List[TopicResponse]:
@@ -117,81 +114,102 @@ class TopicRepository(TopicRepositoryInterface):
                 TopicResponse.model_validate(topic)
                 for topic in topics
             ]
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def finish_topic(self, topic_id: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:
-                topic = await self._get_topic_finish_or_delete_(session, topic_id)
+                response = await session.execute(
+                    select(Topic).options(
+                        selectinload(Topic.note_topics),
+                        joinedload(Topic.subject).
+                        joinedload(Subject.public_tender).
+                        joinedload(PublicTender.user)
+                    ).filter(
+                        and_(
+                            Topic.topic_id == topic_id,
+                            Topic.deleted == False,
+                            Topic.status == EnumStatus.INCOMPLETE,
+                        )
+                    )
+                )
 
-                await TopicManager.verify_fulfillment(topic.fulfillment)
+                topic = response.scalar_one_or_none()
 
-                can_finish = topic.subject and topic.subject.public_tender and topic.subject.public_tender.user
+                if not topic:
+                    raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
 
-                if can_finish:
-                    topic.status = EnumStatus.COMPLETE
-                    topic.subject.public_tender.user.points += Points.TOPICS_POINTS
-                else:
-                    raise DatabaseException("topic is not complete - less than 75%", HttpStatus.BAD_REQUEST)
+                await TopicManager.verify_fulfillment(topic.fulfillment, Decimal("75.0"))
+
+                note_topics = topic.note_topics or []
+
+                finished_all_note_topics = all(note_topic.finish for note_topic in note_topics)
+
+                if not finished_all_note_topics:
+                    raise DatabaseException("there's at least one note topic not finished", HttpStatus.BAD_REQUEST)
+
+                user_id = topic.subject.public_tender.user.user_id
+
+                await session.execute(
+                    update(User).where(User.user_id == user_id).values(points=User.points + Points.TOPICS_POINTS)
+                )
 
                 await session.commit()
                 await session.refresh(topic)
             return TopicResponse.model_validate(topic)
+        except TopicException as e:
+            raise e
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-            elif isinstance(e, TopicException):
-                raise e
-
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def delete_topic(self, topic_id: int, points: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:
-                topic = await self._get_topic_finish_or_delete_(session, topic_id)
+                response = await session.execute(
+                    select(Topic).options(
+                        selectinload(Topic.note_topics),
+                        joinedload(Topic.subject).
+                        joinedload(Subject.public_tender).
+                        joinedload(PublicTender.user)
+                    ).filter(
+                        and_(
+                            Topic.topic_id == topic_id,
+                            Topic.deleted == False,
+                        )
+                    )
+                )
 
-                if (
-                    not topic.subject or not topic.subject.public_tender or
-                    not topic.subject.public_tender.user
-                ):
-                    raise DatabaseException("topic is broken", HttpStatus.UNPROCESSABLE_ENTITY)
+                topic = response.scalar_one_or_none()
+
+                if not topic:
+                    raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
+
+                note_topics = topic.note_topics or []
+
+                finished_all_note_topics = all(note_topic.finish for note_topic in note_topics)
+
+                if not finished_all_note_topics:
+                    raise DatabaseException("there's at least one note topic not finished", HttpStatus.BAD_REQUEST)
 
                 topic.deleted = True
+                points_decrease = len(note_topics) * Points.NOTE_POINTS + Points.TOPICS_POINTS
+
+                await session.execute(
+                    update(User).where(User.user_id == user_id).values(points=User.points - points_decrease)
+                )
 
                 await session.commit()
                 await session.refresh(topic)
             return TopicResponse.model_validate(topic)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
-
-    @staticmethod
-    async def _get_topic_finish_or_delete_(session: AsyncSession, topic_id: int) -> Topic:
-        response = await session.execute(
-            select(Topic).options(
-                joinedload(Topic.subject).
-                joinedload(Subject.public_tender).
-                joinedload(PublicTender.user)
-            ).filter(
-                and_(
-                    Topic.topic_id == topic_id,
-                    Topic.deleted == False
-                )
-            )
-        )
-
-        topic = response.scalar_one_or_none()
-
-        if not topic:
-            raise DatabaseException("topic not found", HttpStatus.NOT_FOUND)
-
-        return topic

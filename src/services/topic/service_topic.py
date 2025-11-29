@@ -28,9 +28,9 @@ class ServiceTopic(ServiceTopicInterface):
         return await self.topic_repository.update_topic(topic_dto, topic_id)
 
     async def update_topic_fulfillment(self, fulfillment: Optional[Decimal], topic_id: int, user_id: int) -> TopicResponse:
-        await TopicManager.check_fulfillment(fulfillment)
+        await TopicManager.verify_fulfillment_none(fulfillment)
 
-        new_fulfillment = fulfillment if fulfillment else Decimal("0")
+        new_fulfillment = fulfillment or Decimal("0")
 
         return await self.topic_repository.update_topic_fulfillment(new_fulfillment, topic_id, user_id)
 
@@ -38,10 +38,6 @@ class ServiceTopic(ServiceTopicInterface):
         return await self.topic_repository.get_topics(subject_id)
 
     async def finish_topic(self, topic_id: int) -> TopicResponse:
-        note_topics_unfinished = await self.note_topic_repository.exists_note_topics_incomplete(topic_id)
-
-        await TopicManager.lock_unfinished_notes_topic(note_topics_unfinished)
-
         return await self.topic_repository.finish_topic(topic_id)
 
     async def delete_topic(self, topic_id: int) -> TopicResponse:

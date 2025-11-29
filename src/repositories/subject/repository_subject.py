@@ -1,12 +1,12 @@
 from decimal import Decimal
 from typing import List
 
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload, joinedload
 
 from src.core.constraints import HttpStatus, Points
-from src.db.model.models import Subject, PublicTender, RateLog
+from src.db.model.models import Subject, PublicTender, RateLog, User
 from src.enums.enum_status import EnumStatus
 from src.exceptions.database_exception import DatabaseException
 from src.models_dtos.subject_dto import SubjectDTO
@@ -23,11 +23,10 @@ class SubjectRepository(SubjectRepositoryInterface):
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def update_subject(self, subject_dto: SubjectDTO, subject_id: int) -> SubjectResponse:
@@ -56,11 +55,10 @@ class SubjectRepository(SubjectRepositoryInterface):
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def update_subject_fulfillment(self, fulfillment: Decimal, subject_id: int, user_id: int) -> SubjectResponse:
@@ -87,11 +85,10 @@ class SubjectRepository(SubjectRepositoryInterface):
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def get_subjects(self, tender_id: int) -> List[SubjectResponse]:
@@ -115,11 +112,10 @@ class SubjectRepository(SubjectRepositoryInterface):
                 SubjectResponse.model_validate(subject)
                 for subject in subjects
             ]
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def finish_subject(self, subject_id: int) -> SubjectResponse:
@@ -128,12 +124,14 @@ class SubjectRepository(SubjectRepositoryInterface):
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
                     select(Subject).options(
-                        selectinload(Subject.topics),
+                        selectinload(Subject.note_subjects),
+                        selectinload(Subject.topics.note_topics),
                         joinedload(Subject.public_tender).joinedload(PublicTender.user)
                     ).filter(
                         and_(
                             Subject.subject_id == subject_id,
-                            Subject.deleted == False
+                            Subject.deleted == False,
+                            Subject.status == EnumStatus.INCOMPLETE
                         )
                     )
                 )
@@ -143,33 +141,41 @@ class SubjectRepository(SubjectRepositoryInterface):
                 if not subject:
                     raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
 
-                topics = subject.topics
+                if subject.fulfillment < seventh_five_percent:
+                    raise DatabaseException("subject fulfillment must be at least 75", HttpStatus.BAD_REQUEST)
 
-                if not topics:
-                    raise DatabaseException("subject topics not found", HttpStatus.NOT_FOUND)
+                note_subjects = subject.note_subjects
 
-                topics = tuple(rate for rate in subject.topics if rate is not None)
+                finished_all_note_subjects = all(note_subject.finish for note_subject in note_subjects)
 
-                average = (
-                    sum(map(lambda topic: topic.fulfillment, topics)) / len(topics)
-                ) if len(topics) > 0 else Decimal("0.0")
+                if not finished_all_note_subjects:
+                    raise DatabaseException("there's at least one note subject not finished", HttpStatus.BAD_REQUEST)
 
-                can_finish = average >= seventh_five_percent and subject.public_tender and subject.public_tender.user
+                topics = subject.topics or []
 
-                if can_finish:
-                    subject.status = EnumStatus.COMPLETE
-                    subject.public_tender.user.points += Points.SUBJECT_POINTS
-                else:
-                    raise DatabaseException("subject is not complete - less than 75%", HttpStatus.BAD_REQUEST)
+                topics_and_notes_finished = all(
+                    topic.status == EnumStatus.COMPLETE and
+                    all(note.finish for note in (topic.note_topics or []))
+                    for topic in topics
+                )
+
+                if not topics_and_notes_finished:
+                    raise DatabaseException("there's at least one topic or note topic that has not finished", HttpStatus.BAD_REQUEST)
+
+                user_id = subject.public_tender.user.user_id
+                subject.status = EnumStatus.COMPLETE
+
+                await session.execute(
+                    update(User).where(User.user_id == user_id).values(points=User.points + Points.SUBJECT_POINTS)
+                )
 
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
     async def delete_subject(self, subject_id: int, points: int) -> SubjectResponse:
@@ -200,9 +206,8 @@ class SubjectRepository(SubjectRepositoryInterface):
                 await session.commit()
                 await session.refresh(subject)
             return SubjectResponse.model_validate(subject)
+        except DatabaseException as e:
+            raise e
         except Exception as e:
-            print(str(e))
-            if isinstance(e, DatabaseException):
-                raise DatabaseException(e.message, e.code)
-
+            print(f"Unexcepted Erro Found: {type(e).__name__} - {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)

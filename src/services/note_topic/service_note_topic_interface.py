@@ -24,7 +24,7 @@ class ServiceNoteTopicInterface(ABC):
         pass
 
     @abstractmethod
-    async def finish_note_topic(self, note_topic: NoteTopicDTO, note_topic_id: int) -> NoteTopicResponse:
+    async def finish_note_topic(self, note_topic_id: int) -> NoteTopicResponse:
         pass
 
     @abstractmethod

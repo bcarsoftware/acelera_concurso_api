@@ -27,9 +27,16 @@ class NoteTopicManager:
         await cls._check_note_topic_strings_length_(note_topic)
 
     @classmethod
-    async def check_rate_success(cls, rate_success: Optional[Decimal]) -> None:
+    async def verify_rate_success_none(cls, rate_success: Optional[Decimal]) -> None:
         if not rate_success:
             raise NoteException("note topic rate success is required", HttpStatus.BAD_REQUEST)
+
+    @classmethod
+    async def verify_rate_success(cls, rate_success: Optional[Decimal], minimal: Decimal) -> None:
+        if not rate_success:
+            raise NoteException("note topic rate success is required", HttpStatus.BAD_REQUEST)
+        if rate_success < minimal:
+            raise NoteException(f"note topic rate success must be at least {minimal}", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def rate_success_seventh_percent(cls, note_topic: NoteTopicDTO) -> None:

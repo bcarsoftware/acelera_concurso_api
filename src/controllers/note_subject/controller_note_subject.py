@@ -67,11 +67,7 @@ class NoteSubjectController(NoteSubjectControllerInterface):
         )
 
     async def finish_note_subject(self, request: Request, note_subject_id: int) -> JSONResponse:
-        payload = await request.json()
-
-        note_subject_dto = await NoteSubjectManager.convert_payload_to_note_subject_dto(payload)
-
-        response = await self.service_note_subject.finish_note_subject(note_subject_dto, note_subject_id)
+        response = await self.service_note_subject.finish_note_subject(note_subject_id)
 
         return await response_factory(
             data=response.model_dump(mode="json"),

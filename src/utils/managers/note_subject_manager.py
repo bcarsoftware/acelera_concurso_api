@@ -27,19 +27,16 @@ class NoteSubjectManager:
         await cls._check_note_subject_strings_length_(note_subject)
 
     @classmethod
-    async def check_rate_success(cls, rate_success: Optional[Decimal]) -> None:
+    async def verify_rate_success_none(cls, rate_success: Optional[Decimal]) -> None:
         if not rate_success:
             raise NoteException("note subject rate success is required", HttpStatus.BAD_REQUEST)
 
     @classmethod
-    async def rate_success_seventh_percent(cls, note_subject: NoteSubjectDTO) -> None:
-        seventh_percent = Decimal("70.0")
-
-        if not note_subject.rate_success or note_subject.rate_success < seventh_percent:
-            raise NoteException(
-                "you can't finish note subject with success rate less than 70%",
-                HttpStatus.BAD_REQUEST
-            )
+    async def verify_rate_success(cls, rate_success: Optional[Decimal], minimal: Decimal) -> None:
+        if not rate_success:
+            raise NoteException("note subject rate success is required", HttpStatus.BAD_REQUEST)
+        if rate_success < minimal:
+            raise NoteException(f"note subject rate success must be at least {minimal}", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _check_note_subject_deleted_(cls, note_subject: NoteSubjectDTO) -> None:

@@ -27,19 +27,11 @@ class NoteTopicRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def finish_note_topic(self, note_topic: NoteTopicDTO, note_topic_id: int) -> NoteTopicResponse:
+    async def finish_note_topic(self, note_topic_id: int) -> NoteTopicResponse:
         pass
 
     @abstractmethod
     async def delete_note_topic(self, note_topic_id: int) -> NoteTopicResponse:
-        pass
-
-    @abstractmethod
-    async def exists_note_topics_incomplete(self, topic_id: int) -> bool:
-        pass
-
-    @abstractmethod
-    async def count_finished_note_topics(self, topic_id: int) -> int:
         pass
 
     @property

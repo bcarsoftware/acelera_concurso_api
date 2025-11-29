@@ -23,7 +23,7 @@ class ServiceNoteSubjectInterface(ABC):
         pass
 
     @abstractmethod
-    async def finish_note_subject(self, note_subject: NoteSubjectDTO, note_subject_id: int) -> NoteSubjectResponse:
+    async def finish_note_subject(self, note_subject_id: int) -> NoteSubjectResponse:
         pass
 
     @abstractmethod

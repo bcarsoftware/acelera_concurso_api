@@ -27,7 +27,7 @@ class SubjectRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def delete_subject(self, subject_id: int, points: int) -> SubjectResponse:
+    async def delete_subject(self, subject_id: int) -> SubjectResponse:
         pass
 
     @abstractmethod

@@ -27,7 +27,7 @@ class TopicRepositoryInterface(ABC):
         pass
 
     @abstractmethod
-    async def delete_topic(self, topic_id: int, points: int) -> TopicResponse:
+    async def delete_topic(self, topic_id: int) -> TopicResponse:
         pass
 
     @abstractmethod

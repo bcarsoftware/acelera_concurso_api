@@ -41,11 +41,4 @@ class ServiceSubject(ServiceSubjectInterface):
         return await self.subject_repository.finish_subject(subject_id)
 
     async def delete_subject(self, subject_id: int) -> SubjectResponse:
-        note_subjects_unfinished = await self.note_subject_repository.exists_note_subjects_incomplete(subject_id)
-
-        await SubjectManager.lock_unfinished_notes_subject(note_subjects_unfinished)
-
-        counted_notes_finished = await self.note_subject_repository.count_finished_note_subjects(subject_id)
-        points = counted_notes_finished * Points.NOTE_POINTS + Points.SUBJECT_POINTS
-
-        return await self.subject_repository.delete_subject(subject_id, points)
+        return await self.subject_repository.delete_subject(subject_id)

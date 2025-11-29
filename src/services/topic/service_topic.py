@@ -41,11 +41,4 @@ class ServiceTopic(ServiceTopicInterface):
         return await self.topic_repository.finish_topic(topic_id)
 
     async def delete_topic(self, topic_id: int) -> TopicResponse:
-        note_topics_unfinished = await self.note_topic_repository.exists_note_topics_incomplete(topic_id)
-
-        await TopicManager.lock_unfinished_notes_topic(note_topics_unfinished)
-
-        counted_notes_finished = await self.note_topic_repository.count_finished_note_topics(topic_id)
-        points = counted_notes_finished * Points.NOTE_POINTS + Points.TOPICS_POINTS
-
-        return await self.topic_repository.delete_topic(topic_id, points)
+        return await self.topic_repository.delete_topic(topic_id)

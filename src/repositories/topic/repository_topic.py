@@ -169,7 +169,7 @@ class TopicRepository(TopicRepositoryInterface):
             print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def delete_topic(self, topic_id: int, points: int) -> TopicResponse:
+    async def delete_topic(self, topic_id: int) -> TopicResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
@@ -200,6 +200,8 @@ class TopicRepository(TopicRepositoryInterface):
 
                 topic.deleted = True
                 points_decrease = len(note_topics) * Points.NOTE_POINTS + Points.TOPICS_POINTS
+
+                user_id = Topic.subject.public_tender.user.user_id
 
                 await session.execute(
                     update(User).where(User.user_id == user_id).values(points=User.points - points_decrease)

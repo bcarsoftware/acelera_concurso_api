@@ -180,7 +180,7 @@ class SubjectRepository(SubjectRepositoryInterface):
             print(f"Unexcepted Erro Found: {str(e)}")
             raise DatabaseException("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR)
 
-    async def delete_subject(self, subject_id: int, points: int) -> SubjectResponse:
+    async def delete_subject(self, subject_id: int) -> SubjectResponse:
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(

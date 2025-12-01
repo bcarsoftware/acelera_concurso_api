@@ -67,7 +67,11 @@ class SubjectRepository(SubjectRepositoryInterface):
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(Subject).filter(
+                    select(Subject)
+                    .options(
+                        joinedload(Subject.public_tender)
+                    )
+                    .filter(
                         and_(
                             Subject.subject_id == subject_id,
                             Subject.deleted == False
@@ -81,7 +85,9 @@ class SubjectRepository(SubjectRepositoryInterface):
                     raise DatabaseException("subject not found", HttpStatus.NOT_FOUND)
 
                 subject.fulfillment = fulfillment
-                rate_log = RateLog(user_id=user_id, rate=fulfillment, subject=True)
+                public_tender_id = subject.public_tender.public_tender_id
+
+                rate_log = RateLog(user_id=user_id, rate=fulfillment, public_tender_id=public_tender_id, subject=True)
 
                 session.add(rate_log)
                 await session.commit()

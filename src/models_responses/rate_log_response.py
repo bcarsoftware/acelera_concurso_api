@@ -8,6 +8,7 @@ from pydantic import BaseModel, ConfigDict
 class RateLogResponse(BaseModel):
     rate_log_id: int
     user_id: int
+    public_tender_id: int
     rate: Decimal
     subject: Optional[bool] = False
     topic: Optional[bool] = False

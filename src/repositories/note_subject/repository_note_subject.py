@@ -3,7 +3,7 @@ from typing import List
 
 from sqlalchemy import select, and_, update
 from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import selectinload, joinedload
 
 from src.core.constraints import HttpStatus, Points
 from src.db.model.models import NoteSubject, Subject, PublicTender, RateLog, User
@@ -67,7 +67,12 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
         try:
             async with AsyncSession(self._engine_) as session:
                 response = await session.execute(
-                    select(NoteSubject).filter(
+                    select(NoteSubject)
+                    .options(
+                        joinedload(NoteSubject.subject)
+                        .joinedload(Subject.public_tender)
+                    )
+                    .filter(
                         and_(
                             NoteSubject.note_subject_id == note_subject_id,
                             NoteSubject.deleted == False
@@ -80,8 +85,10 @@ class NoteSubjectRepository(NoteSubjectRepositoryInterface):
                 if not note_subject:
                     raise DatabaseException("note subject not found", HttpStatus.NOT_FOUND)
 
+                public_tender_id = note_subject.subject.public_tender.public_tender_id
+
                 note_subject.rate_success = rate_success
-                rate_log = RateLog(user_id=user_id, rate=rate_success, note_subject=True)
+                rate_log = RateLog(user_id=user_id, rate=rate_success, public_tender_id=public_tender_id, note_subject=True)
 
                 session.add(rate_log)
                 await session.commit()

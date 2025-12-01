@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlalchemy import select, and_
+from sqlalchemy import select, and_, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.constraints import HttpStatus
@@ -18,19 +18,26 @@ class RateLogRepository(RateLogRepositoryInterface):
                 response = await session.execute(
                     select(RateLog).filter(
                         and_(
-                            RateLog.subject == rate_log_dto.subject,
-                            RateLog.topic == rate_log_dto.topic,
-                            RateLog.note_subject == rate_log_dto.note_subject,
-                            RateLog.note_topic == rate_log_dto.note_topic,
+                            RateLog.public_tender_id == rate_log_dto.public_tender_id,
                             RateLog.user_id == rate_log_dto.user_id,
-                        )
+                            or_(
+                                and_(
+                                    RateLog.subject == rate_log_dto.subject,
+                                    RateLog.note_subject == rate_log_dto.note_subject,
+                                ),
+                                and_(
+                                    RateLog.topic == rate_log_dto.topic,
+                                    RateLog.note_topic == rate_log_dto.note_topic,
+                                )
+                            )
+                        ),
                     )
                 )
 
                 rate_logs = response.scalars().all()
 
                 if not rate_logs:
-                    raise DatabaseException("note topic not found", HttpStatus.NOT_FOUND)
+                    raise DatabaseException("rate log not found", HttpStatus.NOT_FOUND)
             return [
                 RateLogResponse.model_validate(log_rate)
                 for log_rate in rate_logs

@@ -6,7 +6,7 @@ from src.controllers.rate_log.controller_rate_log_interface import RateLogContro
 from src.core.authentication import authenticated
 from src.core.exception_handler import exception_handler
 
-rate_log_route = APIRouter(prefix="/rate_logs", tags=["Rate Logs"])
+rate_log_route = APIRouter(prefix="/rate-logs", tags=["Rate Logs"])
 
 controller_rate_log: RateLogControllerInterface = RateLogController()
 

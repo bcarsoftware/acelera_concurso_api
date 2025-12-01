@@ -27,7 +27,6 @@ class SubjectManager:
         await cls._check_subject_strings_length_(subject_dto)
 
     @classmethod
-    @classmethod
     async def verify_fulfillment_none(cls, fulfillment: Optional[Decimal]) -> None:
         if not fulfillment:
             raise SubjectException("subject fulfillment is required", HttpStatus.BAD_REQUEST)

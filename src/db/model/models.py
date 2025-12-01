@@ -46,6 +46,7 @@ class RateLog(Base):
     rate_log_id: Mapped[int] = Column(Integer, autoincrement=True, primary_key=True)
     
     user_id: Mapped[int] = Column(Integer, nullable=False)
+    public_tender_id: Mapped[int] = Column(Integer, nullable=False)
     rate: Mapped[Decimal] = Column(DECIMAL(10,2), nullable=False)
     subject: Mapped[bool] = Column(Boolean, default=False)
     topic: Mapped[bool] = Column(Boolean, default=False)

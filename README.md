@@ -21,6 +21,31 @@ Esta API gerencia todas as operações de banco de dados para a plataforma Acele
 
 O projeto foi desenvolvido utilizando Python 3.12.0. Para garantir a compatibilidade e evitar problemas, recomendamos o uso do [PyEnv](https://github.com/pyenv/pyenv) para gerenciar a versão do Python.
 
+O fluxo envolve o registro no banco de dados e a busca via essa interface de contrato de aplicação. É possível cadastrar:
+1. Usuário
+2. Concurso;
+3. Disciplina;
+   1. Nota de Disciplina;
+4. Assunto;
+   1. Nota de Assunto;
+
+Essas funções descritas acima são as principais e elas são "excluídas" via o procedimento denominado **soft-delete** onde os dados são desativados via uma variável de
+valor booleano chamada `delete` dentro do modelo da base de dados.
+
+Para poder **Finalizar** Disciplina, Assunto e suas respectivas Notas é preciso obter o **Minimo de 75%** nas resoluções de questões geradas por IA, e não possuir Nota
+que não esteja finalizada para o determinado objeto.
+
+Informo que para poder FINALIZAR UMA DISCIPLINA, **não poderá exister Assunto ou Nota de Assunto não finalizado**.
+
+Também é possível salvar:
+* **Pomodoro**: é possível salvar uma configuração de pomodoro vinculando ao usuário;
+* **Dica de Estudo**: ligação via chave estrangeira com o usuário;
+* **Desempenho Resolvendo Questões**: registro de log.
+
+Envolvendo o uso de Inteligência Artificial, integração deve ser feita via front-end.
+
+Com todos esses recursos é possível planejar os estudos de forma mais eficaz.
+
 ## Sobre as Rotas
 Nesse projeto existe também uma documentação específica para lidar com as rotas, se você quiser conferir os modulos, entre no pacote [routes](src/routes).
 

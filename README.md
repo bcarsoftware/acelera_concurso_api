@@ -46,6 +46,8 @@ Envolvendo o uso de Inteligência Artificial, integração deve ser feita via fr
 
 Com todos esses recursos é possível planejar os estudos de forma mais eficaz.
 
+**Esse projeto faz parte do meu TCC: [abelbarreto-dev](https://github.com/abelbarreto-dev).**
+
 ## Sobre as Rotas
 Nesse projeto existe também uma documentação específica para lidar com as rotas, se você quiser conferir os modulos, entre no pacote [routes](src/routes).
 

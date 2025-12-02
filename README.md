@@ -1,5 +1,5 @@
 # Acelera Concurso API
-API RESTful responsável pela camada de persistência de dados do sistema Acelera Concurso.
+API REST responsável pela camada de persistência de dados do sistema Acelera Concurso.
 
 ## Tabela de Conteúdos
 1. [Sobre o Projeto](#sobre-o-projeto)

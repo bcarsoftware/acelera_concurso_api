@@ -1,4 +1,3 @@
-from re import match
 from typing import Any, Dict
 
 from src.core.constraints import HttpStatus
@@ -27,24 +26,24 @@ class UserAdminManager:
 
     @classmethod
     async def _check_user_admin_access_(cls, user_admin_dto: UserAdminDTO) -> None:
-        if not match(Regex.USERNAME.value, user_admin_dto.username):
+        if not Regex.USERNAME.value.match(user_admin_dto.username):
             raise UserAdminException("admin username does not match the pattern", HttpStatus.BAD_REQUEST)
         if user_admin_dto.password.count(" ") > 0:
             raise UserAdminException("admin password contains spaces", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _check_strings_length_(cls, user_admin_dto: UserAdminDTO) -> None:
-        if not match(Regex.STRING_255.value, user_admin_dto.full_name):
+        if not Regex.STRING_255.value.match(user_admin_dto.full_name):
             raise UserAdminException(
                 "admin full name doesn't match length between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_128.value, user_admin_dto.username):
+        if not Regex.STRING_128.value.match(user_admin_dto.username):
             raise UserAdminException(
                 "admin username doesn't match length between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_4_32.value, user_admin_dto.password):
+        if not Regex.STRING_4_32.value.match(user_admin_dto.password):
             raise UserAdminException(
                 "admin password doesn't match length between 4 until 32 characters",
                 HttpStatus.BAD_REQUEST

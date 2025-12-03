@@ -1,4 +1,3 @@
-from re import match
 from typing import Any, Dict
 
 from src.core.constraints import HttpStatus
@@ -33,7 +32,7 @@ class PomodoroManager:
 
     @classmethod
     async def _check_pomodoro_strings_length_(cls, pomodoro_dto: PomodoroDTO) -> None:
-        if not match(Regex.STRING_128.value, pomodoro_dto.pomodoro_name):
+        if not Regex.STRING_128.value.match(pomodoro_dto.pomodoro_name):
             raise PomodoroException(
                 "pomodoro name doesn't match between 1 util 128 characters",
                 HttpStatus.BAD_REQUEST

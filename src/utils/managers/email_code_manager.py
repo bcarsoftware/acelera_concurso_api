@@ -1,4 +1,3 @@
-from re import match
 from typing import Any, Dict
 
 from src.core.constraints import HttpStatus
@@ -22,7 +21,7 @@ class EmailCodeManager:
 
     @classmethod
     async def make_validation(cls, email_dto: EmailDTO) -> None:
-        if not match(Regex.STRING_281.value, email_dto.email):
+        if not Regex.STRING_281.value.match(email_dto.email):
             raise SendEmailException("email length isn't between 1 and 281", HttpStatus.BAD_REQUEST)
-        if not match(Regex.EMAIL.value, email_dto.email):
+        if not Regex.EMAIL.value.match(email_dto.email):
             raise SendEmailException("invalid email found", HttpStatus.BAD_REQUEST)

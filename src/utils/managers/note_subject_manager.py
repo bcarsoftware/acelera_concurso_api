@@ -1,5 +1,4 @@
 from decimal import Decimal
-from re import match
 from typing import Dict, Any, Optional
 
 from src.core.constraints import HttpStatus
@@ -48,12 +47,12 @@ class NoteSubjectManager:
 
     @classmethod
     async def _check_note_subject_strings_length_(cls, note_subject: NoteSubjectDTO) -> None:
-        if not match(Regex.STRING_255.value, note_subject.name):
+        if not Regex.STRING_255.value.match(note_subject.name):
             raise NoteException(
                 "note subject name doesn't match between 1 util 255 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_1024.value, note_subject.description):
+        if not Regex.STRING_1024.value.match(note_subject.description):
             raise NoteException(
                 "note subject description doesn't match between 1 until 1024 characters",
                 HttpStatus.BAD_REQUEST

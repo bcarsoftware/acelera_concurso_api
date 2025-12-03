@@ -1,5 +1,4 @@
 from decimal import Decimal
-from re import match
 from typing import Dict, Any, Optional
 
 from src.core.constraints import HttpStatus
@@ -47,12 +46,12 @@ class TopicManager:
 
     @classmethod
     async def _check_topics_strings_length_(cls, topic_dto: TopicDTO) -> None:
-        if not match(Regex.STRING_255.value, topic_dto.name):
+        if not Regex.STRING_255.value.match(topic_dto.name):
             raise TopicException(
                 "topic name doesn't match between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if topic_dto.description and not match(Regex.STRING_1024.value, topic_dto.description):
+        if topic_dto.description and not Regex.STRING_1024.value.match(topic_dto.description):
             raise TopicException(
                 "topic description doesn't match between 1 until 1024 characters",
                 HttpStatus.BAD_REQUEST

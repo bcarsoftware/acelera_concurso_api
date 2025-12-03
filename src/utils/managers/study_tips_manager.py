@@ -1,4 +1,3 @@
-from re import match
 from typing import Any, Dict
 
 from src.core.constraints import HttpStatus
@@ -50,12 +49,12 @@ class StudyTipsManager:
 
     @classmethod
     async def _check_study_tips_strings_length_(cls, study_tips_dto: StudyTipsDTO) -> None:
-        if not match(Regex.STRING_255.value, study_tips_dto.name):
+        if not Regex.STRING_255.value.match(study_tips_dto.name):
             raise StudyTipsException(
                 "name doesn't match length between 1 until 255 characters",
                 HttpStatus.NOT_FOUND
             )
-        if study_tips_dto.description and not match(Regex.STRING_1024.value, study_tips_dto.description):
+        if study_tips_dto.description and not Regex.STRING_1024.value.match(study_tips_dto.description):
             raise StudyTipsException(
                 "description doesn't match length between 1 until 1024 characters",
                 HttpStatus.BAD_REQUEST

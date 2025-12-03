@@ -1,4 +1,3 @@
-from re import match
 from typing import Dict, Any
 
 from src.core.constraints import HttpStatus
@@ -27,12 +26,12 @@ class PublicTenderBoardManager:
 
     @classmethod
     async def _check_public_tender_board_strings_length_(cls, public_tender_board_dto: PublicTenderBoardDTO) -> None:
-        if not match(Regex.STRING_2_32.value, public_tender_board_dto.sail):
+        if not Regex.STRING_2_32.value.match(public_tender_board_dto.sail):
             raise PublicTenderException(
                 "public tender board sail length doesn't match between 2 until 32 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_128.value, public_tender_board_dto.name):
+        if not Regex.STRING_128.value.match(public_tender_board_dto.name):
             raise PublicTenderException(
                 "public tender board length doesn't match between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST

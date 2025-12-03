@@ -1,5 +1,4 @@
 from datetime import date
-from re import match
 from typing import Any, Dict
 
 from src.core.constraints import HttpStatus
@@ -42,14 +41,14 @@ class UserManager:
 
     @classmethod
     async def make_email_verification(cls, login_dto: LoginDTO) -> None:
-        if not match(Regex.STRING_281.value, login_dto.username):
+        if not Regex.STRING_281.value.match(login_dto.username):
             raise UserException("invalid email length", HttpStatus.BAD_REQUEST)
-        if not match(Regex.EMAIL.value, login_dto.username):
+        if not Regex.EMAIL.value.match(login_dto.username):
             raise UserException("invalid email for user", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def make_password_verification(cls, user_dto: LoginDTO) -> None:
-        if not match(Regex.STRING_4_32.value, user_dto.password):
+        if not Regex.STRING_4_32.value.match(user_dto.password):
             raise UserException("password doesn't match length between 4 until 32 characters",
                 HttpStatus.BAD_REQUEST)
         if user_dto.password.count(" ") > 0:
@@ -72,36 +71,36 @@ class UserManager:
 
     @classmethod
     async def _check_user_access_(cls, user_dto: UserDTO) -> None:
-        if not match(Regex.USERNAME.value, user_dto.username):
+        if not Regex.USERNAME.value.match(user_dto.username):
             raise UserException("username does not match the pattern", HttpStatus.BAD_REQUEST)
-        if not match(Regex.EMAIL.value, user_dto.email):
+        if not Regex.EMAIL.value.match(user_dto.email):
             raise UserException("email does not match the pattern", HttpStatus.BAD_REQUEST)
         if user_dto.password.count(" ") > 0:
             raise UserException("password can't contain spaces", HttpStatus.BAD_REQUEST)
 
     @classmethod
     async def _checker_user_strings_length_(cls, user_dto: UserDTO) -> None:
-        if not match(Regex.STRING_64.value, user_dto.first_name):
+        if not Regex.STRING_64.value.match(user_dto.first_name):
             raise UserException(
                 "first name doesn't match length between 1 until 64 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_255.value, user_dto.last_name):
+        if not Regex.STRING_255.value.match(user_dto.last_name):
             raise UserException(
                 "last name doesn't match length between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_128.value, user_dto.username):
+        if not Regex.STRING_128.value.match(user_dto.username):
             raise UserException(
                 "username doesn't match length between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_281.value, user_dto.email):
+        if not Regex.STRING_281.value.match(user_dto.email):
             raise UserException(
                 "email doesn't match length between 1 until 281 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_4_32.value, user_dto.password):
+        if not Regex.STRING_4_32.value.match(user_dto.password):
             raise UserException(
                 "password doesn't match length between 4 until 32 characters",
                 HttpStatus.BAD_REQUEST

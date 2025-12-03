@@ -1,5 +1,4 @@
 from decimal import Decimal
-from re import match
 from typing import Dict, Any, Optional
 
 from src.core.constraints import HttpStatus
@@ -53,7 +52,7 @@ class SubjectManager:
 
     @classmethod
     async def _check_subject_strings_length_(cls, subject_dto: SubjectDTO) -> None:
-        if not match(Regex.STRING_255.value, subject_dto.name):
+        if not Regex.STRING_255.value.match(subject_dto.name):
             raise SubjectException(
                 "subject name length doesn't match between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST

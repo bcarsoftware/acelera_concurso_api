@@ -1,5 +1,4 @@
 from datetime import date
-from re import match
 from typing import Dict, Any
 
 from src.core.constraints import HttpStatus
@@ -58,27 +57,27 @@ class PublicTenderManager:
 
     @classmethod
     async def _check_public_tender_strings_length_(cls, public_tender_dto: PublicTenderDTO) -> None:
-        if not match(Regex.STRING_255.value, public_tender_dto.tender_name):
+        if not Regex.STRING_255.value.match(public_tender_dto.tender_name):
             raise PublicTenderException(
                 "public tender name length doesn't match between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_255.value, public_tender_dto.tender_board):
+        if not Regex.STRING_255.value.match(public_tender_dto.tender_board):
             raise PublicTenderException(
                 "public tender board length doesn't match between 1 until 255 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if public_tender_dto.notice_link and not match(Regex.STRING_1024.value, public_tender_dto.notice_link):
+        if public_tender_dto.notice_link and not Regex.STRING_1024.value.match(public_tender_dto.notice_link):
             raise PublicTenderException(
                 "public tender notice link length doesn't match between 1 until 1024 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_128.value, public_tender_dto.institute):
+        if not Regex.STRING_128.value.match(public_tender_dto.institute):
             raise PublicTenderException(
                 "public tender institute length doesn't match between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST
             )
-        if not match(Regex.STRING_128.value, public_tender_dto.work_title):
+        if not Regex.STRING_128.value.match(public_tender_dto.work_title):
             raise PublicTenderException(
                 "public tender work tile length doesn't match between 1 until 128 characters",
                 HttpStatus.BAD_REQUEST
